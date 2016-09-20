@@ -482,6 +482,7 @@ static void APIENTRY DebugHandler(GLenum source, GLenum type, GLuint id, GLenum 
 bool RendererOpenGL::Init() {
     render_window->MakeCurrent();
 
+    GLAD_GL_KHR_debug = 0;
     if (GLAD_GL_KHR_debug) {
         glEnable(GL_DEBUG_OUTPUT);
         glDebugMessageCallback(DebugHandler, nullptr);
@@ -491,7 +492,7 @@ bool RendererOpenGL::Init() {
     LOG_INFO(Render_OpenGL, "GL_VENDOR: %s", glGetString(GL_VENDOR));
     LOG_INFO(Render_OpenGL, "GL_RENDERER: %s", glGetString(GL_RENDERER));
     if (!GLAD_GL_VERSION_3_3) {
-        return false;
+        //return false;
     }
 
     InitOpenGLObjects();

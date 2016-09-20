@@ -58,7 +58,7 @@ void Config::ReadValues() {
         (float)sdl2_config->GetReal("Controls", "pad_circle_modifier_scale", 0.5);
 
     // Core
-    Settings::values.use_cpu_jit = sdl2_config->GetBoolean("Core", "use_cpu_jit", true);
+    Settings::values.use_cpu_jit = sdl2_config->GetBoolean("Core", "use_cpu_jit", false);
     Settings::values.frame_skip = sdl2_config->GetInteger("Core", "frame_skip", 0);
 
     // Renderer

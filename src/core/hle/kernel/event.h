@@ -40,7 +40,6 @@ public:
 
     void Signal();
     void Clear();
-
 private:
     Event();
     ~Event() override;

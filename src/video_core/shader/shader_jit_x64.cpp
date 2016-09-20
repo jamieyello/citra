@@ -27,70 +27,70 @@ using namespace Gen;
 typedef void (JitShader::*JitFunction)(Instruction instr);
 
 const JitFunction instr_table[64] = {
-    &JitShader::Compile_ADD,   // add
-    &JitShader::Compile_DP3,   // dp3
-    &JitShader::Compile_DP4,   // dp4
-    &JitShader::Compile_DPH,   // dph
-    nullptr,                   // unknown
-    &JitShader::Compile_EX2,   // ex2
-    &JitShader::Compile_LG2,   // lg2
-    nullptr,                   // unknown
-    &JitShader::Compile_MUL,   // mul
-    &JitShader::Compile_SGE,   // sge
-    &JitShader::Compile_SLT,   // slt
-    &JitShader::Compile_FLR,   // flr
-    &JitShader::Compile_MAX,   // max
-    &JitShader::Compile_MIN,   // min
-    &JitShader::Compile_RCP,   // rcp
-    &JitShader::Compile_RSQ,   // rsq
-    nullptr,                   // unknown
-    nullptr,                   // unknown
-    &JitShader::Compile_MOVA,  // mova
-    &JitShader::Compile_MOV,   // mov
-    nullptr,                   // unknown
-    nullptr,                   // unknown
-    nullptr,                   // unknown
-    nullptr,                   // unknown
-    &JitShader::Compile_DPH,   // dphi
-    nullptr,                   // unknown
-    &JitShader::Compile_SGE,   // sgei
-    &JitShader::Compile_SLT,   // slti
-    nullptr,                   // unknown
-    nullptr,                   // unknown
-    nullptr,                   // unknown
-    nullptr,                   // unknown
-    nullptr,                   // unknown
-    &JitShader::Compile_NOP,   // nop
-    &JitShader::Compile_END,   // end
-    nullptr,                   // break
-    &JitShader::Compile_CALL,  // call
-    &JitShader::Compile_CALLC, // callc
-    &JitShader::Compile_CALLU, // callu
-    &JitShader::Compile_IF,    // ifu
-    &JitShader::Compile_IF,    // ifc
-    &JitShader::Compile_LOOP,  // loop
-    nullptr,                   // emit
-    nullptr,                   // sete
-    &JitShader::Compile_JMP,   // jmpc
-    &JitShader::Compile_JMP,   // jmpu
-    &JitShader::Compile_CMP,   // cmp
-    &JitShader::Compile_CMP,   // cmp
-    &JitShader::Compile_MAD,   // madi
-    &JitShader::Compile_MAD,   // madi
-    &JitShader::Compile_MAD,   // madi
-    &JitShader::Compile_MAD,   // madi
-    &JitShader::Compile_MAD,   // madi
-    &JitShader::Compile_MAD,   // madi
-    &JitShader::Compile_MAD,   // madi
-    &JitShader::Compile_MAD,   // madi
-    &JitShader::Compile_MAD,   // mad
-    &JitShader::Compile_MAD,   // mad
-    &JitShader::Compile_MAD,   // mad
-    &JitShader::Compile_MAD,   // mad
-    &JitShader::Compile_MAD,   // mad
-    &JitShader::Compile_MAD,   // mad
-    &JitShader::Compile_MAD,   // mad
-    &JitShader::Compile_MAD,   // mad
+    &JitShader::Compile_ADD,        // add
+    &JitShader::Compile_DP3,        // dp3
+    &JitShader::Compile_DP4,        // dp4
+    &JitShader::Compile_DPH,        // dph
+    nullptr,                        // unknown
+    &JitShader::Compile_EX2,        // ex2
+    &JitShader::Compile_LG2,        // lg2
+    nullptr,                        // unknown
+    &JitShader::Compile_MUL,        // mul
+    &JitShader::Compile_SGE,        // sge
+    &JitShader::Compile_SLT,        // slt
+    &JitShader::Compile_FLR,        // flr
+    &JitShader::Compile_MAX,        // max
+    &JitShader::Compile_MIN,        // min
+    &JitShader::Compile_RCP,        // rcp
+    &JitShader::Compile_RSQ,        // rsq
+    nullptr,                        // unknown
+    nullptr,                        // unknown
+    &JitShader::Compile_MOVA,       // mova
+    &JitShader::Compile_MOV,        // mov
+    nullptr,                        // unknown
+    nullptr,                        // unknown
+    nullptr,                        // unknown
+    nullptr,                        // unknown
+    &JitShader::Compile_DPH,        // dphi
+    nullptr,                        // unknown
+    &JitShader::Compile_SGE,        // sgei
+    &JitShader::Compile_SLT,        // slti
+    nullptr,                        // unknown
+    nullptr,                        // unknown
+    nullptr,                        // unknown
+    nullptr,                        // unknown
+    nullptr,                        // unknown
+    &JitShader::Compile_NOP,        // nop
+    &JitShader::Compile_END,        // end
+    nullptr,                        // break
+    &JitShader::Compile_CALL,       // call
+    &JitShader::Compile_CALLC,      // callc
+    &JitShader::Compile_CALLU,      // callu
+    &JitShader::Compile_IF,         // ifu
+    &JitShader::Compile_IF,         // ifc
+    &JitShader::Compile_LOOP,       // loop
+    nullptr,                        // emit
+    nullptr,                        // sete
+    &JitShader::Compile_JMP,        // jmpc
+    &JitShader::Compile_JMP,        // jmpu
+    &JitShader::Compile_CMP,        // cmp
+    &JitShader::Compile_CMP,        // cmp
+    &JitShader::Compile_MAD,        // madi
+    &JitShader::Compile_MAD,        // madi
+    &JitShader::Compile_MAD,        // madi
+    &JitShader::Compile_MAD,        // madi
+    &JitShader::Compile_MAD,        // madi
+    &JitShader::Compile_MAD,        // madi
+    &JitShader::Compile_MAD,        // madi
+    &JitShader::Compile_MAD,        // madi
+    &JitShader::Compile_MAD,        // mad
+    &JitShader::Compile_MAD,        // mad
+    &JitShader::Compile_MAD,        // mad
+    &JitShader::Compile_MAD,        // mad
+    &JitShader::Compile_MAD,        // mad
+    &JitShader::Compile_MAD,        // mad
+    &JitShader::Compile_MAD,        // mad
+    &JitShader::Compile_MAD,        // mad
 };
 
 // The following is used to alias some commonly used registers. Generally, RAX-RDX and XMM0-XMM3 can
@@ -132,7 +132,7 @@ static const X64Reg NEGBIT = XMM15;
 // State registers that must not be modified by external functions calls
 // Scratch registers, e.g., SRC1 and SCRATCH, have to be saved on the side if needed
 static const BitSet32 persistent_regs = {
-    SETUP,          STATE,                                       // Pointers to register blocks
+    SETUP, STATE, // Pointers to register blocks
     ADDROFFS_REG_0, ADDROFFS_REG_1, LOOPCOUNT_REG, COND0, COND1, // Cached registers
     ONE + 16,       NEGBIT + 16,                                 // Constants
 };
@@ -277,7 +277,7 @@ void JitShader::Compile_DestEnable(Instruction instr, X64Reg src) {
         } else {
             MOVAPS(SCRATCH2, R(src));
             UNPCKHPS(SCRATCH2, R(SCRATCH)); // Unpack X/Y components of source and destination
-            UNPCKLPS(SCRATCH, R(src));      // Unpack Z/W components of source and destination
+            UNPCKLPS(SCRATCH, R(src)); // Unpack Z/W components of source and destination
 
             // Compute selector to selectively copy source components to destination for SHUFPS
             // instruction
@@ -726,17 +726,17 @@ void JitShader::Compile_LOOP(Instruction instr) {
     AND(32, R(LOOPCOUNT_REG), Imm32(0xff)); // Y-component is the start
     MOV(32, R(LOOPINC), R(LOOPCOUNT));
     SHR(32, R(LOOPINC), Imm8(16));
-    MOVZX(32, 8, LOOPINC, R(LOOPINC));     // Z-component is the incrementer
+    MOVZX(32, 8, LOOPINC, R(LOOPINC)); // Z-component is the incrementer
     MOVZX(32, 8, LOOPCOUNT, R(LOOPCOUNT)); // X-component is iteration count
-    ADD(32, R(LOOPCOUNT), Imm8(1));        // Iteration count is X-component + 1
+    ADD(32, R(LOOPCOUNT), Imm8(1)); // Iteration count is X-component + 1
 
     auto loop_start = GetCodePtr();
 
     Compile_Block(instr.flow_control.dest_offset + 1);
 
     ADD(32, R(LOOPCOUNT_REG), R(LOOPINC)); // Increment LOOPCOUNT_REG by Z-component
-    SUB(32, R(LOOPCOUNT), Imm8(1));        // Increment loop count by 1
-    J_CC(CC_NZ, loop_start);               // Loop if not equal
+    SUB(32, R(LOOPCOUNT), Imm8(1)); // Increment loop count by 1
+    J_CC(CC_NZ, loop_start); // Loop if not equal
 
     looping = false;
 }
@@ -792,8 +792,8 @@ void JitShader::Compile_NextInstr() {
         ((*this).*instr_func)(instr);
     } else {
         // Unhandled instruction
-        LOG_CRITICAL(HW_GPU, "Unhandled instruction: 0x%02x (0x%08x)",
-                     instr.opcode.Value().EffectiveOpCode(), instr.hex);
+        LOG_TRACE(HW_GPU, "Unhandled instruction: 0x%02x (0x%08x)",
+                instr.opcode.Value().EffectiveOpCode(), instr.hex);
     }
 }
 
