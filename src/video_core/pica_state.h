@@ -20,6 +20,8 @@ struct State {
     /// Pica registers
     Regs regs;
 
+    Shader::UnitState shader_units[4];
+
     Shader::ShaderSetup vs;
     Shader::ShaderSetup gs;
 

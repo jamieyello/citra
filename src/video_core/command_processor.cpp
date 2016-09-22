@@ -136,12 +136,12 @@ static void WritePicaReg(u32 id, u32 value, u32 mask) {
 
                     auto* shader_engine = Shader::GetEngine();
                     shader_engine->SetupBatch(&g_state.vs);
+                    auto& shader_unit = Shader::GetShaderUnit(false);
 
                     // Send to vertex shader
                     if (g_debug_context)
                         g_debug_context->OnEvent(DebugContext::Event::VertexShaderInvocation,
                                                  static_cast<void*>(&immediate_input));
-                    Shader::UnitState shader_unit;
                     shader_unit.LoadInputVertex(immediate_input, regs.vs.num_input_attributes + 1);
                     shader_engine->Run(shader_unit, regs.vs.main_offset);
                     Shader::OutputVertex output_vertex =
@@ -235,10 +235,13 @@ static void WritePicaReg(u32 id, u32 value, u32 mask) {
         unsigned int vertex_cache_pos = 0;
         vertex_cache_ids.fill(-1);
 
-        auto* shader_engine = Shader::GetEngine();
-        Shader::UnitState shader_unit;
+        auto* vs_shader_engine = Shader::GetEngine();
+        auto& vs_shader_unit = Shader::GetShaderUnit(false);
+        vs_shader_engine->SetupBatch(&g_state.vs);
 
-        shader_engine->SetupBatch(&g_state.vs);
+        auto* gs_shader_engine = Shader::GetEngine();
+        auto& gs_shader_unit = Shader::GetShaderUnit(true);
+        gs_shader_engine->SetupBatch(&g_state.gs);
 
         for (unsigned int index = 0; index < regs.num_vertices; ++index) {
             // Indexed rendering doesn't use the start offset
@@ -251,6 +254,7 @@ static void WritePicaReg(u32 id, u32 value, u32 mask) {
             ASSERT(vertex != -1);
 
             bool vertex_cache_hit = false;
+            Shader::OutputRegisters output_registers = {};
 
             if (is_indexed) {
                 if (g_debug_context && Pica::g_debug_context->recorder) {
@@ -259,11 +263,15 @@ static void WritePicaReg(u32 id, u32 value, u32 mask) {
                                               size);
                 }
 
-                for (unsigned int i = 0; i < VERTEX_CACHE_SIZE; ++i) {
-                    if (vertex == vertex_cache_ids[i]) {
-                        output_vertex = vertex_cache[i];
-                        vertex_cache_hit = true;
-                        break;
+                // Cache lookup.
+                // Disabled while GS is active to force valid output_registers.
+                if (!Shader::UseGS()) {
+                    for (unsigned int i = 0; i < VERTEX_CACHE_SIZE; ++i) {
+                        if (vertex == vertex_cache_ids[i]) {
+                            output_vertex = vertex_cache[i];
+                            vertex_cache_hit = true;
+                            break;
+                        }
                     }
                 }
             }
@@ -277,27 +285,88 @@ static void WritePicaReg(u32 id, u32 value, u32 mask) {
                 if (g_debug_context)
                     g_debug_context->OnEvent(DebugContext::Event::VertexShaderInvocation,
                                              (void*)&input);
-                shader_unit.LoadInputVertex(input, loader.GetNumTotalAttributes());
-                shader_engine->Run(shader_unit, regs.vs.main_offset);
+                vs_shader_unit.LoadInputVertex(input, loader.GetNumTotalAttributes());
+                vs_shader_engine->SetupBatch(&g_state.vs); //FIXME: temporarily while engines are the same
+                vs_shader_engine->Run(vs_shader_unit, regs.vs.main_offset);
+                output_registers = vs_shader_unit.output_registers;
 
                 // Retrieve vertex from register data
-                output_vertex = shader_unit.output_registers.ToVertex(regs.vs);
+                output_vertex = output_registers.ToVertex(regs.vs);
 
-                if (is_indexed) {
-                    vertex_cache[vertex_cache_pos] = output_vertex;
-                    vertex_cache_ids[vertex_cache_pos] = vertex;
-                    vertex_cache_pos = (vertex_cache_pos + 1) % VERTEX_CACHE_SIZE;
+                // Caching.
+                // Disabled while GS is active as cache lookup is also deactivated.
+                if (!Shader::UseGS()) {
+                    if (is_indexed) {
+                        vertex_cache[vertex_cache_pos] = output_vertex;
+                        vertex_cache_ids[vertex_cache_pos] = vertex;
+                        vertex_cache_pos = (vertex_cache_pos + 1) % VERTEX_CACHE_SIZE;
+                    }
                 }
             }
 
-            // Send to renderer
+            // Helper to send triangle to renderer
             using Pica::Shader::OutputVertex;
             auto AddTriangle = [](const OutputVertex& v0, const OutputVertex& v1,
                                   const OutputVertex& v2) {
                 VideoCore::g_renderer->Rasterizer()->AddTriangle(v0, v1, v2);
             };
 
-            primitive_assembler.SubmitVertex(output_vertex, AddTriangle);
+            if (Shader::UseGS()) {
+
+                auto& regs = g_state.regs;
+                auto& gs_regs = g_state.regs.gs;
+                auto& gs_buf = g_state.gs_input_buffer;
+
+                // Vertex Shader Outputs are converted into Geometry Shader inputs by
+                // filling up a buffer
+                // For example, if we have a geoshader that takes 6 inputs, and the
+                // vertex shader outputs 2 attributes
+                // It would take 3 vertices to fill up the Geometry Shader buffer
+                unsigned int gs_input_count = gs_regs.num_input_attributes + 1;
+                unsigned int vs_output_count = regs.vs_outmap_total2 + 1;
+                ASSERT_MSG(regs.vs_outmap_total1 == regs.vs_outmap_total2,
+                           "VS_OUTMAP_TOTAL1 and VS_OUTMAP_TOTAL2 don't match!");
+                // copy into the geoshader buffer
+                for (unsigned int i = 0; i < vs_output_count; i++) {
+                    if (gs_buf.index >= gs_input_count) {
+                        // TODO(ds84182): LOG_ERROR()
+                        ASSERT_MSG(false, "Number of GS inputs (%d) is not divisible by "
+                                          "number of VS outputs (%d)",
+                                   gs_input_count, vs_output_count);
+                        continue;
+                    }
+                    gs_buf.buffer.attr[gs_buf.index++] = output_registers.value[i];
+                }
+
+                if (gs_buf.index >= gs_input_count) {
+
+                    // b15 will be false when a new primitive starts and then switch to
+                    // true at some point
+                    // TODO: Test how this works exactly on hardware
+                    g_state.gs.uniforms.b[15] |= (index > 0);
+
+                    // Process Geometry Shader
+                    if (g_debug_context)
+                        g_debug_context->OnEvent(DebugContext::Event::GeometryShaderInvocation,
+                                                 static_cast<void*>(&gs_buf.buffer));
+                    gs_shader_unit.emit_triangle_callback = AddTriangle;
+
+                    const auto& attribute_register_map = g_state.regs.gs.input_register_map;
+                    unsigned int num_attributes = 16; //FIXME: ??
+                    for (unsigned i = 0; i < num_attributes; i++) {
+                        gs_shader_unit.registers.input[attribute_register_map.GetRegisterForAttribute(i)] = gs_buf.buffer.attr[i];
+                    }
+                    gs_shader_unit.conditional_code[0] = false;
+                    gs_shader_unit.conditional_code[1] = false;
+                    gs_shader_engine->SetupBatch(&g_state.gs); //FIXME: temporarily while engines are the same
+                    gs_shader_engine->Run(gs_shader_unit, regs.gs.main_offset);
+                    gs_shader_unit.emit_triangle_callback = nullptr;
+
+                    gs_buf.index = 0;
+                }
+            } else {
+                primitive_assembler.SubmitVertex(output_vertex, AddTriangle);
+            }
         }
 
         for (auto& range : memory_accesses.ranges) {
