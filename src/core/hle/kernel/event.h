@@ -38,12 +38,22 @@ public:
     bool ShouldWait() override;
     void Acquire() override;
 
+    void Delay(u64 delay);
     void Signal();
     void Clear();
+    void Cancel();
 
 private:
     Event();
     ~Event() override;
+
+    /// Handle used as userdata to reference this object when inserting into the CoreTiming queue.
+    Handle callback_handle;
 };
+
+/// Initializes the required variables for events
+void EventsInit();
+/// Tears down the event variables
+void EventsShutdown();
 
 } // namespace
