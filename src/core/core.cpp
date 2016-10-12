@@ -47,15 +47,15 @@ void RunLoop(int tight_loop) {
         HLE::Reschedule(__func__);
     } else {
         g_app_core->Run(tight_loop);
-        n = ++n % 6000;
+        n = ++n % 60000;
         if (!n) {
-            // HLE::Reschedule(__func__);
+            HLE::Reschedule(__func__);
         }
     }
 
     HW::Update();
     if (HLE::IsReschedulePending()) {
-        n = 0;
+        // n = 0;
         Kernel::Reschedule();
     }
 }
