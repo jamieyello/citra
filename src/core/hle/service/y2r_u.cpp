@@ -592,6 +592,7 @@ static void StartConversion(Service::Interface* self) {
     HW::Y2R::PerformConversion(conversion);
 
     completion_event->Delay(1000);
+    // completion_event->Signal();
 
     cmd_buff[0] = IPC::MakeHeader(0x26, 1, 0);
     cmd_buff[1] = RESULT_SUCCESS.raw;
