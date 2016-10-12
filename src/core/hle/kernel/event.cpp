@@ -62,7 +62,12 @@ void Event::Signal() {
 }
 
 void Event::Clear() {
-    signaled = false;
+    if (re_signal) {
+        re_signal = false;
+        signaled = true;
+    } else {
+        signaled = false;
+    }
 }
 
 void Event::Cancel() {

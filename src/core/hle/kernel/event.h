@@ -42,8 +42,13 @@ public:
     void Signal();
     void Clear();
     void Cancel();
+    void ReSignal() {
+        signaled = true;
+        re_signal = true;
+    }
 
 private:
+    bool re_signal = false;
     Event();
     ~Event() override;
 
