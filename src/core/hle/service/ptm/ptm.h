@@ -97,6 +97,10 @@ void IsLegacyPowerOff(Interface* self);
  */
 void CheckNew3DS(Interface* self);
 
+void SetUserTime(Interface* self);
+
+void GetRtc(Interface* self);
+
 /// Initialize the PTM service
 void Init();
 

@@ -1,4 +1,4 @@
-// Copyright 2014 Citra Emulator Project
+// Copyright 2016 Citra Emulator Project
 // Licensed under GPLv2 or any later version
 // Refer to the license.txt file included.
 
@@ -7,11 +7,11 @@
 #include "core/hle/service/service.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// Namespace AC_U
+// Namespace MCU_HWC
 
-// socket service "ac:u"
+// service "mcu::HWC"
 
-namespace AC_U {
+namespace MCU_HWC {
 
 class Interface : public Service::Interface {
 public:
@@ -19,7 +19,7 @@ public:
     ~Interface();
 
     std::string GetPortName() const override {
-        return "ac:u";
+        return "mcu::HWC";
     }
 };
 

@@ -30,7 +30,7 @@ const Interface::FunctionInfo FunctionTable[] = {
     {0x08090000, nullptr, "GetPlayHistoryLength"},
     {0x080A0000, nullptr, "ClearPlayHistory"},
     {0x080B0080, nullptr, "CalcPlayHistoryStart"},
-    {0x080C0080, nullptr, "SetUserTime"},
+    {0x080C0080, SetUserTime, "SetUserTime"},
     {0x080D0000, nullptr, "InvalidateSystemTime"},
     {0x080E0140, nullptr, "NotifyPlayEvent"},
     {0x080F0000, IsLegacyPowerOff, "IsLegacyPowerOff"},
@@ -39,6 +39,8 @@ const Interface::FunctionInfo FunctionTable[] = {
     {0x08120000, nullptr, "IsShutdownByBatteryEmpty"},
     {0x08130000, nullptr, "FormatSavedata"},
     {0x08140000, nullptr, "GetLegacyJumpProhibitedFlag"},
+    {0x08160000, GetRtc, "GetRtc"},
+    {0x08170080, nullptr, "SetRtc"},
     {0x08180040, nullptr, "ConfigureNew3DSCPU"},
 };
 

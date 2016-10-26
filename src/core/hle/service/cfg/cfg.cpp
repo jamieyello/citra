@@ -12,6 +12,7 @@
 #include "core/hle/result.h"
 #include "core/hle/service/cfg/cfg.h"
 #include "core/hle/service/cfg/cfg_i.h"
+#include "core/hle/service/cfg/cfg_nor.h"
 #include "core/hle/service/cfg/cfg_s.h"
 #include "core/hle/service/cfg/cfg_u.h"
 #include "core/hle/service/fs/archive.h"
@@ -228,6 +229,22 @@ void GetConfigInfoBlk2(Service::Interface* self) {
     std::vector<u8> data(size);
     cmd_buff[1] = Service::CFG::GetConfigInfoBlock(block_id, size, 0x2, data.data()).raw;
     Memory::WriteBlock(data_pointer, data.data(), data.size());
+    static u32 old_id = 0;
+    if (old_id != block_id) {
+        old_id = block_id;
+        LOG_WARNING(Service_CFG, "called, size=0x%X, block_id=0x%08X", size, block_id);
+    }
+}
+
+void SecureInfoGetSerialNo(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    u32 size = cmd_buff[1];
+    u32 addr = cmd_buff[3];
+    Memory::ZeroBlock(addr, size);
+    Memory::WriteBlock(addr, "1234567890", strlen("1234567890"));
+
+    cmd_buff[1] = RESULT_SUCCESS.raw;
 }
 
 void GetConfigInfoBlk8(Service::Interface* self) {
@@ -394,8 +411,48 @@ ResultCode FormatConfig() {
     // Insert the default blocks
     u8 zero_buffer[0xC0] = {};
 
+    // 0x00000000 - Unknown
+    res = CreateConfigInfoBlk(0x00000000, 0x2, 0xE, zero_buffer);
+    if (!res.IsSuccess())
+        return res;
+
     // 0x00030001 - Unknown
     res = CreateConfigInfoBlk(0x00030001, 0x8, 0xE, zero_buffer);
+    if (!res.IsSuccess())
+        return res;
+
+    // 0x00040001 - Unknown
+    res = CreateConfigInfoBlk(0x00040001, 0x1C, 0xE, zero_buffer);
+    if (!res.IsSuccess())
+        return res;
+
+    // 0x00040002 - Unknown
+    res = CreateConfigInfoBlk(0x00040002, 0x12, 0xE, zero_buffer);
+    if (!res.IsSuccess())
+        return res;
+
+    // 0x00040003 - Unknown
+    res = CreateConfigInfoBlk(0x00040003, 0xC, 0xE, zero_buffer);
+    if (!res.IsSuccess())
+        return res;
+
+    // 0x00050000 - Unknown
+    res = CreateConfigInfoBlk(0x00050000, 0x2, 0xE, zero_buffer);
+    if (!res.IsSuccess())
+        return res;
+
+    // 0x00050001 - Unknown
+    res = CreateConfigInfoBlk(0x00050001, 0x2, 0xE, zero_buffer);
+    if (!res.IsSuccess())
+        return res;
+
+    // 0x00050002 - Unknown
+    res = CreateConfigInfoBlk(0x00050002, 0x38, 0xE, zero_buffer);
+    if (!res.IsSuccess())
+        return res;
+
+    // 0x00050009 - Unknown
+    res = CreateConfigInfoBlk(0x00050009, 0x8, 0xE, zero_buffer);
     if (!res.IsSuccess())
         return res;
 
@@ -404,8 +461,18 @@ ResultCode FormatConfig() {
     if (!res.IsSuccess())
         return res;
 
+    // 0x00060000 - Unknown
+    res = CreateConfigInfoBlk(0x00060000, 0x96, 0xE, zero_buffer);
+    if (!res.IsSuccess())
+        return res;
+
     res = CreateConfigInfoBlk(SoundOutputModeBlockID, sizeof(SOUND_OUTPUT_MODE), 0xE,
                               &SOUND_OUTPUT_MODE);
+    if (!res.IsSuccess())
+        return res;
+
+    // 0x00090000 - Unknown
+    res = CreateConfigInfoBlk(0x00090000, 0x8, 0xE, zero_buffer);
     if (!res.IsSuccess())
         return res;
 
@@ -463,11 +530,52 @@ ResultCode FormatConfig() {
         return res;
 
     // 0x000D0000 - Accepted EULA version
-    res = CreateConfigInfoBlk(EULAVersionBlockID, 0x4, 0xE, zero_buffer);
+    u32 eula = 0x0000FFFF;
+    res = CreateConfigInfoBlk(EULAVersionBlockID, 0x4, 0xE, &eula);
+    if (!res.IsSuccess())
+        return res;
+
+    // 0x000E0000 - Unknown
+    res = CreateConfigInfoBlk(0x000E0000, 0x1, 0xE, zero_buffer);
+    if (!res.IsSuccess())
+        return res;
+
+    // 0x000F0000 - Unknown
+    res = CreateConfigInfoBlk(0x000F0000, 0x10, 0xE, zero_buffer);
     if (!res.IsSuccess())
         return res;
 
     res = CreateConfigInfoBlk(ConsoleModelBlockID, sizeof(CONSOLE_MODEL), 0xC, &CONSOLE_MODEL);
+    if (!res.IsSuccess())
+        return res;
+
+    // 0x000F0005 - Unknown
+    res = CreateConfigInfoBlk(0x000F0005, 0x4, 0xE, zero_buffer);
+    if (!res.IsSuccess())
+        return res;
+
+    // 0x00100000 - Unknown
+    res = CreateConfigInfoBlk(0x00100000, 0x2, 0xE, zero_buffer);
+    if (!res.IsSuccess())
+        return res;
+
+    // 0x00100001 - Unknown
+    res = CreateConfigInfoBlk(0x00100001, 0x94, 0xE, zero_buffer);
+    if (!res.IsSuccess())
+        return res;
+
+    // 0x00100002 - Unknown
+    res = CreateConfigInfoBlk(0x00100002, 0x1, 0xE, zero_buffer);
+    if (!res.IsSuccess())
+        return res;
+
+    // 0x00110001 - Unknown
+    res = CreateConfigInfoBlk(0x00110001, 0x8, 0xE, zero_buffer);
+    if (!res.IsSuccess())
+        return res;
+
+    // 0x00130000 - Unknown
+    res = CreateConfigInfoBlk(0x00130000, 0x4, 0xE, zero_buffer);
     if (!res.IsSuccess())
         return res;
 
@@ -522,6 +630,7 @@ ResultCode LoadConfigNANDSaveFile() {
 
 void Init() {
     AddService(new CFG_I_Interface);
+    AddService(new CFG_NOR_Interface);
     AddService(new CFG_S_Interface);
     AddService(new CFG_U_Interface);
 
