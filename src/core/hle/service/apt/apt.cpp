@@ -18,6 +18,7 @@
 #include "core/hle/service/fs/archive.h"
 #include "core/hle/service/ptm/ptm.h"
 #include "core/hle/service/service.h"
+#include "video_core/gpu_debugger.h"
 
 namespace Service {
 namespace APT {
@@ -449,12 +450,14 @@ void GetStartupArgument(Service::Interface* self) {
         return;
     }
 
+    Memory::ZeroBlock(cmd_buff[0x41], parameter_size);
+
     LOG_WARNING(Service_APT, "(stubbed) called startup_argument_type=%u , parameter_size=0x%08x , "
                              "parameter_value=0x%08x",
-                startup_argument_type, parameter_size, Memory::Read32(cmd_buff[41]));
+                startup_argument_type, parameter_size, Memory::Read32(cmd_buff[0x41]));
 
     cmd_buff[1] = RESULT_SUCCESS.raw;
-    cmd_buff[2] = (parameter_size > 0) ? 1 : 0;
+    cmd_buff[2] = 0;// (parameter_size > 0) ? 1 : 0;
 }
 
 void CheckNew3DSApp(Service::Interface* self) {

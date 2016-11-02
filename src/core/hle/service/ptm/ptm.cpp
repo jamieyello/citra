@@ -2,6 +2,7 @@
 // Licensed under GPLv2 or any later version
 // Refer to the license.txt file included.
 
+#include <ctime>
 #include "common/logging/log.h"
 #include "core/file_sys/file_backend.h"
 #include "core/hle/service/fs/archive.h"
@@ -103,6 +104,26 @@ void CheckNew3DS(Service::Interface* self) {
     cmd_buff[2] = is_new_3ds ? 1 : 0;
 
     LOG_WARNING(Service_PTM, "(STUBBED) called isNew3DS = 0x%08x", static_cast<u32>(is_new_3ds));
+}
+
+void SetUserTime(Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    u64 user_time = (u64)cmd_buff[2] << 32 | cmd_buff[1];
+
+    cmd_buff[1] = RESULT_SUCCESS.raw;
+
+    LOG_WARNING(Service_PTM, "(STUBBED) called, user time = %ull", user_time);
+}
+
+void GetRtc(Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    cmd_buff[1] = RESULT_SUCCESS.raw;
+    u64 time = std::time(nullptr);
+    std::memcpy(&cmd_buff[2], &time, sizeof(time));
+
+    LOG_WARNING(Service_PTM, "(STUBBED) called");
 }
 
 void Init() {

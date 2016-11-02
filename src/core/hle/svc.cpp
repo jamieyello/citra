@@ -9,6 +9,7 @@
 #include "common/string_util.h"
 #include "common/symbols.h"
 #include "core/arm/arm_interface.h"
+#include "core/core.h"
 #include "core/core_timing.h"
 #include "core/hle/function_wrappers.h"
 #include "core/hle/kernel/address_arbiter.h"
@@ -415,7 +416,8 @@ static ResultCode ArbitrateAddress(Handle handle, u32 address, u32 type, u32 val
 }
 
 static void Break(u8 break_reason) {
-    LOG_CRITICAL(Debug_Emulated, "Emulated program broke execution!");
+    LOG_CRITICAL(Debug_Emulated, "Emulated program broke execution! lr=0x%08X",
+                 Core::g_app_core->GetReg(14));
     std::string reason_str;
     switch (break_reason) {
     case 0:

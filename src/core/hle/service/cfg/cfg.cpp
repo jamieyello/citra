@@ -467,6 +467,11 @@ ResultCode FormatConfig() {
     if (!res.IsSuccess())
         return res;
 
+    // 0x00090000 - Unknown
+    res = CreateConfigInfoBlk(0x00090000, 0x8, 0xE, zero_buffer);
+    if (!res.IsSuccess())
+        return res;
+
     res = CreateConfigInfoBlk(ConsoleUniqueIDBlockID, sizeof(CONSOLE_UNIQUE_ID), 0xE,
                               &CONSOLE_UNIQUE_ID);
     if (!res.IsSuccess())
@@ -521,7 +526,8 @@ ResultCode FormatConfig() {
         return res;
 
     // 0x000D0000 - Accepted EULA version
-    res = CreateConfigInfoBlk(EULAVersionBlockID, 0x4, 0xE, zero_buffer);
+    u32 eula = 0x0000FFFF;
+    res = CreateConfigInfoBlk(EULAVersionBlockID, 0x4, 0xE, &eula);
     if (!res.IsSuccess())
         return res;
 
