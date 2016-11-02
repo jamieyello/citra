@@ -6,6 +6,7 @@
 #include "common/string_util.h"
 #include "core/arm/arm_interface.h"
 #include "core/core.h"
+#include "core/hle/service/ac_i.h"
 #include "core/hle/service/ac_u.h"
 #include "core/hle/service/act_a.h"
 #include "core/hle/service/act_u.h"
@@ -129,6 +130,7 @@ void Init() {
     Service::NIM::Init();
     Service::PTM::Init();
 
+    AddService(new AC_I::Interface);
     AddService(new AC_U::Interface);
     AddService(new ACT_A::Interface);
     AddService(new ACT_U::Interface);
