@@ -14,6 +14,7 @@ namespace HTTP_C {
 class Interface : public Service::Interface {
 public:
     Interface();
+    ~Interface();
 
     std::string GetPortName() const override {
         return "http:C";

@@ -9,8 +9,28 @@
 
 namespace HTTP_C {
 
+static void Initialize(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    u32 size = cmd_buff[1];
+    Handle mem_handle = cmd_buff[5];
+    if (mem_handle) {
+        LOG_WARNING(Service_HTTP, "got memory for post");
+    }
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    LOG_WARNING(Service_HTTP, "(STUBBED) called, size=%u", size);
+}
+
+static void Finalize(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    LOG_WARNING(Service_HTTP, "(STUBBED) called");
+}
+
 const Interface::FunctionInfo FunctionTable[] = {
-    {0x00010044, nullptr, "Initialize"},
+    {0x00010044, Initialize, "Initialize"},
     {0x00020082, nullptr, "CreateContext"},
     {0x00030040, nullptr, "CloseContext"},
     {0x00040040, nullptr, "CancelConnection"},
@@ -59,13 +79,17 @@ const Interface::FunctionInfo FunctionTable[] = {
     {0x00360000, nullptr, "ClearDNSCache"},
     {0x00370080, nullptr, "SetKeepAlive"},
     {0x003800C0, nullptr, "SetPostDataTypeSize"},
-    {0x00390000, nullptr, "Finalize"},
+    {0x00390000, Finalize, "Finalize"},
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Interface class
 
 Interface::Interface() {
+    Register(FunctionTable);
+}
+
+Interface::~Interface() {
     Register(FunctionTable);
 }
 

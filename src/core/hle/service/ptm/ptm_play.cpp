@@ -2,15 +2,16 @@
 // Licensed under GPLv2 or any later version
 // Refer to the license.txt file included.
 
+#include "core/hle/service/ptm/ptm.h"
 #include "core/hle/service/ptm/ptm_play.h"
 
 namespace Service {
 namespace PTM {
 
 const Interface::FunctionInfo FunctionTable[] = {
-    {0x08070082, nullptr, "GetPlayHistory"},
-    {0x08080000, nullptr, "GetPlayHistoryStart"},
-    {0x08090000, nullptr, "GetPlayHistoryLength"},
+    {0x08070082, GetPlayHistory, "GetPlayHistory"},
+    {0x08080000, GetPlayHistoryStart, "GetPlayHistoryStart"},
+    {0x08090000, GetPlayHistoryLength, "GetPlayHistoryLength"},
     {0x080B0080, nullptr, "CalcPlayHistoryStart"},
 };
 

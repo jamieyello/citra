@@ -46,6 +46,7 @@ set(SRCS
             hle/kernel/thread.cpp
             hle/kernel/timer.cpp
             hle/kernel/vm_manager.cpp
+            hle/service/ac_i.cpp
             hle/service/ac_u.cpp
             hle/service/act_a.cpp
             hle/service/act_u.cpp
@@ -72,6 +73,7 @@ set(SRCS
             hle/service/cecd/cecd_u.cpp
             hle/service/cfg/cfg.cpp
             hle/service/cfg/cfg_i.cpp
+            hle/service/cfg/cfg_nor.cpp
             hle/service/cfg/cfg_s.cpp
             hle/service/cfg/cfg_u.cpp
             hle/service/csnd_snd.cpp
@@ -99,6 +101,7 @@ set(SRCS
             hle/service/ldr_ro/cro_helper.cpp
             hle/service/ldr_ro/ldr_ro.cpp
             hle/service/ldr_ro/memory_synchronizer.cpp
+            hle/service/mcu_hwc.cpp
             hle/service/mic_u.cpp
             hle/service/ndm/ndm.cpp
             hle/service/ndm/ndm_u.cpp
@@ -113,9 +116,11 @@ set(SRCS
             hle/service/nwm_uds.cpp
             hle/service/pm_app.cpp
             hle/service/ptm/ptm.cpp
+            hle/service/ptm/ptm_gets.cpp
             hle/service/ptm/ptm_play.cpp
             hle/service/ptm/ptm_sysm.cpp
             hle/service/ptm/ptm_u.cpp
+            hle/service/pxi_dev.cpp
             hle/service/service.cpp
             hle/service/soc_u.cpp
             hle/service/srv.cpp
@@ -192,6 +197,7 @@ set(HEADERS
             hle/kernel/timer.h
             hle/kernel/vm_manager.h
             hle/result.h
+            hle/service/ac_i.h
             hle/service/ac_u.h
             hle/service/act_a.h
             hle/service/act_u.h
@@ -218,6 +224,7 @@ set(HEADERS
             hle/service/cecd/cecd_u.h
             hle/service/cfg/cfg.h
             hle/service/cfg/cfg_i.h
+            hle/service/cfg/cfg_nor.h
             hle/service/cfg/cfg_s.h
             hle/service/cfg/cfg_u.h
             hle/service/csnd_snd.h
@@ -245,6 +252,7 @@ set(HEADERS
             hle/service/ldr_ro/cro_helper.h
             hle/service/ldr_ro/ldr_ro.h
             hle/service/ldr_ro/memory_synchronizer.h
+            hle/service/mcu_hwc.h
             hle/service/mic_u.h
             hle/service/ndm/ndm.h
             hle/service/ndm/ndm_u.h
@@ -259,9 +267,11 @@ set(HEADERS
             hle/service/nwm_uds.h
             hle/service/pm_app.h
             hle/service/ptm/ptm.h
+            hle/service/ptm/ptm_gets.h
             hle/service/ptm/ptm_play.h
             hle/service/ptm/ptm_sysm.h
             hle/service/ptm/ptm_u.h
+            hle/service/pxi_dev.h
             hle/service/service.h
             hle/service/soc_u.h
             hle/service/srv.h

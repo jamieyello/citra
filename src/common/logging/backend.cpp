@@ -33,6 +33,7 @@ namespace Log {
     SUB(Kernel, SVC)                                                                               \
     CLS(Service)                                                                                   \
     SUB(Service, SRV)                                                                              \
+    SUB(Service, HTTP)                                                                             \
     SUB(Service, FRD)                                                                              \
     SUB(Service, FS)                                                                               \
     SUB(Service, ERR)                                                                              \
@@ -40,11 +41,14 @@ namespace Log {
     SUB(Service, BOSS)                                                                             \
     SUB(Service, GSP)                                                                              \
     SUB(Service, AC)                                                                               \
+    SUB(Service, ACT)                                                                              \
     SUB(Service, AM)                                                                               \
     SUB(Service, PTM)                                                                              \
     SUB(Service, LDR)                                                                              \
+    SUB(Service, MIC)                                                                              \
     SUB(Service, NDM)                                                                              \
     SUB(Service, NIM)                                                                              \
+    SUB(Service, NS)                                                                               \
     SUB(Service, NWM)                                                                              \
     SUB(Service, CAM)                                                                              \
     SUB(Service, CECD)                                                                             \

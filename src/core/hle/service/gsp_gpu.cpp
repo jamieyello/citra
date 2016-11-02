@@ -333,6 +333,19 @@ static void FlushDataCache(Service::Interface* self) {
               size, process);
 }
 
+static void StoreDataCache(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+    u32 address = cmd_buff[1];
+    u32 size = cmd_buff[2];
+    u32 process = cmd_buff[4];
+
+    // TODO(purpasmart96): Verify return header on HW
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+
+    LOG_TRACE(Service_GSP, "(STUBBED) called address=0x%08X, size=0x%08X, process=0x%08X", address,
+              size, process);
+}
 /**
  * GSP_GPU::SetAxiConfigQoSMode service function
  *  Inputs:
@@ -736,7 +749,7 @@ const Interface::FunctionInfo FunctionTable[] = {
     {0x001C0040, nullptr, "SetLedForceOff"},
     {0x001D0040, nullptr, "SetTestCommand"},
     {0x001E0080, nullptr, "SetInternalPriorities"},
-    {0x001F0082, nullptr, "StoreDataCache"},
+    {0x001F0082, StoreDataCache, "StoreDataCache"},
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

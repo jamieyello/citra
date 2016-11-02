@@ -50,6 +50,7 @@ enum class Class : ClassType {
     Service,           ///< HLE implementation of system services. Each major service
                        ///  should have its own subclass.
     Service_SRV,       ///< The SRV (Service Directory) implementation
+    Service_HTTP,      ///< The HTTP
     Service_FRD,       ///< The FRD (Friends) service
     Service_FS,        ///< The FS (Filesystem) service implementation
     Service_ERR,       ///< The ERR (Error) port implementation
@@ -57,11 +58,14 @@ enum class Class : ClassType {
     Service_BOSS,      ///< The BOSS (SpotPass) service
     Service_GSP,       ///< The GSP (GPU control) service
     Service_AC,        ///< The AC (WiFi status) service
+    Service_ACT,       ///< The ACT (Account) service
     Service_AM,        ///< The AM (Application manager) service
     Service_PTM,       ///< The PTM (Power status & misc.) service
     Service_LDR,       ///< The LDR (3ds dll loader) service
+    Service_MIC,       ///< The MIC service
     Service_NDM,       ///< The NDM (Network daemon manager) service
     Service_NIM,       ///< The NIM (Network interface manager) service
+    Service_NS,        ///< The NS service
     Service_NWM,       ///< The NWM (Network wlan manager) service
     Service_CAM,       ///< The CAM (Camera) service
     Service_CECD,      ///< The CECD (StreetPass) service

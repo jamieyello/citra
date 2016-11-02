@@ -9,9 +9,19 @@
 
 namespace NS_S {
 
+static void LaunchTitle(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    u64 title_id = (u64)cmd_buff[2] << 32 | cmd_buff[1];
+    u32 flags = cmd_buff[5];
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    LOG_WARNING(Service_NS, "(STUBBED) called, title_id=0x%llX, flags=0x%08X", title_id, flags);
+}
+
 const Interface::FunctionInfo FunctionTable[] = {
     {0x000100C0, nullptr, "LaunchFIRM"},
-    {0x000200C0, nullptr, "LaunchTitle"},
+    {0x000200C0, LaunchTitle, "LaunchTitle"},
     {0x00030000, nullptr, "TerminateApplication"},
     {0x00040040, nullptr, "TerminateProcess"},
     {0x000500C0, nullptr, "LaunchApplicationFIRM"},

@@ -33,7 +33,7 @@ public:
     virtual QString GetText() const = 0;
     virtual QColor GetColor() const;
     virtual ~WaitTreeItem();
-    void Expand();
+    virtual void Expand();
     WaitTreeItem* Parent() const;
     const std::vector<std::unique_ptr<WaitTreeItem>>& Children() const;
     std::size_t Row() const;
@@ -92,6 +92,7 @@ private:
 class WaitTreeThread : public WaitTreeWaitObject {
     Q_OBJECT
 public:
+    void Expand() override;
     WaitTreeThread(const Kernel::Thread& thread);
     QString GetText() const override;
     QColor GetColor() const override;
@@ -101,6 +102,7 @@ public:
 class WaitTreeEvent : public WaitTreeWaitObject {
     Q_OBJECT
 public:
+    void Expand() override;
     WaitTreeEvent(const Kernel::Event& object);
     std::vector<std::unique_ptr<WaitTreeItem>> GetChildren() const override;
 };

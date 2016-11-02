@@ -2,10 +2,12 @@
 // Licensed under GPLv2 or any later version
 // Refer to the license.txt file included.
 
+#include <ctime>
 #include "common/logging/log.h"
 #include "core/file_sys/file_backend.h"
 #include "core/hle/service/fs/archive.h"
 #include "core/hle/service/ptm/ptm.h"
+#include "core/hle/service/ptm/ptm_gets.h"
 #include "core/hle/service/ptm/ptm_play.h"
 #include "core/hle/service/ptm/ptm_sysm.h"
 #include "core/hle/service/ptm/ptm_u.h"
@@ -105,7 +107,55 @@ void CheckNew3DS(Service::Interface* self) {
     LOG_WARNING(Service_PTM, "(STUBBED) called isNew3DS = 0x%08x", static_cast<u32>(is_new_3ds));
 }
 
+void SetUserTime(Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    u64 user_time = (u64)cmd_buff[2] << 32 | cmd_buff[1];
+
+    cmd_buff[1] = RESULT_SUCCESS.raw;
+
+    LOG_WARNING(Service_PTM, "(STUBBED) called, user time = %llu", user_time);
+}
+
+void GetRtc(Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    cmd_buff[1] = RESULT_SUCCESS.raw;
+    u64 time = std::time(nullptr);
+    std::memcpy(&cmd_buff[2], &time, sizeof(time));
+
+    LOG_WARNING(Service_PTM, "(STUBBED) called");
+}
+
+void GetPlayHistoryStart(Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    cmd_buff[1] = RESULT_SUCCESS.raw;
+    cmd_buff[2] = 0;
+
+    LOG_WARNING(Service_PTM, "(STUBBED) called");
+}
+
+void GetPlayHistoryLength(Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    cmd_buff[1] = RESULT_SUCCESS.raw;
+    cmd_buff[2] = 0;
+
+    LOG_WARNING(Service_PTM, "(STUBBED) called");
+}
+
+void GetPlayHistory(Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    cmd_buff[1] = RESULT_SUCCESS.raw;
+    cmd_buff[2] = 0;
+
+    LOG_WARNING(Service_PTM, "(STUBBED) called");
+}
+
 void Init() {
+    AddService(new PTM_Gets_Interface);
     AddService(new PTM_Play_Interface);
     AddService(new PTM_Sysm_Interface);
     AddService(new PTM_U_Interface);

@@ -4,6 +4,9 @@
 
 #include "common/logging/log.h"
 #include "common/string_util.h"
+#include "core/arm/arm_interface.h"
+#include "core/core.h"
+#include "core/hle/service/ac_i.h"
 #include "core/hle/service/ac_u.h"
 #include "core/hle/service/act_a.h"
 #include "core/hle/service/act_u.h"
@@ -25,6 +28,7 @@
 #include "core/hle/service/http_c.h"
 #include "core/hle/service/ir/ir.h"
 #include "core/hle/service/ldr_ro/ldr_ro.h"
+#include "core/hle/service/mcu_hwc.h"
 #include "core/hle/service/mic_u.h"
 #include "core/hle/service/ndm/ndm.h"
 #include "core/hle/service/news/news.h"
@@ -33,6 +37,7 @@
 #include "core/hle/service/nwm_uds.h"
 #include "core/hle/service/pm_app.h"
 #include "core/hle/service/ptm/ptm.h"
+#include "core/hle/service/pxi_dev.h"
 #include "core/hle/service/service.h"
 #include "core/hle/service/soc_u.h"
 #include "core/hle/service/srv.h"
@@ -65,12 +70,13 @@ ResultVal<bool> Interface::SyncRequest() {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     auto itr = m_functions.find(cmd_buff[0]);
 
+    u32 lr = Core::g_app_core->GetReg(14);
     if (itr == m_functions.end() || itr->second.func == nullptr) {
         std::string function_name = (itr == m_functions.end())
                                         ? Common::StringFromFormat("0x%08X", cmd_buff[0])
                                         : itr->second.name;
         LOG_ERROR(
-            Service, "unknown / unimplemented %s",
+            Service, "lr: 0x%08X, unknown / unimplemented %s", lr,
             MakeFunctionString(function_name.c_str(), GetPortName().c_str(), cmd_buff).c_str());
 
         // TODO(bunnei): Hack - ignore error
@@ -125,6 +131,7 @@ void Init() {
     Service::NIM::Init();
     Service::PTM::Init();
 
+    AddService(new AC_I::Interface);
     AddService(new AC_U::Interface);
     AddService(new ACT_A::Interface);
     AddService(new ACT_U::Interface);
@@ -134,10 +141,12 @@ void Init() {
     AddService(new GSP_LCD::Interface);
     AddService(new HTTP_C::Interface);
     AddService(new LDR_RO::Interface);
+    AddService(new MCU_HWC::Interface);
     AddService(new MIC_U::Interface);
     AddService(new NS_S::Interface);
     AddService(new NWM_UDS::Interface);
     AddService(new PM_APP::Interface);
+    AddService(new PXI_DEV::Interface);
     AddService(new SOC_U::Interface);
     AddService(new SSL_C::Interface);
     AddService(new Y2R_U::Interface);

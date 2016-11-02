@@ -81,6 +81,8 @@ static const std::array<u16, 187> country_codes = {{
     C("SM"), C("VA"), C("BM"),                                              // 184-186
 }};
 
+void ConvertSimpleAddressId(Service::Interface* self);
+
 /**
  * CFG::GetCountryCodeString service function
  *  Inputs:
@@ -154,6 +156,8 @@ void GetSystemModel(Service::Interface* self);
  *      2 : 0 if the system is a Nintendo 2DS, 1 otherwise
  */
 void GetModelNintendo2DS(Service::Interface* self);
+
+void SecureInfoGetSerialNo(Service::Interface* self);
 
 /**
  * CFG::GetConfigInfoBlk2 service function

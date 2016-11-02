@@ -67,6 +67,7 @@ enum class AppletId : u32 {
     Miiverse = 0x117,
     MiiversePost = 0x118,
     AmiiboSettings = 0x119,
+    AnyLibraryApplet1 = 0x200,
     SoftwareKeyboard1 = 0x201,
     Ed1 = 0x202,
     PnoteApp = 0x204,
@@ -121,6 +122,8 @@ void Initialize(Service::Interface* self);
  *      4 : Handle to shared font memory
  */
 void GetSharedFont(Service::Interface* self);
+
+void GetWirelessRebootInfo(Service::Interface* self);
 
 /**
  * APT::NotifyToWait service function
@@ -223,15 +226,14 @@ void SendParameter(Service::Interface* self);
  *  Inputs:
  *      1 : AppID
  *      2 : Parameter buffer size, max size is 0x1000
+ *      64 : Buffer size << 14 | 2
+ *      65 : Output buffer
  *  Outputs:
  *      1 : Result of function, 0 on success, otherwise error code
  *      2 : AppID of the process which sent these parameters
  *      3 : Signal type
  *      4 : Actual parameter buffer size, this is <= to the the input size
- *      5 : Value
  *      6 : Handle from the source process which set the parameters, likely used for shared memory
- *      7 : Size
- *      8 : Output parameter buffer ptr
  */
 void ReceiveParameter(Service::Interface* self);
 
@@ -308,6 +310,8 @@ void PrepareToStartApplication(Service::Interface* self);
 */
 void StartApplication(Service::Interface* self);
 
+void GetCaptureInfo(Service::Interface* self);
+
 /**
  * APT::AppletUtility service function
  *  Inputs:
@@ -380,6 +384,12 @@ void PreloadLibraryApplet(Service::Interface* self);
  */
 void StartLibraryApplet(Service::Interface* self);
 
+void ReceiveDeliverArg(Service::Interface* self);
+
+void CancelLibraryApplet(Service::Interface* self);
+
+void ReplySleepQuery(Service::Interface* self);
+
 /**
  * APT::GetStartupArgument service function
  *  Inputs:
@@ -411,6 +421,8 @@ void SetScreenCapPostPermission(Service::Interface* self);
  */
 void GetScreenCapPostPermission(Service::Interface* self);
 
+void GetProgramID(Service::Interface* self);
+
 /**
  * APT::CheckNew3DSApp service function
  *  Outputs:
@@ -433,6 +445,8 @@ void CheckNew3DSApp(Service::Interface* self);
  *      2: u8 output: 0 = Old3DS, 1 = New3DS.
  */
 void CheckNew3DS(Service::Interface* self);
+
+void Wrap(Service::Interface* self);
 
 /// Initialize the APT service
 void Init();

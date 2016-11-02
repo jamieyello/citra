@@ -128,6 +128,15 @@ static void GetCloseResult(Service::Interface* self) {
     LOG_WARNING(Service_AC, "(STUBBED) called");
 }
 
+static void GetLastErrorCode(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    cmd_buff[2] = RESULT_SUCCESS.raw;
+
+    LOG_WARNING(Service_AC, "(STUBBED) called");
+}
+
 /**
  * AC_U::GetWifiStatus service function
  *  Outputs:
@@ -141,7 +150,25 @@ static void GetWifiStatus(Service::Interface* self) {
     // it returns a valid result without implementing full functionality.
 
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
-    cmd_buff[2] = 0;                  // Connection type set to none
+    cmd_buff[2] = 1;                  // Connection type set to none
+
+    LOG_WARNING(Service_AC, "(STUBBED) called");
+}
+
+static void GetStatus(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    cmd_buff[2] = 0;
+
+    // LOG_WARNING(Service_AC, "(STUBBED) called");
+}
+
+static void GetConnectingInfraPriority(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    cmd_buff[2] = 0;
 
     LOG_WARNING(Service_AC, "(STUBBED) called");
 }
@@ -215,6 +242,15 @@ static void RegisterDisconnectEvent(Service::Interface* self) {
     LOG_WARNING(Service_AC, "(STUBBED) called");
 }
 
+static void GetConnectingProxyEnable(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    cmd_buff[2] = false;
+
+    LOG_WARNING(Service_AC, "(STUBBED) called");
+}
+
 /**
  * AC_U::IsConnected service function
  *  Outputs:
@@ -237,17 +273,22 @@ const Interface::FunctionInfo FunctionTable[] = {
     {0x00070002, nullptr, "CancelConnectAsync"},
     {0x00080004, CloseAsync, "CloseAsync"},
     {0x00090002, GetCloseResult, "GetCloseResult"},
-    {0x000A0000, nullptr, "GetLastErrorCode"},
-    {0x000C0000, nullptr, "GetStatus"},
+    {0x000A0000, GetLastErrorCode, "GetLastErrorCode"},
+    {0x000C0000, GetStatus, "GetStatus"},
     {0x000D0000, GetWifiStatus, "GetWifiStatus"},
     {0x000E0042, nullptr, "GetCurrentAPInfo"},
+    {0x000F0000, GetConnectingInfraPriority, "GetConnectingInfraPriority"},
     {0x00100042, nullptr, "GetCurrentNZoneInfo"},
     {0x00110042, nullptr, "GetNZoneApNumService"},
     {0x001D0042, nullptr, "ScanAPs"},
     {0x00240042, nullptr, "AddDenyApType"},
+    {0x00250042, nullptr, "SetNetworkArea"},
     {0x00270002, GetInfraPriority, "GetInfraPriority"},
+    {0x002C0042, nullptr, "SetFromApplication"},
     {0x002D0082, SetRequestEulaVersion, "SetRequestEulaVersion"},
     {0x00300004, RegisterDisconnectEvent, "RegisterDisconnectEvent"},
+    {0x00360000, GetConnectingProxyEnable, "GetConnectingProxyEnable"},
+    {0x00370000, nullptr, "GetConnectingProxyAuthType"},
     {0x003C0042, nullptr, "GetAPSSIDList"},
     {0x003E0042, IsConnected, "IsConnected"},
     {0x00400042, nullptr, "SetClientVersion"},

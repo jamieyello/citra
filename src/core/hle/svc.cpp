@@ -9,6 +9,7 @@
 #include "common/string_util.h"
 #include "common/symbols.h"
 #include "core/arm/arm_interface.h"
+#include "core/core.h"
 #include "core/core_timing.h"
 #include "core/hle/function_wrappers.h"
 #include "core/hle/kernel/address_arbiter.h"
@@ -110,7 +111,7 @@ static ResultCode ControlMemory(u32* out_addr, u32 operation, u32 addr0, u32 add
         } else if (addr0 >= process.GetLinearHeapBase() && addr0 < process.GetLinearHeapLimit()) {
             ResultCode result = process.LinearFree(addr0, size);
             if (result.IsError())
-                return result;
+               return result;
         } else {
             return ERR_INVALID_ADDRESS;
         }
@@ -415,7 +416,8 @@ static ResultCode ArbitrateAddress(Handle handle, u32 address, u32 type, u32 val
 }
 
 static void Break(u8 break_reason) {
-    LOG_CRITICAL(Debug_Emulated, "Emulated program broke execution!");
+    LOG_CRITICAL(Debug_Emulated, "Emulated program broke execution! lr=0x%08X",
+                 Core::g_app_core->GetReg(14));
     std::string reason_str;
     switch (break_reason) {
     case 0:
@@ -950,6 +952,8 @@ static ResultCode GetProcessInfo(s64* out, Handle process_handle, u32 type) {
     if (process == nullptr)
         return ERR_INVALID_HANDLE;
 
+    LOG_WARNING(Kernel_SVC, "called, type=%u", type);
+
     switch (type) {
     case 0:
     case 2:
@@ -972,6 +976,8 @@ static ResultCode GetProcessInfo(s64* out, Handle process_handle, u32 type) {
         LOG_ERROR(Kernel_SVC, "unimplemented GetProcessInfo type=%u", type);
         break;
     case 20:
+        LOG_WARNING(Kernel_SVC, "FCRAM=0x%08X", Memory::FCRAM_PADDR);
+        LOG_WARNING(Kernel_SVC, "LINEA=0x%08X", process->GetLinearHeapBase());
         *out = Memory::FCRAM_PADDR - process->GetLinearHeapBase();
         break;
     default:

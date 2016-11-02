@@ -40,6 +40,8 @@ void GetCecStateAbbreviated(Service::Interface* self);
  */
 void GetCecInfoEventHandle(Service::Interface* self);
 
+void GetCecInfoEventHandleSys(Service::Interface* self);
+
 /**
  * GetChangeStateEventHandle service function
  *  Inputs:
@@ -49,6 +51,10 @@ void GetCecInfoEventHandle(Service::Interface* self);
  *      3: Event Handle
  */
 void GetChangeStateEventHandle(Service::Interface* self);
+
+void OpenAndReadFile(Service::Interface* self);
+
+void SetData(Service::Interface* self);
 
 /// Initialize CECD service(s)
 void Init();

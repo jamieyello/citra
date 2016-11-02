@@ -138,6 +138,12 @@ std::vector<std::unique_ptr<WaitTreeItem>> WaitTreeObjectList::GetChildren() con
 
 WaitTreeThread::WaitTreeThread(const Kernel::Thread& thread) : WaitTreeWaitObject(thread) {}
 
+void WaitTreeThread::Expand() {
+    // const_cast<Kernel::Thread&>(static_cast<const Kernel::Thread&>(object)).status =
+    // THREADSTATUS_READY;
+    WaitTreeItem::Expand();
+}
+
 QString WaitTreeThread::GetText() const {
     const auto& thread = static_cast<const Kernel::Thread&>(object);
     QString status;
@@ -237,6 +243,11 @@ std::vector<std::unique_ptr<WaitTreeItem>> WaitTreeThread::GetChildren() const {
 }
 
 WaitTreeEvent::WaitTreeEvent(const Kernel::Event& object) : WaitTreeWaitObject(object) {}
+
+void WaitTreeEvent::Expand() {
+    const_cast<Kernel::Event&>(static_cast<const Kernel::Event&>(object)).Signal();
+    WaitTreeItem::Expand();
+}
 
 std::vector<std::unique_ptr<WaitTreeItem>> WaitTreeEvent::GetChildren() const {
     std::vector<std::unique_ptr<WaitTreeItem>> list(WaitTreeWaitObject::GetChildren());

@@ -71,6 +71,7 @@ const Interface::FunctionInfo FunctionTable[] = {
     {0x003C0000, nullptr, "GetSleepCamera"},
     {0x003D0040, nullptr, "SetSleepCamera"},
     {0x003E0040, nullptr, "SetBrightnessSynchronization"},
+    {0x003F0040, nullptr, "EnableSystemUse"},
 };
 
 CAM_U_Interface::CAM_U_Interface() {
