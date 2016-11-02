@@ -13,6 +13,9 @@ namespace AC_I {
 
 const Interface::FunctionInfo FunctionTable[] = {
     {0x00230042, nullptr, "AddAllowApType"},
+    {0x00400042, nullptr, "SetClientVersion"},
+    {0x04010040, nullptr, "LoadNetworkSetting"},
+    {0x04070000, nullptr, "GetNetworkSetting_Version"},
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
