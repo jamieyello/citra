@@ -229,14 +229,16 @@ void GetConfigInfoBlk2(Service::Interface* self) {
     std::vector<u8> data(size);
     cmd_buff[1] = Service::CFG::GetConfigInfoBlock(block_id, size, 0x2, data.data()).raw;
     Memory::WriteBlock(data_pointer, data.data(), data.size());
+    LOG_WARNING(Service_CFG, "called, size=0x%X, block_id=0x%08X", size, block_id);
 }
 
 void SecureInfoGetSerialNo(Service::Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
-    // 1 -> 0xF  // size
-    // 2 -> 0xFC // trans size
-    // 3 -> a1   // serial no
+    u32 size = cmd_buff[1];
+    u32 addr = cmd_buff[3];
+    Memory::ZeroBlock(addr, size);
+    Memory::WriteBlock(addr, "1234567890", strlen("1234567890"));
 
     cmd_buff[1] = RESULT_SUCCESS.raw;
 }
