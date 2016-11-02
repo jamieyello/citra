@@ -72,6 +72,7 @@ set(SRCS
             hle/service/cecd/cecd_u.cpp
             hle/service/cfg/cfg.cpp
             hle/service/cfg/cfg_i.cpp
+            hle/service/cfg/cfg_nor.cpp
             hle/service/cfg/cfg_s.cpp
             hle/service/cfg/cfg_u.cpp
             hle/service/csnd_snd.cpp
@@ -99,6 +100,7 @@ set(SRCS
             hle/service/ldr_ro/cro_helper.cpp
             hle/service/ldr_ro/ldr_ro.cpp
             hle/service/ldr_ro/memory_synchronizer.cpp
+            hle/service/mcu_hwc.cpp
             hle/service/mic_u.cpp
             hle/service/ndm/ndm.cpp
             hle/service/ndm/ndm_u.cpp
@@ -218,6 +220,7 @@ set(HEADERS
             hle/service/cecd/cecd_u.h
             hle/service/cfg/cfg.h
             hle/service/cfg/cfg_i.h
+            hle/service/cfg/cfg_nor.h
             hle/service/cfg/cfg_s.h
             hle/service/cfg/cfg_u.h
             hle/service/csnd_snd.h
@@ -245,6 +248,7 @@ set(HEADERS
             hle/service/ldr_ro/cro_helper.h
             hle/service/ldr_ro/ldr_ro.h
             hle/service/ldr_ro/memory_synchronizer.h
+            hle/service/mcu_hwc.h
             hle/service/mic_u.h
             hle/service/ndm/ndm.h
             hle/service/ndm/ndm_u.h

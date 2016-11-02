@@ -155,6 +155,8 @@ void GetSystemModel(Service::Interface* self);
  */
 void GetModelNintendo2DS(Service::Interface* self);
 
+void SecureInfoGetSerialNo(Service::Interface* self);
+
 /**
  * CFG::GetConfigInfoBlk2 service function
  *  Inputs:

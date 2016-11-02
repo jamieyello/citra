@@ -39,6 +39,7 @@ const Interface::FunctionInfo FunctionTable[] = {
     {0x08120000, nullptr, "IsShutdownByBatteryEmpty"},
     {0x08130000, nullptr, "FormatSavedata"},
     {0x08140000, nullptr, "GetLegacyJumpProhibitedFlag"},
+    {0x08160000, nullptr, "GetSystemClock"},
     {0x08180040, nullptr, "ConfigureNew3DSCPU"},
 };
 
