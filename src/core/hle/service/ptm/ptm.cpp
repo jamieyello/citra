@@ -113,7 +113,7 @@ void SetUserTime(Interface* self) {
 
     cmd_buff[1] = RESULT_SUCCESS.raw;
 
-    LOG_WARNING(Service_PTM, "(STUBBED) called, user time = %ull", user_time);
+    LOG_WARNING(Service_PTM, "(STUBBED) called, user time = %llu", user_time);
 }
 
 void GetRtc(Interface* self) {

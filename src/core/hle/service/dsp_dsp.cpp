@@ -205,7 +205,7 @@ static void InvalidateDCache(Service::Interface* self) {
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
 
     LOG_TRACE(Service_DSP, "called address=0x%08X, size=0x%X, process=0x%08X", address, size,
-        process);
+              process);
 }
 
 /**
@@ -240,6 +240,8 @@ static void RegisterInterruptEvents(Service::Interface* self) {
                      type_index, pipe_index, event_handle);
             ASSERT(false); // TODO: This should really be handled at an IPC translation layer.
         }
+
+        evt->name = "DSP_DSP";
 
         if (interrupt_events.HasTooManyEventsRegistered()) {
             LOG_INFO(Service_DSP, "Ran out of space to register interrupts (Attempted to register "

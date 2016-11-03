@@ -65,7 +65,7 @@ void Initialize(Service::Interface* self) {
 
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
 
-    LOG_DEBUG(Service_APT, "called app_id=0x%08X, flags=0x%08X", app_id, flags);
+    LOG_DEBUG(Service_APT, "called app_id=0x%X, flags=0x%08X", app_id, flags);
 }
 
 void GetSharedFont(Service::Interface* self) {
@@ -96,11 +96,20 @@ void GetSharedFont(Service::Interface* self) {
     cmd_buff[4] = Kernel::g_handle_table.Create(shared_font_mem).MoveFrom();
 }
 
+void GetWirelessRebootInfo(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+    u32 size = cmd_buff[1];
+    VAddr buffer = cmd_buff[65];
+    Memory::ZeroBlock(buffer, size);
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    LOG_WARNING(Service_APT, "(STUBBED) size=%u, buffer=0x%08X", size, buffer);
+}
+
 void NotifyToWait(Service::Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     u32 app_id = cmd_buff[1];
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
-    LOG_WARNING(Service_APT, "(STUBBED) app_id=%u", app_id);
+    LOG_WARNING(Service_APT, "(STUBBED) app_id=0x%X", app_id);
 }
 
 void GetLockHandle(Service::Interface* self) {
@@ -123,10 +132,10 @@ void GetLockHandle(Service::Interface* self) {
 
 void Enable(Service::Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
-    u32 attributes = cmd_buff[1];
+    u32 sleep_enabled = cmd_buff[1];
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
     parameter_event->Signal();        // Let the application know that it has been started
-    LOG_WARNING(Service_APT, "(STUBBED) called attributes=0x%08X", attributes);
+    LOG_WARNING(Service_APT, "(STUBBED) called sleep_enabled=0x%X", sleep_enabled);
 }
 
 void GetAppletManInfo(Service::Interface* self) {
@@ -207,45 +216,41 @@ void ReceiveParameter(Service::Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     u32 app_id = cmd_buff[1];
     u32 buffer_size = cmd_buff[2];
-    VAddr buffer = cmd_buff[0x104 >> 2];
+    VAddr buffer = cmd_buff[65];
 
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
     cmd_buff[2] = next_parameter.sender_id;
     cmd_buff[3] = next_parameter.signal;        // Signal type
     cmd_buff[4] = next_parameter.buffer.size(); // Parameter buffer size
-    cmd_buff[5] = 0x10;
     cmd_buff[6] = 0;
     if (next_parameter.object != nullptr)
         cmd_buff[6] = Kernel::g_handle_table.Create(next_parameter.object).MoveFrom();
-    cmd_buff[7] = (next_parameter.buffer.size() << 14) | 2;
-    cmd_buff[8] = buffer;
 
     Memory::WriteBlock(buffer, next_parameter.buffer.data(), next_parameter.buffer.size());
 
-    LOG_WARNING(Service_APT, "called app_id=0x%08X, buffer_size=0x%08X", app_id, buffer_size);
+    LOG_WARNING(Service_APT, "called app_id=0x%X, buffer_size=0x%X, out_size=0x%X", app_id,
+                buffer_size, cmd_buff[4]);
 }
 
 void GlanceParameter(Service::Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     u32 app_id = cmd_buff[1];
     u32 buffer_size = cmd_buff[2];
-    VAddr buffer = cmd_buff[0x104 >> 2];
+    VAddr buffer = cmd_buff[65];
 
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
     cmd_buff[2] = next_parameter.sender_id;
     cmd_buff[3] = next_parameter.signal;        // Signal type
     cmd_buff[4] = next_parameter.buffer.size(); // Parameter buffer size
-    cmd_buff[5] = 0x10;
     cmd_buff[6] = 0;
     if (next_parameter.object != nullptr)
         cmd_buff[6] = Kernel::g_handle_table.Create(next_parameter.object).MoveFrom();
-    cmd_buff[7] = (next_parameter.buffer.size() << 14) | 2;
-    cmd_buff[8] = buffer;
 
     Memory::WriteBlock(buffer, next_parameter.buffer.data(),
                        std::min(static_cast<size_t>(buffer_size), next_parameter.buffer.size()));
 
-    LOG_WARNING(Service_APT, "called app_id=0x%08X, buffer_size=0x%08X", app_id, buffer_size);
+    LOG_WARNING(Service_APT, "called app_id=0x%X, buffer_size=0x%X, out_size=0x%X", app_id,
+                buffer_size, cmd_buff[4]);
 }
 
 void CancelParameter(Service::Interface* self) {
@@ -258,9 +263,8 @@ void CancelParameter(Service::Interface* self) {
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
     cmd_buff[2] = 1;                  // Set to Success
 
-    LOG_WARNING(Service_APT,
-                "(STUBBED) called flag1=0x%08X, unk=0x%08X, flag2=0x%08X, app_id=0x%08X", flag1,
-                unk, flag2, app_id);
+    LOG_WARNING(Service_APT, "(STUBBED) called flag1=0x%X, unk=0x%08X, flag2=0x%X, app_id=0x%X",
+                flag1, unk, flag2, app_id);
 }
 
 void PrepareToStartApplication(Service::Interface* self) {
@@ -308,14 +312,16 @@ void AppletUtility(Service::Interface* self) {
     u32 command = cmd_buff[1];
     u32 buffer1_size = cmd_buff[2];
     u32 buffer2_size = cmd_buff[3];
-    u32 buffer1_addr = cmd_buff[5];
-    u32 buffer2_addr = cmd_buff[65];
+    VAddr buffer1_addr = cmd_buff[5];
+    VAddr buffer2_addr = cmd_buff[65];
+
+    Memory::ZeroBlock(buffer2_addr, buffer2_size);
 
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    cmd_buff[2] = 0;
 
-    LOG_WARNING(Service_APT,
-                "(STUBBED) called command=0x%08X, buffer1_size=0x%08X, buffer2_size=0x%08X, "
-                "buffer1_addr=0x%08X, buffer2_addr=0x%08X",
+    LOG_WARNING(Service_APT, "(STUBBED) called command=0x%X, buffer1_size=0x%X, buffer2_size=0x%X, "
+                             "buffer1_addr=0x%08X, buffer2_addr=0x%08X",
                 command, buffer1_size, buffer2_size, buffer1_addr, buffer2_addr);
 }
 
@@ -450,14 +456,12 @@ void GetStartupArgument(Service::Interface* self) {
         return;
     }
 
-    Memory::ZeroBlock(cmd_buff[0x41], parameter_size);
-
     LOG_WARNING(Service_APT, "(stubbed) called startup_argument_type=%u , parameter_size=0x%08x , "
                              "parameter_value=0x%08x",
                 startup_argument_type, parameter_size, Memory::Read32(cmd_buff[0x41]));
 
     cmd_buff[1] = RESULT_SUCCESS.raw;
-    cmd_buff[2] = 0;// (parameter_size > 0) ? 1 : 0;
+    cmd_buff[2] = 0; // (parameter_size > 0) ? 1 : 0;
 }
 
 void CheckNew3DSApp(Service::Interface* self) {

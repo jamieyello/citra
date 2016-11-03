@@ -122,6 +122,8 @@ void Initialize(Service::Interface* self);
  */
 void GetSharedFont(Service::Interface* self);
 
+void GetWirelessRebootInfo(Service::Interface* self);
+
 /**
  * APT::NotifyToWait service function
  *  Inputs:
@@ -223,15 +225,14 @@ void SendParameter(Service::Interface* self);
  *  Inputs:
  *      1 : AppID
  *      2 : Parameter buffer size, max size is 0x1000
+ *      64 : Buffer size << 14 | 2
+ *      65 : Output buffer
  *  Outputs:
  *      1 : Result of function, 0 on success, otherwise error code
  *      2 : AppID of the process which sent these parameters
  *      3 : Signal type
  *      4 : Actual parameter buffer size, this is <= to the the input size
- *      5 : Value
  *      6 : Handle from the source process which set the parameters, likely used for shared memory
- *      7 : Size
- *      8 : Output parameter buffer ptr
  */
 void ReceiveParameter(Service::Interface* self);
 
