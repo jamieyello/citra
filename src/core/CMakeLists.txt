@@ -119,6 +119,7 @@ set(SRCS
             hle/service/ptm/ptm_play.cpp
             hle/service/ptm/ptm_sysm.cpp
             hle/service/ptm/ptm_u.cpp
+            hle/service/pxi_dev.cpp
             hle/service/service.cpp
             hle/service/soc_u.cpp
             hle/service/srv.cpp
@@ -268,6 +269,7 @@ set(HEADERS
             hle/service/ptm/ptm_play.h
             hle/service/ptm/ptm_sysm.h
             hle/service/ptm/ptm_u.h
+            hle/service/pxi_dev.h
             hle/service/service.h
             hle/service/soc_u.h
             hle/service/srv.h

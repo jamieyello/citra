@@ -37,6 +37,7 @@
 #include "core/hle/service/nwm_uds.h"
 #include "core/hle/service/pm_app.h"
 #include "core/hle/service/ptm/ptm.h"
+#include "core/hle/service/pxi_dev.h"
 #include "core/hle/service/service.h"
 #include "core/hle/service/soc_u.h"
 #include "core/hle/service/srv.h"
@@ -145,6 +146,7 @@ void Init() {
     AddService(new NS_S::Interface);
     AddService(new NWM_UDS::Interface);
     AddService(new PM_APP::Interface);
+    AddService(new PXI_DEV::Interface);
     AddService(new SOC_U::Interface);
     AddService(new SSL_C::Interface);
     AddService(new Y2R_U::Interface);

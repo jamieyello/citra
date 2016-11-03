@@ -423,8 +423,10 @@ void ReceiveDeliverArg(Service::Interface* self) {
 void CancelLibraryApplet(Service::Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
+    u32 unk_bool = cmd_buff[1];
+
     cmd_buff[1] = RESULT_SUCCESS.raw;
-    LOG_WARNING(Service_APT, "called");
+    LOG_WARNING(Service_APT, "called, unk_bool=%u", unk_bool);
 }
 
 void ReplySleepQuery(Service::Interface* self) {
