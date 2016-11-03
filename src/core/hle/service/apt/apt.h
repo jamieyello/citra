@@ -381,6 +381,12 @@ void PreloadLibraryApplet(Service::Interface* self);
  */
 void StartLibraryApplet(Service::Interface* self);
 
+void ReceiveDeliverArg(Service::Interface* self);
+
+void CancelLibraryApplet(Service::Interface* self);
+
+void ReplySleepQuery(Service::Interface* self);
+
 /**
  * APT::GetStartupArgument service function
  *  Inputs:

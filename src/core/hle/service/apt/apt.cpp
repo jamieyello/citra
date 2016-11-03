@@ -403,6 +403,38 @@ void StartLibraryApplet(Service::Interface* self) {
     cmd_buff[1] = applet->Start(parameter).raw;
 }
 
+void ReceiveDeliverArg(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    u32 size1 = cmd_buff[1];
+    u32 size2 = cmd_buff[2];
+    VAddr buff1 = cmd_buff[65];
+    VAddr buff2 = cmd_buff[67];
+
+    cmd_buff[1] = RESULT_SUCCESS.raw;
+    cmd_buff[2] = 0;
+    cmd_buff[3] = 0;
+    cmd_buff[4] = false;
+
+    LOG_WARNING(Service_APT, "called, buff1=0x%08X, size1=0x%X, buff2=0x%08X, size2=0x%X", buff1,
+                size1, buff2, size2);
+}
+
+void CancelLibraryApplet(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    cmd_buff[1] = RESULT_SUCCESS.raw;
+    LOG_WARNING(Service_APT, "called");
+}
+
+void ReplySleepQuery(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+    AppletId applet_id = static_cast<AppletId>(cmd_buff[1]);
+    u32 query_reply = cmd_buff[2] & 0xFF;
+    cmd_buff[1] = RESULT_SUCCESS.raw;
+    LOG_WARNING(Service_APT, "called applet_id=%X, query_reply=0x%X", applet_id, query_reply);
+}
+
 void SetScreenCapPostPermission(Service::Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
