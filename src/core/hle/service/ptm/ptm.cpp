@@ -7,6 +7,7 @@
 #include "core/file_sys/file_backend.h"
 #include "core/hle/service/fs/archive.h"
 #include "core/hle/service/ptm/ptm.h"
+#include "core/hle/service/ptm/ptm_gets.h"
 #include "core/hle/service/ptm/ptm_play.h"
 #include "core/hle/service/ptm/ptm_sysm.h"
 #include "core/hle/service/ptm/ptm_u.h"
@@ -127,6 +128,7 @@ void GetRtc(Interface* self) {
 }
 
 void Init() {
+    AddService(new PTM_Gets_Interface);
     AddService(new PTM_Play_Interface);
     AddService(new PTM_Sysm_Interface);
     AddService(new PTM_U_Interface);

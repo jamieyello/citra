@@ -9,7 +9,6 @@
 
 namespace ACT_U {
 
-// 3 params a1, a2, a3
 static void Initialize(Service::Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
@@ -22,6 +21,7 @@ static void Initialize(Service::Interface* self) {
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
     LOG_WARNING(Service_ACT, "(STUBBED) called, version=0x%X, sh_mem=0x%X, size=0x%X", version, sh_mem, size);
 }
+
 const Interface::FunctionInfo FunctionTable[] = {
     {0x00010084, Initialize, "Initialize"},
     {0x00020040, nullptr, "GetErrorCode"},

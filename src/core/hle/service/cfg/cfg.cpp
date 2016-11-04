@@ -409,7 +409,7 @@ ResultCode FormatConfig() {
     config->data_entries_offset = 0x455C;
 
     // Insert the default blocks
-    u8 zero_buffer[0xC0] = {};
+    u8 zero_buffer[0x200] = {};
 
     // 0x00000000 - Unknown
     res = CreateConfigInfoBlk(0x00000000, 0x2, 0xE, zero_buffer);
@@ -529,6 +529,11 @@ ResultCode FormatConfig() {
     if (!res.IsSuccess())
         return res;
 
+    // 0x000C0002 - Unknown
+    res = CreateConfigInfoBlk(0x000C0002, 0x200, 0xE, zero_buffer);
+    if (!res.IsSuccess())
+        return res;
+
     // 0x000D0000 - Accepted EULA version
     u32 eula = 0x0000FFFF;
     res = CreateConfigInfoBlk(EULAVersionBlockID, 0x4, 0xE, &eula);
@@ -569,6 +574,11 @@ ResultCode FormatConfig() {
     if (!res.IsSuccess())
         return res;
 
+    // 0x00110000 - Unknown
+    res = CreateConfigInfoBlk(0x00110000, 0x4, 0xE, zero_buffer);
+    if (!res.IsSuccess())
+        return res;
+
     // 0x00110001 - Unknown
     res = CreateConfigInfoBlk(0x00110001, 0x8, 0xE, zero_buffer);
     if (!res.IsSuccess())
@@ -581,6 +591,16 @@ ResultCode FormatConfig() {
 
     // 0x00170000 - Unknown
     res = CreateConfigInfoBlk(0x00170000, 0x4, 0xE, zero_buffer);
+    if (!res.IsSuccess())
+        return res;
+
+    // 0x00180000 - Unknown
+    res = CreateConfigInfoBlk(0x00180000, 0x4, 0xE, zero_buffer);
+    if (!res.IsSuccess())
+        return res;
+
+    // 0x00180001 - Unknown
+    res = CreateConfigInfoBlk(0x00180001, 0x18, 0xE, zero_buffer);
     if (!res.IsSuccess())
         return res;
 

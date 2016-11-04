@@ -61,7 +61,7 @@ const Interface::FunctionInfo FunctionTable[] = {
     {0x00320084, nullptr, "DoApplicationJump"},
     {0x00330000, nullptr, "GetProgramIdOnApplicationJump"},
     {0x00340084, nullptr, "SendDeliverArg"},
-    {0x00350080, nullptr, "ReceiveDeliverArg"},
+    {0x00350080, ReceiveDeliverArg, "ReceiveDeliverArg"},
     {0x00360040, nullptr, "LoadSysMenuArg"},
     {0x00370042, nullptr, "StoreSysMenuArg"},
     {0x00380040, nullptr, "PreloadResidentApplet"},
