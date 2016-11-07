@@ -114,6 +114,17 @@ static const std::vector<u8> cfg_system_savedata_id = {
     0x00, 0x00, 0x00, 0x00, 0x17, 0x00, 0x01, 0x00,
 };
 
+void ConvertSimpleAddressId(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+    u32 id = cmd_buff[1];
+    u32 byte = cmd_buff[2] & 0xFF;
+
+    cmd_buff[1] = RESULT_SUCCESS.raw;
+    cmd_buff[2] = id;
+
+    LOG_WARNING(Service_CFG, "(STUBBED) called, id=0x%08X, byte=0x%X", id, byte);
+}
+
 void GetCountryCodeString(Service::Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     u32 country_code_id = cmd_buff[1];
@@ -524,7 +535,7 @@ ResultCode FormatConfig() {
     if (!res.IsSuccess())
         return res;
 
-    // 0x000C0000 - Unknown
+    // 0x000C0000 - Parental Control
     res = CreateConfigInfoBlk(0x000C0000, 0xC0, 0xE, zero_buffer);
     if (!res.IsSuccess())
         return res;

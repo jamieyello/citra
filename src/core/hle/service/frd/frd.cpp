@@ -222,7 +222,9 @@ void GetGameAuthenticationData(Service::Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
     u32 size = cmd_buff[64] >> 14;
-    u32 addr = cmd_buff[65];
+    VAddr addr = cmd_buff[65];
+
+    Memory::ZeroBlock(addr, size);
 
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
     LOG_WARNING(Service_FRD, "(STUBBED) called, addr=0x%08X, size: 0x%X", addr, size);
@@ -241,7 +243,6 @@ void RequestGameAuthentication(Service::Interface* self) {
     auto evt = Kernel::g_handle_table.Get<Kernel::Event>(event);
     if (evt) {
         evt->Signal();
-        LOG_WARNING(Service_FRD, "signal event");
     }
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
     LOG_WARNING(Service_FRD, "(STUBBED) called, p2=0x%08X, event: 0x%X", p2, event);

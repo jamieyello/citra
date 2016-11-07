@@ -23,10 +23,25 @@ static void Initialize(Service::Interface* self) {
                 sh_mem, size);
 }
 
+static void GetAccountInfo(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    u32 p1 = cmd_buff[1] & 0xFF;
+    u32 size = cmd_buff[2];
+    u32 p3 = cmd_buff[3];
+    VAddr buf = cmd_buff[5];
+
+    Memory::ZeroBlock(buf, size);
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    LOG_WARNING(Service_ACT, "(STUBBED) called, p1=0x%X, size=0x%X, p3=0x%X, buf=0x%08X", p1, size,
+                p3, buf);
+}
+
 const Interface::FunctionInfo FunctionTable[] = {
     {0x00010084, Initialize, "Initialize"},
     {0x00020040, nullptr, "GetErrorCode"},
-    {0x000600C2, nullptr, "GetAccountInfo"},
+    {0x000600C2, GetAccountInfo, "GetAccountInfo"},
     {0x000D0040, nullptr, "GenerateUuid"},
 };
 

@@ -418,6 +418,8 @@ void SetScreenCapPostPermission(Service::Interface* self);
  */
 void GetScreenCapPostPermission(Service::Interface* self);
 
+void GetProgramID(Service::Interface* self);
+
 /**
  * APT::CheckNew3DSApp service function
  *  Outputs:

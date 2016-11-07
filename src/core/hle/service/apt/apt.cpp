@@ -458,6 +458,14 @@ void GetScreenCapPostPermission(Service::Interface* self) {
                 screen_capture_post_permission);
 }
 
+void GetProgramID(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+    cmd_buff[1] = RESULT_SUCCESS.raw;
+    cmd_buff[2] = 0x12345678;
+    cmd_buff[3] = 0x87654321;
+    LOG_WARNING(Service_APT, "(STUBBED) called");
+}
+
 void GetAppletInfo(Service::Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     auto app_id = static_cast<AppletId>(cmd_buff[1]);

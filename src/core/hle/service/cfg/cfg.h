@@ -81,6 +81,8 @@ static const std::array<u16, 187> country_codes = {{
     C("SM"), C("VA"), C("BM"),                                              // 184-186
 }};
 
+void ConvertSimpleAddressId(Service::Interface* self);
+
 /**
  * CFG::GetCountryCodeString service function
  *  Inputs:
