@@ -164,7 +164,7 @@ void IsRegistered(Service::Interface* self) {
     } else if (auto applet = HLE::Applets::Applet::Get(static_cast<AppletId>(app_id))) {
         cmd_buff[2] = 1; // Set to registered
     }
-    LOG_WARNING(Service_APT, "(STUBBED) called app_id=0x%08X", app_id);
+    LOG_WARNING(Service_APT, "(STUBBED) called app_id=0x%08X, result=%u", app_id, cmd_buff[2]);
 }
 
 void InquireNotification(Service::Interface* self) {
@@ -518,6 +518,13 @@ void CheckNew3DS(Service::Interface* self) {
     PTM::CheckNew3DS(self);
 
     cmd_buff[0] = IPC::MakeHeader(0x102, 2, 0);
+    LOG_WARNING(Service_APT, "(STUBBED) called");
+}
+
+void Wrap(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    cmd_buff[1] = RESULT_SUCCESS.raw;
     LOG_WARNING(Service_APT, "(STUBBED) called");
 }
 

@@ -34,8 +34,9 @@ ResultVal<std::unique_ptr<ArchiveBackend>> ArchiveFactory_SaveDataCheck::Open(co
     auto vec = path.AsBinary();
     const u32* data = reinterpret_cast<u32*>(vec.data());
     std::string file_path = GetSaveDataCheckPath(mount_point, data[1], data[0]);
-    auto file = std::make_shared<FileUtil::IOFile>(file_path, "rb");
 
+    auto file = std::make_shared<FileUtil::IOFile>(file_path, "rb");
+    LOG_WARNING(Service_FS, "Path=%s", file_path.c_str());
     if (!file->IsOpen()) {
         return ResultCode(-1); // TODO(Subv): Find the right error code
     }
