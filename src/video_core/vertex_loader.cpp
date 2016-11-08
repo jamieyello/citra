@@ -119,8 +119,10 @@ void VertexLoader::LoadVertex(u32 base_address, int index, int vertex, Shader::I
             case Regs::VertexAttributeFormat::FLOAT: {
                 const float* srcdata =
                     reinterpret_cast<const float*>(Memory::GetPhysicalPointer(source_addr));
-                for (unsigned int comp = 0; comp < vertex_attribute_elements[i]; ++comp) {
-                    input.attr[i][comp] = float24::FromFloat32(srcdata[comp]);
+                if (srcdata) {
+                     for (unsigned int comp = 0; comp < vertex_attribute_elements[i]; ++comp) {
+                        input.attr[i][comp] = float24::FromFloat32(srcdata[comp]);
+                    }
                 }
                 break;
             }

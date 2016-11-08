@@ -952,6 +952,8 @@ static ResultCode GetProcessInfo(s64* out, Handle process_handle, u32 type) {
     if (process == nullptr)
         return ERR_INVALID_HANDLE;
 
+    LOG_WARNING(Kernel_SVC, "called, type=%u", type);
+
     switch (type) {
     case 0:
     case 2:
@@ -974,6 +976,8 @@ static ResultCode GetProcessInfo(s64* out, Handle process_handle, u32 type) {
         LOG_ERROR(Kernel_SVC, "unimplemented GetProcessInfo type=%u", type);
         break;
     case 20:
+        LOG_WARNING(Kernel_SVC, "FCRAM=0x%08X", Memory::FCRAM_PADDR);
+        LOG_WARNING(Kernel_SVC, "LINEA=0x%08X", process->GetLinearHeapBase());
         *out = Memory::FCRAM_PADDR - process->GetLinearHeapBase();
         break;
     default:

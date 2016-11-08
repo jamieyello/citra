@@ -90,6 +90,8 @@ void Process::ParseKernelCaps(const u32* kernel_caps, size_t len) {
             mapping.size = Memory::PAGE_SIZE;
             mapping.writable = true; // TODO: Not sure if correct
             mapping.unk_flag = false;
+
+            address_mappings.push_back(mapping);
         } else if ((type & 0xFE0) == 0xFC0) { // 0x01FF
             // Kernel version
             kernel_version = descriptor & 0xFFFF;
@@ -136,7 +138,7 @@ void Process::Run(s32 main_thread_priority, u32 stack_size) {
 }
 
 VAddr Process::GetLinearHeapAreaAddress() const {
-    return kernel_version < 0x22C ? Memory::LINEAR_HEAP_VADDR : Memory::NEW_LINEAR_HEAP_VADDR;
+    return kernel_version <= 0x22C ? Memory::LINEAR_HEAP_VADDR : Memory::NEW_LINEAR_HEAP_VADDR;
 }
 VAddr Process::GetLinearHeapBase() const {
     return GetLinearHeapAreaAddress() + memory_region->base;

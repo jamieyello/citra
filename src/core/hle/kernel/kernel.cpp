@@ -130,7 +130,7 @@ void Init() {
 
     // TODO(yuriks): The memory type parameter needs to be determined by the ExHeader field instead
     // For now it defaults to the one with a largest allocation to the app
-    Kernel::MemoryInit(2); // Allocates 96MB to the application
+    Kernel::MemoryInit(0); // Allocates 96MB to the application
 
     Kernel::ResourceLimitsInit();
     Kernel::ThreadingInit();
