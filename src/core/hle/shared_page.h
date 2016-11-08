@@ -44,7 +44,7 @@ struct SharedPageDef {
     INSERT_PADDING_BYTES(0x80 - 0x68);   // 68
     float_le sliderstate_3d;             // 80
     u8 ledstate_3d;                      // 84
-    INSERT_PADDING_BYTES(1);             // 85
+    u8 adapter_state;                    // 85
     u8 unknown_value;                    // 86
     INSERT_PADDING_BYTES(0xA0 - 0x87);   // 87
     u64_le menu_title_id;                // A0
