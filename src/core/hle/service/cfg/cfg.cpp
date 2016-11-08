@@ -447,7 +447,7 @@ ResultCode FormatConfig() {
     if (!res.IsSuccess())
         return res;
 
-    // 0x00040003 - Unknown
+    // 0x00040003 - AccelerometerCalibrationForSys
     res = CreateConfigInfoBlk(0x00040003, 0xC, 0xE, zero_buffer);
     if (!res.IsSuccess())
         return res;
