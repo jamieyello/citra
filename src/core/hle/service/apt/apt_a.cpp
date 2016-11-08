@@ -28,6 +28,7 @@ const Interface::FunctionInfo FunctionTable[] = {
     {0x00350080, ReceiveDeliverArg, "ReceiveDeliverArg"},
     {0x003B0040, CancelLibraryApplet, "CancelLibraryApplet"},
     {0x003E0080, ReplySleepQuery, "ReplySleepQuery"},
+    {0x00400042, nullptr, "SendCaptureBufferInfo"},
     {0x00430040, NotifyToWait, "NotifyToWait"},
     {0x00440000, GetSharedFont, "GetSharedFont"},
     {0x004B00C2, AppletUtility, "AppletUtility"},

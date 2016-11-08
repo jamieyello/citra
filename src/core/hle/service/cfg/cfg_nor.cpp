@@ -8,10 +8,16 @@
 namespace Service {
 namespace CFG {
 
+enum class IDs : u32 {
+    NtrSettingAddr = 0x20, // return short, 2 bytes
+};
+
+static u32 use_spi = false;
+
 static void Initialize(Service::Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
-    u32 use_spi = cmd_buff[1] & 0xFF;
+    use_spi = cmd_buff[1] & 0xFF;
 
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
 
@@ -60,6 +66,8 @@ const Interface::FunctionInfo FunctionTable[] = {
 
 CFG_NOR_Interface::CFG_NOR_Interface() {
     Register(FunctionTable);
+
+    use_spi = false;
 }
 
 } // namespace CFG

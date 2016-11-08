@@ -73,6 +73,7 @@ bool ArchiveFactory_ExtSaveData::Initialize() {
 
 ResultVal<std::unique_ptr<ArchiveBackend>> ArchiveFactory_ExtSaveData::Open(const Path& path) {
     std::string fullpath = GetExtSaveDataPath(mount_point, path) + "user/";
+    LOG_WARNING(Service_FS, "path=%s", fullpath.c_str());
     if (!FileUtil::Exists(fullpath)) {
         // TODO(Subv): Verify the archive behavior of SharedExtSaveData compared to ExtSaveData.
         // ExtSaveData seems to return FS_NotFound (120) when the archive doesn't exist.

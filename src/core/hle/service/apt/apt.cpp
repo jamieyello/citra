@@ -482,7 +482,7 @@ void GetAppletInfo(Service::Interface* self) {
                                  ErrorSummary::NotFound, ErrorLevel::Status)
                           .raw;
     }
-    LOG_WARNING(Service_APT, "(stubbed) called appid=%u", app_id);
+    LOG_WARNING(Service_APT, "(stubbed) called appid=0x%X", app_id);
 }
 
 void GetStartupArgument(Service::Interface* self) {

@@ -158,10 +158,18 @@ static void GetPort(Service::Interface* self) {
     LOG_WARNING(Service_SRV, "(STUBBED) called, port_name=%s", port_name.c_str());
 }
 
+static void RegisterService(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+    std::string port_name = std::string((const char*)&cmd_buff[1], 0, Service::kMaxPortSize);
+
+    cmd_buff[1] = RESULT_SUCCESS.raw;
+    LOG_WARNING(Service_SRV, "(STUBBED) called, port_name=%s", port_name.c_str());
+}
+
 const Interface::FunctionInfo FunctionTable[] = {
     {0x00010002, RegisterClient, "RegisterClient"},
     {0x00020000, EnableNotification, "EnableNotification"},
-    {0x00030100, nullptr, "RegisterService"},
+    {0x00030100, RegisterService, "RegisterService"},
     {0x000400C0, nullptr, "UnregisterService"},
     {0x00050100, GetServiceHandle, "GetServiceHandle"},
     {0x000600C2, nullptr, "RegisterPort"},
