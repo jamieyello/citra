@@ -23,6 +23,9 @@ void AddAddressSpace(Kernel::VMManager& vm_manager);
 /// Select the sink to use based on sink id.
 void SelectSink(std::string sink_id);
 
+// Select the recording device base on mike id
+void SelectMike(std::string sink_id);
+
 /// Enable/Disable stretching.
 void EnableStretching(bool enable);
 

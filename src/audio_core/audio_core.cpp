@@ -77,6 +77,8 @@ void SelectSink(std::string sink_id) {
     DSP::HLE::SetSink(iter->factory());
 }
 
+void SelectMike(std::string sink_id) {}
+
 void EnableStretching(bool enable) {
     DSP::HLE::EnableStretching(enable);
 }

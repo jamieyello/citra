@@ -21,6 +21,8 @@ set(HEADERS
             hle/pipe.h
             hle/source.h
             interpolate.h
+            mike.h
+            null_mike.h
             null_sink.h
             sink.h
             sink_details.h
@@ -30,8 +32,8 @@ set(HEADERS
 include_directories(../../externals/soundtouch/include)
 
 if(SDL2_FOUND)
-    set(SRCS ${SRCS} sdl2_sink.cpp)
-    set(HEADERS ${HEADERS} sdl2_sink.h)
+    set(SRCS ${SRCS} sdl2_sink.cpp sdl2_mike.cpp)
+    set(HEADERS ${HEADERS} sdl2_sink.h sdl2_mike.h)
     include_directories(${SDL2_INCLUDE_DIR})
 endif()
 
