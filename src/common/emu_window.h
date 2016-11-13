@@ -69,30 +69,6 @@ public:
     /// Releases (dunno if this is the "right" word) the GLFW context from the caller thread
     virtual void DoneCurrent() = 0;
 
-    virtual void ReloadSetKeymaps() = 0;
-
-    /**
-     * Signals a button press action to the HID module.
-     * @param pad_state indicates which button to press
-     * @note only handles real buttons (A/B/X/Y/...), excluding analog inputs like the circle pad.
-     */
-    void ButtonPressed(Service::HID::PadState pad_state);
-
-    /**
-     * Signals a button release action to the HID module.
-     * @param pad_state indicates which button to press
-     * @note only handles real buttons (A/B/X/Y/...), excluding analog inputs like the circle pad.
-     */
-    void ButtonReleased(Service::HID::PadState pad_state);
-
-    /**
-     * Signals a circle pad change action to the HID module.
-     * @param x new x-coordinate of the circle pad, in the range [-1.0, 1.0]
-     * @param y new y-coordinate of the circle pad, in the range [-1.0, 1.0]
-     * @note the coordinates will be normalized if the radius is larger than 1
-     */
-    void CirclePadUpdated(float x, float y);
-
     /**
      * Signal that a touch pressed event has occurred (e.g. mouse click pressed)
      * @param framebuffer_x Framebuffer x-coordinate that was pressed
@@ -246,12 +222,6 @@ protected:
         // TODO: Find a better place to set this.
         config.min_client_area_size = std::make_pair(400u, 480u);
         active_config = config;
-        pad_state.hex = 0;
-        touch_x = 0;
-        touch_y = 0;
-        circle_pad_x = 0;
-        circle_pad_y = 0;
-        touch_pressed = false;
         depth_slider = 0.0f;
         stereoscopic_mode = Anaglyph;
     }
@@ -327,6 +297,4 @@ private:
      * Clip the provided coordinates to be inside the touchscreen area.
      */
     std::tuple<unsigned, unsigned> ClipToTouchScreen(unsigned new_x, unsigned new_y);
-
-    Service::HID::PadState pad_state;
 };
