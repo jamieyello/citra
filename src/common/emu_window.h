@@ -297,4 +297,6 @@ private:
      * Clip the provided coordinates to be inside the touchscreen area.
      */
     std::tuple<unsigned, unsigned> ClipToTouchScreen(unsigned new_x, unsigned new_y);
+
+    Service::HID::PadState pad_state;
 };
