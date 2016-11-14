@@ -35,7 +35,7 @@ const Interface::FunctionInfo FunctionTable[] = {
     {0x00180040, PrepareToStartLibraryApplet, "PrepareToStartLibraryApplet"},
     {0x00190040, nullptr, "PrepareToStartSystemApplet"},
     {0x001A0000, nullptr, "PrepareToStartNewestHomeMenu"},
-    {0x001B00C4, nullptr, "StartApplication"},
+    {0x001B00C4, StartApplication, "StartApplication"},
     {0x001C0000, nullptr, "WakeupApplication"},
     {0x001D0000, nullptr, "CancelApplication"},
     {0x001E0084, nullptr, "StartLibraryApplet"},

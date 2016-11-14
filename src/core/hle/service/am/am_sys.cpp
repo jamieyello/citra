@@ -21,6 +21,7 @@ const Interface::FunctionInfo FunctionTable[] = {
     {0x000A0000, nullptr, "GetDeviceID"},
     {0x000D0084, nullptr, "GetPendingTitleInfo"},
     {0x000E00C0, nullptr, "DeletePendingTitle"},
+    {0x00130040, nullptr, "NeedsCleanup"},
     {0x00140040, nullptr, "FinalizePendingTitles"},
     {0x00150040, nullptr, "DeleteAllPendingTitles"},
     {0x00180080, nullptr, "InitializeTitleDatabase"},

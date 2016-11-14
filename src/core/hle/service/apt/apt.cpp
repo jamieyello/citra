@@ -164,6 +164,10 @@ void IsRegistered(Service::Interface* self) {
     } else if (auto applet = HLE::Applets::Applet::Get(static_cast<AppletId>(app_id))) {
         cmd_buff[2] = 1; // Set to registered
     }
+
+    if(app_id == 0x300) {
+        cmd_buff[2] = 1;
+    }
     LOG_WARNING(Service_APT, "(STUBBED) called app_id=0x%08X, result=%u", app_id, cmd_buff[2]);
 }
 
@@ -269,10 +273,8 @@ void CancelParameter(Service::Interface* self) {
 
 void PrepareToStartApplication(Service::Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
-    u32 title_info1 = cmd_buff[1];
-    u32 title_info2 = cmd_buff[2];
-    u32 title_info3 = cmd_buff[3];
-    u32 title_info4 = cmd_buff[4];
+    u64 title_id = (u64)cmd_buff[2] << 32 | cmd_buff[1];
+    u8 media_type = cmd_buff[3] & 0xFF;
     u32 flags = cmd_buff[5];
 
     if (flags & 0x00000100) {
@@ -281,10 +283,8 @@ void PrepareToStartApplication(Service::Interface* self) {
 
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
 
-    LOG_WARNING(Service_APT,
-                "(STUBBED) called title_info1=0x%08X, title_info2=0x%08X, title_info3=0x%08X,"
-                "title_info4=0x%08X, flags=0x%08X",
-                title_info1, title_info2, title_info3, title_info4, flags);
+    LOG_WARNING(Service_APT, "(STUBBED) called title_id=0x%016llX, media_type=0x%X, flags=0x%08X",
+                title_id, media_type, flags);
 }
 
 void StartApplication(Service::Interface* self) {
