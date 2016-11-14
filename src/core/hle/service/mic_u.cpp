@@ -13,20 +13,17 @@
 namespace MIC_U {
 
 enum SamplingType {
-    SAMPLING_TYPE_8BIT = 0, //!< Enable 8-bit (unsigned) sampling. Output data range is 0 to 255.
-    SAMPLING_TYPE_16BIT =
-        1, //!< Enable 16-bit (unsigned) sampling. Output data range is 0 to 65535.
-    SAMPLING_TYPE_SIGNED_8BIT =
-        2, //!< Enable 8-bit (signed) sampling. Output data range is -128 to 127.
-    SAMPLING_TYPE_SIGNED_16BIT =
-        3 //!< Enable 16-bit (signed) sampling. Output data range is -32768 to 32767.
+    SAMPLING_TYPE_8BIT = 0,
+    SAMPLING_TYPE_16BIT = 1,
+    SAMPLING_TYPE_SIGNED_8BIT = 2,
+    SAMPLING_TYPE_SIGNED_16BIT = 3,
 };
 
 enum class SamplingRate : u8 {
-    SAMPLING_RATE_32730 = 0, //!< 32.73kHz (actually 32728.498046875 Hz)
-    SAMPLING_RATE_16360 = 1, //!< 16.36kHz (actually  16364.2490234375 Hz)
-    SAMPLING_RATE_10910 = 2, //!< 10.91kHz (actually  10909.4993489583 Hz)
-    SAMPLING_RATE_8180 = 3   //!< 8.18kHz  (actually  8182.12451171875 Hz)
+    SAMPLING_RATE_32730 = 0,
+    SAMPLING_RATE_16360 = 1,
+    SAMPLING_RATE_10910 = 2,
+    SAMPLING_RATE_8180 = 3
 };
 
 static Kernel::SharedPtr<Kernel::Event> buffer_full_event;
@@ -51,10 +48,6 @@ static void AllocateBuffer(Service::Interface* self) {
     shared_memory = Kernel::g_handle_table.Get<Kernel::SharedMemory>(mem_handle);
     if (shared_memory) {
         shared_memory->name = "MIC_U:shared_memory"; // TODO: how to allocate memory
-        ResultCode r =
-            shared_memory->Map(Kernel::g_current_process.get(), 0, shared_memory->permissions,
-                               shared_memory->other_permissions);
-        LOG_WARNING(Service_MIC, "(STUBBED) called, result=0x%08X", r.raw);
     }
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
     LOG_WARNING(Service_MIC, "(STUBBED) called, size=%d", size);
@@ -62,9 +55,6 @@ static void AllocateBuffer(Service::Interface* self) {
 
 static void FreeBuffer(Service::Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
-
-    shared_memory->Unmap(Kernel::g_current_process.get(), shared_memory->base_address);
-
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
     LOG_WARNING(Service_MIC, "(STUBBED) called");
 }

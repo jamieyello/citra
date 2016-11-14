@@ -80,6 +80,55 @@ void SetData(Service::Interface* self) {
     LOG_WARNING(Service_CECD, "(STUBBED) called");
 }
 
+void Open(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    u32 cec_title_id = cmd_buff[1];
+    u32 data_type = cmd_buff[2];
+    u32 option = cmd_buff[3];
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    cmd_buff[2] = 0;                  // output size
+
+    LOG_WARNING(Service_CECD, "(STUBBED) called title_id=0x%08X, data_type=%d, option=0x%X",
+                cec_title_id, data_type, option);
+}
+
+void GetCecInfoBuffer(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    u32 cec_title_id = cmd_buff[1];
+    u32 size = cmd_buff[2];
+    VAddr buffer = cmd_buff[4];
+    Memory::ZeroBlock(buffer, size);
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    cmd_buff[1] = ResultCode(ErrorDescription::NoData, ErrorModule::CEC, ErrorSummary::NotFound,
+                             ErrorLevel::Status)
+                      .raw;
+
+    LOG_WARNING(Service_CECD, "(STUBBED) called title_id=0x%08X, size=%x", cec_title_id, size);
+}
+
+void OpenAndWriteFile(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    u32 size = cmd_buff[1];
+    u32 cec_title_id = cmd_buff[2];
+    u32 data_type = cmd_buff[3];
+    u32 option = cmd_buff[4];
+    // 5 - 0x20
+    // 7 - size * 16 | 0xA
+    u32 addr = cmd_buff[8];
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+
+    LOG_WARNING(Service_CECD,
+                "(STUBBED) called size=%d, addr=0x%08X, title=0x%08X, data_type=%d, option=0x%X",
+                size, addr, cec_title_id, data_type, option);
+    // Common::Dump(addr, size);
+}
+
 void Init() {
     AddService(new CECD_S_Interface);
     AddService(new CECD_U_Interface);

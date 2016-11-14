@@ -61,7 +61,7 @@ static std::string MakeFunctionString(const char* name, const char* port_name,
     std::string function_string =
         Common::StringFromFormat("function '%s': port=%s", name, port_name);
     for (int i = 1; i <= num_params; ++i) {
-        function_string += Common::StringFromFormat(", cmd_buff[%i]=0x%X", i, cmd_buff[i]);
+        function_string += Common::StringFromFormat(", p[%i]=0x%X", i, cmd_buff[i]);
     }
     return function_string;
 }
@@ -84,7 +84,7 @@ ResultVal<bool> Interface::SyncRequest() {
         cmd_buff[2] = 0;
         return MakeResult<bool>(false);
     }
-    LOG_INFO(Service, "lr: 0x%08X, %s", lr,
+    LOG_TRACE(Service, "lr: 0x%08X, %s", lr,
               MakeFunctionString(itr->second.name, GetPortName().c_str(), cmd_buff).c_str());
 
     itr->second.func(this);

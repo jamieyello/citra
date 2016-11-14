@@ -56,6 +56,19 @@ void OpenAndReadFile(Service::Interface* self);
 
 void SetData(Service::Interface* self);
 
+/**
+ * Open service function
+ *  Inputs:
+ *      0: 0x000100C2
+ *  Outputs:
+ *      1: ResultCode
+ */
+void Open(Service::Interface* self);
+
+void OpenAndWriteFile(Service::Interface* self);
+
+void GetCecInfoBuffer(Service::Interface* self);
+
 /// Initialize CECD service(s)
 void Init();
 

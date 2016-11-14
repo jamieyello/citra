@@ -9,15 +9,16 @@ namespace Service {
 namespace CECD {
 
 const Interface::FunctionInfo FunctionTable[] = {
-    {0x000100C2, nullptr, "Open"},
+    {0x000100C2, Open, "Open"},
     {0x00020042, nullptr, "Read"},
     {0x00050042, nullptr, "Write"},
     {0x000900C2, SetData, "SetData"},
-    {0x000D0082, nullptr, "GetCecInfoBuffer"},
+    {0x000C0040, nullptr, "Stop"},
+    {0x000D0082, GetCecInfoBuffer, "GetCecInfoBuffer"},
     {0x000E0000, GetCecStateAbbreviated, "GetCecStateAbbreviated"},
     {0x000F0000, GetCecInfoEventHandle, "GetCecInfoEventHandle"},
     {0x00100000, GetChangeStateEventHandle, "GetChangeStateEventHandle"},
-    {0x00110104, nullptr, "OpenAndWriteFile"},
+    {0x00110104, OpenAndWriteFile, "OpenAndWriteFile"},
     {0x00120104, OpenAndReadFile, "OpenAndReadFile"},
     {0x04020002, GetCecInfoEventHandleSys, "GetCecInfoEventHandleSys"},
 };

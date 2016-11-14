@@ -144,7 +144,8 @@ void LogMessage(Class log_class, Level log_level, const char* filename, unsigned
 
     va_list args;
     va_start(args, format);
-    Entry entry = CreateEntry(log_class, log_level, filename, line_nr, function, format, args);
+    Entry entry =
+        CreateEntry(log_class, log_level, "" /*filename*/, line_nr, function, format, args);
     va_end(args);
 
     PrintColoredMessage(entry);
