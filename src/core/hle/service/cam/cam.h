@@ -186,6 +186,8 @@ struct PackageParameterCameraSelect {
 static_assert(sizeof(PackageParameterCameraSelect) == 28,
               "PackageParameterCameraSelect structure size is wrong");
 
+void IsBusy(Service::Interface* self);
+
 /**
  * Unknown
  *  Inputs:

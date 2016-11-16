@@ -41,7 +41,7 @@ const Interface::FunctionInfo FunctionTable[] = {
     {0x08140000, nullptr, "GetLegacyJumpProhibitedFlag"},
     {0x08160000, GetRtc, "GetRtc"},
     {0x08170080, nullptr, "SetRtc"},
-    {0x08180040, nullptr, "ConfigureNew3DSCPU"},
+    {0x08180040, nullptr, "ChangeCpuMode"},
 };
 
 PTM_Sysm_Interface::PTM_Sysm_Interface() {

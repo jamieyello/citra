@@ -21,6 +21,15 @@ static Kernel::SharedPtr<Kernel::Event> completion_event_cam2;
 static Kernel::SharedPtr<Kernel::Event> interrupt_error_event;
 static Kernel::SharedPtr<Kernel::Event> vsync_interrupt_error_event;
 
+void IsBusy(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    cmd_buff[1] = RESULT_SUCCESS.raw;
+    cmd_buff[2] = false;
+
+    LOG_WARNING(Service_CAM, "(STUBBED) called");
+}
+
 void StartCapture(Service::Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
