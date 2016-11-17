@@ -18,6 +18,11 @@ struct FriendKey {
     u64 friend_code;
 };
 
+struct Friends {
+    FriendKey keys[100]{};
+    u32 count = 0;
+};
+
 struct MyPresence {
     u8 unknown[0x12C];
 };
@@ -43,6 +48,8 @@ struct Profile {
  *      2 : True, if FRD service is logged into server
  */
 void HasLoggedIn(Service::Interface* self);
+
+void IsOnline(Service::Interface* self);
 
 /**
  * FRD::Login service function
@@ -74,6 +81,9 @@ void Logout(Service::Interface* self);
  */
 
 void GetMyFriendKey(Service::Interface* self);
+
+void GetMyPreference(Service::Interface* self);
+
 /**
  * FRD::GetMyProfile service function
  *  Inputs:
@@ -115,6 +125,12 @@ void GetMyScreenName(Service::Interface* self);
  */
 void GetMyMii(Service::Interface* self);
 
+void GetMyPlayingGame(Service::Interface* self);
+
+void GetMyFavoriteGame(Service::Interface* self);
+
+void GetMyComment(Service::Interface* self);
+
 /**
  * FRD::GetFriendKeyList service function
  *  Inputs:
@@ -142,6 +158,8 @@ void GetFriendKeyList(Service::Interface* self);
  *      1 : Result of function, 0 on success, otherwise error code
  */
 void GetFriendProfile(Service::Interface* self);
+
+void GetFriendRelationship(Service::Interface* self);
 
 /**
  * FRD::GetFriendAttributeFlags service function
@@ -172,6 +190,8 @@ void UpdateGameModeDescription(Service::Interface* self);
 
 void GetLastResponseResult(Service::Interface* self);
 
+void PrincipalIdToFriendCode(Service::Interface* self);
+
 /**
  * FRD::ResultToErrorCode service function
  *  Inputs:
@@ -182,6 +202,14 @@ void GetLastResponseResult(Service::Interface* self);
  *      2 : OS level Error Code
  */
 void ResultToErrorCode(Service::Interface* self);
+
+void SetNotificationMask(Service::Interface* self);
+
+void GetGameAuthenticationData(Service::Interface* self);
+
+void RequestGameAuthentication(Service::Interface* self);
+
+void AddOrUpdateFriend(Service::Interface* self);
 
 /// Initialize FRD service(s)
 void Init();

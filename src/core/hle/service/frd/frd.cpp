@@ -1,3 +1,5 @@
+
+
 // Copyright 2015 Citra Emulator Project
 // Licensed under GPLv2 or any later version
 // Refer to the license.txt file included.
@@ -28,6 +30,14 @@ void HasLoggedIn(Service::Interface* self) {
     LOG_WARNING(Service_FRD, "(STUBBED) called, return %u", logged_in);
 }
 
+void IsOnline(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    cmd_buff[2] = true;
+    LOG_WARNING(Service_FRD, "(STUBBED) called, return %u", logged_in);
+}
+
 void Login(Service::Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
@@ -52,6 +62,17 @@ void Logout(Service::Interface* self) {
     logged_in = false;
 
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    LOG_WARNING(Service_FRD, "(STUBBED) called");
+}
+
+void GetMyPreference(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    cmd_buff[2] = true;               // public mode
+    cmd_buff[3] = false;              // show game name
+    cmd_buff[4] = false;              // show played game
+
     LOG_WARNING(Service_FRD, "(STUBBED) called");
 }
 
@@ -82,6 +103,36 @@ void GetMyMii(Service::Interface* self) {
 
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
     std::memcpy(&cmd_buff[2], &my_mii, sizeof(MiiData));
+    LOG_WARNING(Service_FRD, "(STUBBED) called");
+}
+
+void GetMyPlayingGame(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    cmd_buff[2] = 0;
+    cmd_buff[3] = 0;
+    cmd_buff[4] = 0;
+    cmd_buff[5] = 0;
+    LOG_WARNING(Service_FRD, "(STUBBED) called");
+}
+
+void GetMyFavoriteGame(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    cmd_buff[2] = 0;
+    cmd_buff[3] = 0;
+    cmd_buff[4] = 0;
+    cmd_buff[5] = 0;
+    LOG_WARNING(Service_FRD, "(STUBBED) called");
+}
+
+void GetMyComment(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    Common::UTF8ToUTF16("Hello World!").copy(reinterpret_cast<char16_t*>(&cmd_buff[2]), 0x11);
     LOG_WARNING(Service_FRD, "(STUBBED) called");
 }
 
@@ -124,6 +175,19 @@ void GetFriendProfile(Service::Interface* self) {
     LOG_WARNING(Service_FRD,
                 "(STUBBED) called, count=%d, frd_key_addr=0x%08X, profiles_addr=0x%08X", count,
                 frd_key_addr, profiles_addr);
+}
+
+void GetFriendRelationship(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    u32 size = cmd_buff[1];
+    // VAddr friends = cmd_buff[3];
+
+    VAddr buf = cmd_buff[65];
+    Memory::ZeroBlock(buf, size);
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    LOG_WARNING(Service_FRD, "(STUBBED) called");
 }
 
 void GetFriendAttributeFlags(Service::Interface* self) {
@@ -196,6 +260,17 @@ void GetLastResponseResult(Service::Interface* self) {
     LOG_WARNING(Service_FRD, "(STUBBED) called");
 }
 
+void PrincipalIdToFriendCode(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    u32 principal_id = cmd_buff[1];
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    cmd_buff[2] = principal_id;
+    cmd_buff[3] = 0;
+    LOG_WARNING(Service_FRD, "(STUBBED) called, principal_id=0x%08X", principal_id);
+}
+
 void ResultToErrorCode(Service::Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
@@ -203,6 +278,59 @@ void ResultToErrorCode(Service::Interface* self) {
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
     cmd_buff[2] = error_code;
     LOG_WARNING(Service_FRD, "(STUBBED) called, error=0x%08X", error_code);
+}
+
+void SetNotificationMask(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    u32 notif_mask = cmd_buff[1];
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    LOG_WARNING(Service_FRD, "(STUBBED) called, notif_mask=0x%08X", notif_mask);
+}
+
+void GetGameAuthenticationData(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    u32 size = cmd_buff[64] >> 14;
+    VAddr addr = cmd_buff[65];
+
+    Memory::ZeroBlock(addr, size);
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    LOG_WARNING(Service_FRD, "(STUBBED) called, addr=0x%08X, size: 0x%X", addr, size);
+}
+
+void RequestGameAuthentication(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    u32 p2 = cmd_buff[1];
+    // 2 - ... -> wchat_t [0x16 bytes]
+    u8 p4 = cmd_buff[8] & 0xFF;
+    u8 p5 = cmd_buff[9] & 0xFF;
+    // cmd_buff[10] = ProcessId [0x20]
+    // cmd_buff[12] = CopyHandle
+    Handle event = cmd_buff[13];
+    auto evt = Kernel::g_handle_table.Get<Kernel::Event>(event);
+    if (evt) {
+        evt->Signal();
+    }
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    LOG_WARNING(Service_FRD, "(STUBBED) called, p2=0x%08X, event: 0x%X", p2, event);
+}
+
+void AddOrUpdateFriend(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    FriendKey* key = reinterpret_cast<FriendKey*>(cmd_buff + 1);
+    MiiData* mii = reinterpret_cast<MiiData*>(cmd_buff + 5);
+    // FriendPersistentInfo (cmd_buff+29) size=0x48
+    // wchat_t [0x16] -> (cmd_buff+47)
+    bool unk1 = cmd_buff[53];
+    u8 unk2 = cmd_buff[54];
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    LOG_WARNING(Service_FRD, "(STUBBED) called, unk1=%u, unk2=%u", unk1, unk2);
 }
 
 void Init() {
