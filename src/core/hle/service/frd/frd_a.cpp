@@ -62,9 +62,13 @@ const Interface::FunctionInfo FunctionTable[] = {
     {0x00330000, nullptr, "GetMyApproachContext"},
     {0x00340046, nullptr, "AddFriendWithApproach"},
     {0x00350082, nullptr, "DecryptApproachContext"},
+    {0x04030040, nullptr, "LoadLocalAccount"},
     {0x04050000, nullptr, "Save"},
+    {0x04060042, nullptr, "AddFriendOnline"},
     {0x04070D80, AddOrUpdateFriend, "AddOrUpdateFriend"},
     {0x04090100, RemoveFriend, "RemoveFriend"},
+    {0x040B00C0, nullptr, "UpdatePreference"},
+    {0x040F0240, nullptr, "UpdateComment"},
 
 };
 
