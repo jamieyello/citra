@@ -21,6 +21,7 @@ static MyPresence my_presence = {};
 static Profile my_profile = {1, 2, 3, 4, 5};
 static MiiData my_mii = {};
 static bool logged_in;
+static std::vector<FriendKey> friends;
 
 void HasLoggedIn(Service::Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
@@ -146,13 +147,16 @@ void GetFriendKeyList(Service::Interface* self) {
     ASSERT_MSG(frd_keys_size == sizeof(FriendKey) * frd_count, "Output buffer size not match");
     u32 frd_key_addr = cmd_buff[65];
 
-    FriendKey zero_key = {};
+    if( offset < friends.size() )
     for (u32 i = offset; i < frd_count; ++i) {
-        Memory::WriteBlock(frd_key_addr + i * sizeof(FriendKey), &zero_key, sizeof(FriendKey));
+        if(i >= friends.size()) {
+            break;
+        }
+        Memory::WriteBlock(frd_key_addr + i * sizeof(FriendKey), &friends[i], sizeof(FriendKey));
     }
 
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
-    cmd_buff[2] = 1;                  // 0 friends
+    cmd_buff[2] = friends.size();
     LOG_WARNING(Service_FRD, "(STUBBED) called, offset=%d, frd_count=%d, frd_key_addr=0x%08X",
                 offset, frd_count, frd_key_addr);
 }
@@ -325,12 +329,36 @@ void AddOrUpdateFriend(Service::Interface* self) {
     FriendKey* key = reinterpret_cast<FriendKey*>(cmd_buff + 1);
     MiiData* mii = reinterpret_cast<MiiData*>(cmd_buff + 5);
     // FriendPersistentInfo (cmd_buff+29) size=0x48
-    // wchat_t [0x16] -> (cmd_buff+47)
+    wchar_t* str = reinterpret_cast<wchar_t*>(cmd_buff + 47);
+    std::string s = Common::UTF16ToUTF8(str);
     bool unk1 = cmd_buff[53];
     u8 unk2 = cmd_buff[54];
 
+    friends.push_back(*key);
+
+    if (friends.size() > 100) {
+        cmd_buff[1] = -1;
+        LOG_WARNING(Service_FRD, "(STUBBED) called, too many friend");
+        return ;
+    }
+
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
-    LOG_WARNING(Service_FRD, "(STUBBED) called, unk1=%u, unk2=%u", unk1, unk2);
+    LOG_WARNING(Service_FRD, "(STUBBED) called, unk1=%u, unk2=%u, %s", unk1, unk2, s.c_str());
+}
+
+void RemoveFriend(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    FriendKey* key = reinterpret_cast<FriendKey*>(cmd_buff + 1);
+
+    for (auto frd = friends.begin(); frd != friends.end(); ++frd) {
+        if( *key == *frd) {
+            friends.erase(frd);
+            break;
+        }
+    }
+
+    LOG_WARNING(Service_FRD, "(STUBBED) called");
 }
 
 void Init() {

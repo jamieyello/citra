@@ -64,6 +64,7 @@ const Interface::FunctionInfo FunctionTable[] = {
     {0x00350082, nullptr, "DecryptApproachContext"},
     {0x04050000, nullptr, "Save"},
     {0x04070D80, AddOrUpdateFriend, "AddOrUpdateFriend"},
+    {0x04090100, RemoveFriend, "RemoveFriend"},
 
 };
 

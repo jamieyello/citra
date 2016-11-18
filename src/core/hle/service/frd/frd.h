@@ -16,11 +16,9 @@ struct FriendKey {
     u32 friend_id;
     u32 padding;
     u64 friend_code;
-};
-
-struct Friends {
-    FriendKey keys[100]{};
-    u32 count = 0;
+    bool operator== (const FriendKey& other) const {
+        return (friend_id == other.friend_id) && (friend_code == other.friend_code);
+    }
 };
 
 struct MyPresence {
@@ -210,6 +208,8 @@ void GetGameAuthenticationData(Service::Interface* self);
 void RequestGameAuthentication(Service::Interface* self);
 
 void AddOrUpdateFriend(Service::Interface* self);
+
+void RemoveFriend(Service::Interface* self);
 
 /// Initialize FRD service(s)
 void Init();
