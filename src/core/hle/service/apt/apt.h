@@ -126,6 +126,17 @@ void GetSharedFont(Service::Interface* self);
 void GetWirelessRebootInfo(Service::Interface* self);
 
 /**
+ * APT::CancelLibraryApplet service function
+ *  Inputs:
+ *      0 : Command header [0x003B0040]
+ *      1 : u8, Exists (0 = does not exist, 1 = exists)
+ *  Outputs:
+ *      0 : Return header
+ *      1 : Result of function, 0 on success, otherwise error code
+ */
+void CancelLibraryApplet(Service::Interface* self);
+
+/**
  * APT::NotifyToWait service function
  *  Inputs:
  *      1 : AppID
@@ -385,8 +396,6 @@ void PreloadLibraryApplet(Service::Interface* self);
 void StartLibraryApplet(Service::Interface* self);
 
 void ReceiveDeliverArg(Service::Interface* self);
-
-void CancelLibraryApplet(Service::Interface* self);
 
 void ReplySleepQuery(Service::Interface* self);
 

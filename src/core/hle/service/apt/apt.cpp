@@ -435,7 +435,7 @@ void CancelLibraryApplet(Service::Interface* self) {
 
     u32 unk_bool = cmd_buff[1];
 
-    cmd_buff[1] = RESULT_SUCCESS.raw;
+    cmd_buff[1] = 1;
     LOG_WARNING(Service_APT, "called, unk_bool=%u", unk_bool);
 }
 
