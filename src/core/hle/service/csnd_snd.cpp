@@ -14,6 +14,55 @@
 
 namespace CSND_SND {
 
+static Kernel::SharedPtr<Kernel::SharedMemory> shared_memory = nullptr;
+static Kernel::SharedPtr<Kernel::Mutex> mutex = nullptr;
+
+static void Initialize(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    u32 size = Common::AlignUp(cmd_buff[1], Memory::PAGE_SIZE);
+    using Kernel::MemoryPermission;
+    shared_memory = Kernel::SharedMemory::Create(nullptr, size, MemoryPermission::ReadWrite,
+                                                 MemoryPermission::ReadWrite, 0,
+                                                 Kernel::MemoryRegion::BASE, "CSND:SharedMemory");
+
+    mutex = Kernel::Mutex::Create(false);
+
+    cmd_buff[1] = RESULT_SUCCESS.raw;
+    cmd_buff[2] = IPC::CopyHandleDesc(2);
+    cmd_buff[3] = Kernel::g_handle_table.Create(mutex).MoveFrom();
+    cmd_buff[4] = Kernel::g_handle_table.Create(shared_memory).MoveFrom();
+}
+
+static void ExecuteType0Commands(Service::Interface* self) {
+    u32* const cmd_buff = Kernel::GetCommandBuffer();
+    u8* const ptr = shared_memory->GetPointer(cmd_buff[1]);
+
+    if (shared_memory != nullptr && ptr != nullptr) {
+        Type0Command command;
+        std::memcpy(&command, ptr, sizeof(Type0Command));
+
+        LOG_WARNING(Service, "(STUBBED) CSND_SND::ExecuteType0Commands");
+        command.finished |= 1;
+        cmd_buff[1] = 0;
+
+        std::memcpy(ptr, &command, sizeof(Type0Command));
+    } else {
+        cmd_buff[1] = 1;
+    }
+}
+
+static void AcquireSoundChannels(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+    cmd_buff[1] = 0;
+    cmd_buff[2] = 0xFFFFFF00;
+}
+
+static void Shutdown(Service::Interface* self) {
+    shared_memory = nullptr;
+    mutex = nullptr;
+}
+
 const Interface::FunctionInfo FunctionTable[] = {
     {0x00010140, Initialize, "Initialize"},
     {0x00020000, Shutdown, "Shutdown"},
@@ -34,55 +83,6 @@ const Interface::FunctionInfo FunctionTable[] = {
 
 Interface::Interface() {
     Register(FunctionTable);
-}
-
-static Kernel::SharedPtr<Kernel::SharedMemory> shared_memory = nullptr;
-static Kernel::SharedPtr<Kernel::Mutex> mutex = nullptr;
-
-void Initialize(Service::Interface* self) {
-    u32* cmd_buff = Kernel::GetCommandBuffer();
-
-    u32 size = Common::AlignUp(cmd_buff[1], Memory::PAGE_SIZE);
-    using Kernel::MemoryPermission;
-    shared_memory = Kernel::SharedMemory::Create(nullptr, size, MemoryPermission::ReadWrite,
-                                                 MemoryPermission::ReadWrite, 0,
-                                                 Kernel::MemoryRegion::BASE, "CSND:SharedMemory");
-
-    mutex = Kernel::Mutex::Create(false);
-
-    cmd_buff[1] = RESULT_SUCCESS.raw;
-    cmd_buff[2] = IPC::CopyHandleDesc(2);
-    cmd_buff[3] = Kernel::g_handle_table.Create(mutex).MoveFrom();
-    cmd_buff[4] = Kernel::g_handle_table.Create(shared_memory).MoveFrom();
-}
-
-void ExecuteType0Commands(Service::Interface* self) {
-    u32* const cmd_buff = Kernel::GetCommandBuffer();
-    u8* const ptr = shared_memory->GetPointer(cmd_buff[1]);
-
-    if (shared_memory != nullptr && ptr != nullptr) {
-        Type0Command command;
-        std::memcpy(&command, ptr, sizeof(Type0Command));
-
-        LOG_WARNING(Service, "(STUBBED) CSND_SND::ExecuteType0Commands");
-        command.finished |= 1;
-        cmd_buff[1] = 0;
-
-        std::memcpy(ptr, &command, sizeof(Type0Command));
-    } else {
-        cmd_buff[1] = 1;
-    }
-}
-
-void AcquireSoundChannels(Service::Interface* self) {
-    u32* cmd_buff = Kernel::GetCommandBuffer();
-    cmd_buff[1] = 0;
-    cmd_buff[2] = 0xFFFFFF00;
-}
-
-void Shutdown(Service::Interface* self) {
-    shared_memory = nullptr;
-    mutex = nullptr;
 }
 
 } // namespace

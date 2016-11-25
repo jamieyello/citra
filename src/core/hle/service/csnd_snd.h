@@ -28,9 +28,4 @@ struct Type0Command {
     u8 parameters[20];
 };
 
-void Initialize(Service::Interface* self);
-void ExecuteType0Commands(Service::Interface* self);
-void AcquireSoundChannels(Service::Interface* self);
-void Shutdown(Service::Interface* self);
-
 } // namespace

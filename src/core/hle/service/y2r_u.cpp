@@ -247,7 +247,7 @@ static void SetTransferEndInterrupt(Service::Interface* self) {
     cmd_buff[0] = IPC::MakeHeader(0xD, 1, 0);
     cmd_buff[1] = RESULT_SUCCESS.raw;
 
-    LOG_WARNING(Service_Y2R, "(STUBBED) called");
+    LOG_DEBUG(Service_Y2R, "(STUBBED) called");
 }
 
 /**

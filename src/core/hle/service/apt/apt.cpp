@@ -165,7 +165,7 @@ void IsRegistered(Service::Interface* self) {
         cmd_buff[2] = 1; // Set to registered
     }
 
-    if(app_id == 0x300) {
+    if (app_id == 0x300) {
         cmd_buff[2] = 1;
     }
     LOG_WARNING(Service_APT, "(STUBBED) called app_id=0x%08X, result=%u", app_id, cmd_buff[2]);
@@ -389,6 +389,13 @@ void PreloadLibraryApplet(Service::Interface* self) {
     LOG_DEBUG(Service_APT, "called applet_id=%08X", applet_id);
 }
 
+void FinishPreloadingLibraryApplet(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+    u32 applet_id = cmd_buff[1];
+    cmd_buff[1] = RESULT_SUCCESS.raw;
+    LOG_WARNING(Service_APT, "(STUBBED) called applet_id=%08X", applet_id);
+}
+
 void StartLibraryApplet(Service::Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     AppletId applet_id = static_cast<AppletId>(cmd_buff[1]);
@@ -437,6 +444,16 @@ void CancelLibraryApplet(Service::Interface* self) {
 
     cmd_buff[1] = 1;
     LOG_WARNING(Service_APT, "called, unk_bool=%u", unk_bool);
+}
+
+void ReceiveCaptureBufferInfo(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    u32 param = cmd_buff[1];
+
+    cmd_buff[1] = RESULT_SUCCESS.raw;
+    cmd_buff[2] = 0;
+    LOG_WARNING(Service_APT, "called, param=0x%X", param);
 }
 
 void ReplySleepQuery(Service::Interface* self) {

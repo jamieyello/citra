@@ -84,8 +84,15 @@ ResultVal<bool> Interface::SyncRequest() {
         cmd_buff[2] = 0;
         return MakeResult<bool>(false);
     }
-    LOG_TRACE(Service, "lr: 0x%08X, %s", lr,
-              MakeFunctionString(itr->second.name, GetPortName().c_str(), cmd_buff).c_str());
+    if (strcmp("TriggerCmdReqQueue", itr->second.name)) {
+        if (strcmp("FlushDataCache", itr->second.name)) {
+            if (strcmp("GetHeadphoneStatus", itr->second.name)) {
+                LOG_TRACE(
+                    Service, "lr: 0x%08X, %s", lr,
+                    MakeFunctionString(itr->second.name, GetPortName().c_str(), cmd_buff).c_str());
+            }
+        }
+    }
 
     itr->second.func(this);
 

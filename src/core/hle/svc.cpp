@@ -111,7 +111,7 @@ static ResultCode ControlMemory(u32* out_addr, u32 operation, u32 addr0, u32 add
         } else if (addr0 >= process.GetLinearHeapBase() && addr0 < process.GetLinearHeapLimit()) {
             ResultCode result = process.LinearFree(addr0, size);
             if (result.IsError())
-               return result;
+                return result;
         } else {
             return ERR_INVALID_ADDRESS;
         }
@@ -499,7 +499,7 @@ static ResultCode CreateThread(Handle* out_handle, s32 priority, u32 entry_point
         TSymbol symbol = Symbols::GetSymbol(entry_point);
         name = symbol.name;
     } else {
-        name = Common::StringFromFormat("unknown-%08x", entry_point);
+        name = Common::StringFromFormat("thread-%08x-%08x", entry_point, Memory::Read32(arg + 8));
     }
 
     // TODO(bunnei): Implement resource limits to return an error code instead of the below assert.

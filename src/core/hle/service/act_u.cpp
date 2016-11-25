@@ -19,7 +19,8 @@ static void Initialize(Service::Interface* self) {
     Handle sh_mem = cmd_buff[6];
 
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
-    LOG_WARNING(Service_ACT, "(STUBBED) called, version=0x%X, sh_mem=0x%X, size=0x%X", version, sh_mem, size);
+    LOG_WARNING(Service_ACT, "(STUBBED) called, version=0x%X, sh_mem=0x%X, size=0x%X", version,
+                sh_mem, size);
 }
 
 static void GetAccountInfo(Service::Interface* self) {

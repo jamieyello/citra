@@ -136,6 +136,8 @@ void GetWirelessRebootInfo(Service::Interface* self);
  */
 void CancelLibraryApplet(Service::Interface* self);
 
+void ReceiveCaptureBufferInfo(Service::Interface* self);
+
 /**
  * APT::NotifyToWait service function
  *  Inputs:
@@ -378,6 +380,8 @@ void PrepareToStartLibraryApplet(Service::Interface* self);
  *      1 : Result of function, 0 on success, otherwise error code
  */
 void PreloadLibraryApplet(Service::Interface* self);
+
+void FinishPreloadingLibraryApplet(Service::Interface* self);
 
 /**
  * APT::StartLibraryApplet service function
