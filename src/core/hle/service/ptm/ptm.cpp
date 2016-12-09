@@ -158,6 +158,7 @@ void Init() {
     AddService(new PTM_Gets_Interface);
     AddService(new PTM_Play_Interface);
     AddService(new PTM_Sysm_Interface);
+    AddService(new PTM_S);
     AddService(new PTM_U_Interface);
 
     shell_open = true;

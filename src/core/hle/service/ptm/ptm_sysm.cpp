@@ -48,5 +48,9 @@ PTM_Sysm_Interface::PTM_Sysm_Interface() {
     Register(FunctionTable);
 }
 
+PTM_S::PTM_S() {
+    Register(FunctionTable);
+}
+
 } // namespace PTM
 } // namespace Service

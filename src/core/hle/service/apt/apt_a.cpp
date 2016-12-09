@@ -35,6 +35,7 @@ const Interface::FunctionInfo FunctionTable[] = {
     {0x00410040, nullptr, "ReceiveCaptureBufferInfo"},
     {0x00430040, NotifyToWait, "NotifyToWait"},
     {0x00440000, GetSharedFont, "GetSharedFont"},
+    {0x00460104, nullptr, "Wrap"},
     {0x004B00C2, AppletUtility, "AppletUtility"},
     {0x004F0080, SetAppCpuTimeLimit, "SetAppCpuTimeLimit"},
     {0x00500040, GetAppCpuTimeLimit, "GetAppCpuTimeLimit"},

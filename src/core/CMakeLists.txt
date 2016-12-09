@@ -68,6 +68,7 @@ set(SRCS
             hle/service/cam/cam_q.cpp
             hle/service/cam/cam_s.cpp
             hle/service/cam/cam_u.cpp
+            hle/service/cdc_csn.cpp
             hle/service/cecd/cecd.cpp
             hle/service/cecd/cecd_s.cpp
             hle/service/cecd/cecd_u.cpp
@@ -113,6 +114,7 @@ set(SRCS
             hle/service/nim/nim_s.cpp
             hle/service/nim/nim_u.cpp
             hle/service/ns_s.cpp
+            hle/service/nwm_cec.cpp
             hle/service/nwm_uds.cpp
             hle/service/pm_app.cpp
             hle/service/ptm/ptm.cpp
@@ -219,6 +221,7 @@ set(HEADERS
             hle/service/cam/cam_q.h
             hle/service/cam/cam_s.h
             hle/service/cam/cam_u.h
+            hle/service/cdc_csn.h
             hle/service/cecd/cecd.h
             hle/service/cecd/cecd_s.h
             hle/service/cecd/cecd_u.h
@@ -264,6 +267,7 @@ set(HEADERS
             hle/service/nim/nim_s.h
             hle/service/nim/nim_u.h
             hle/service/ns_s.h
+            hle/service/nwm_cec.h
             hle/service/nwm_uds.h
             hle/service/pm_app.h
             hle/service/ptm/ptm.h

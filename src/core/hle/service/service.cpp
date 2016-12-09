@@ -14,6 +14,7 @@
 #include "core/hle/service/apt/apt.h"
 #include "core/hle/service/boss/boss.h"
 #include "core/hle/service/cam/cam.h"
+#include "core/hle/service/cdc_csn.h"
 #include "core/hle/service/cecd/cecd.h"
 #include "core/hle/service/cfg/cfg.h"
 #include "core/hle/service/csnd_snd.h"
@@ -34,6 +35,7 @@
 #include "core/hle/service/news/news.h"
 #include "core/hle/service/nim/nim.h"
 #include "core/hle/service/ns_s.h"
+#include "core/hle/service/nwm_cec.h"
 #include "core/hle/service/nwm_uds.h"
 #include "core/hle/service/pm_app.h"
 #include "core/hle/service/ptm/ptm.h"
@@ -143,6 +145,7 @@ void Init() {
     AddService(new AC_U::Interface);
     AddService(new ACT_A::Interface);
     AddService(new ACT_U::Interface);
+    AddService(new CDC_CSN::Interface);
     AddService(new CSND_SND::Interface);
     AddService(new DSP_DSP::Interface);
     AddService(new GSP_GPU::Interface);
@@ -152,6 +155,7 @@ void Init() {
     AddService(new MCU_HWC::Interface);
     AddService(new MIC_U::Interface);
     AddService(new NS_S::Interface);
+    AddService(new NWM_CEC::Interface);
     AddService(new NWM_UDS::Interface);
     AddService(new PM_APP::Interface);
     AddService(new PXI_DEV::Interface);

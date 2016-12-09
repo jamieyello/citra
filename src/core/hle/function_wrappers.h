@@ -45,6 +45,22 @@ void Wrap() {
     FuncReturn(func(PARAM(0), PARAM(1), PARAM(2), PARAM(3)).raw);
 }
 
+template <ResultCode func(s32*, Handle*, s32, Handle)>
+void Wrap() {
+    s32 param_1 = 0;
+    u32 retval = func(&param_1, (Handle*)Memory::GetPointer(PARAM(1)), PARAM(2), PARAM(3)).raw;
+    Core::g_app_core->SetReg(1, param_1);
+    FuncReturn(retval);
+}
+
+template <ResultCode func(Handle*, Handle, bool)>
+void Wrap() {
+    Handle param_1 = 0;
+    u32 retval = func(&param_1, PARAM(1), true).raw;
+    Core::g_app_core->SetReg(1, param_1);
+    FuncReturn(retval);
+}
+
 template <ResultCode func(u32*, u32, u32, u32, u32, u32)>
 void Wrap() {
     u32 param_1 = 0;

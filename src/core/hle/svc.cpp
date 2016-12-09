@@ -899,6 +899,23 @@ static ResultCode CreatePort(Handle* server_port, Handle* client_port, const cha
     return RESULT_SUCCESS;
 }
 
+static ResultCode AcceptSession(Handle* session, Handle port, bool this_is_accept) {
+    SharedPtr<Kernel::Object> port1 = Kernel::g_handle_table.GetGeneric(port);
+    LOG_WARNING(Kernel_SVC, "called port=0x%X", port);
+    *session = 0;
+    return RESULT_SUCCESS;
+}
+
+static ResultCode ReplyAndReceive(s32* index, Handle* handles, s32 handle_count, Handle target) {
+    for (s32 i = 0; i < handle_count; ++i) {
+        Handle handle = handles[i];
+        SharedPtr<Kernel::Object> port1 = Kernel::g_handle_table.GetGeneric(handle);
+        LOG_WARNING(Kernel_SVC, "called handle[%d]=0x%X", i, handle);
+    }
+    *index = 1;
+    return RESULT_SUCCESS;
+}
+
 static ResultCode GetSystemInfo(s64* out, u32 type, s32 param) {
     using Kernel::MemoryRegion;
 
@@ -1083,12 +1100,12 @@ static const FunctionDef SVC_Table[] = {
     {0x47, HLE::Wrap<CreatePort>, "CreatePort"},
     {0x48, nullptr, "CreateSessionToPort"},
     {0x49, nullptr, "CreateSession"},
-    {0x4A, nullptr, "AcceptSession"},
+    {0x4A, HLE::Wrap<AcceptSession>, "AcceptSession"},
     {0x4B, nullptr, "ReplyAndReceive1"},
     {0x4C, nullptr, "ReplyAndReceive2"},
     {0x4D, nullptr, "ReplyAndReceive3"},
     {0x4E, nullptr, "ReplyAndReceive4"},
-    {0x4F, nullptr, "ReplyAndReceive"},
+    {0x4F, HLE::Wrap<ReplyAndReceive>, "ReplyAndReceive"},
     {0x50, nullptr, "BindInterrupt"},
     {0x51, nullptr, "UnbindInterrupt"},
     {0x52, nullptr, "InvalidateProcessDataCache"},

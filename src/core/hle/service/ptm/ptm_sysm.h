@@ -18,5 +18,14 @@ public:
     }
 };
 
+class PTM_S : public Interface {
+public:
+    PTM_S();
+
+    std::string GetPortName() const override {
+        return "ptm:s";
+    }
+};
+
 } // namespace PTM
 } // namespace Service
