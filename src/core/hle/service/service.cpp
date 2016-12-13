@@ -191,6 +191,7 @@ void Shutdown() {
     BOSS::Shutdown();
     APT::Shutdown();
     AM::Shutdown();
+    ACT::Shutdown();
     FS::ArchiveShutdown();
 
     g_srv_services.clear();

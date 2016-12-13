@@ -9,7 +9,7 @@
 namespace Service {
 namespace ACT {
 
-class ACT_A final : public Service::Interface {
+class ACT_A final : public Interface {
 public:
     ACT_A();
 
