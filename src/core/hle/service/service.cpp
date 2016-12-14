@@ -6,7 +6,8 @@
 
 #include "common/logging/log.h"
 #include "common/string_util.h"
-
+#include "core/arm/arm_interface.h"
+#include "core/core.h"
 #include "core/hle/kernel/server_port.h"
 #include "core/hle/service/ac_u.h"
 #include "core/hle/service/act/act.h"
@@ -14,6 +15,9 @@
 #include "core/hle/service/apt/apt.h"
 #include "core/hle/service/boss/boss.h"
 #include "core/hle/service/cam/cam.h"
+#include "core/hle/service/cdc_csn.h"
+#include "core/hle/service/cdc_dsp.h"
+#include "core/hle/service/cdc_mic.h"
 #include "core/hle/service/cecd/cecd.h"
 #include "core/hle/service/cfg/cfg.h"
 #include "core/hle/service/csnd_snd.h"
@@ -22,12 +26,22 @@
 #include "core/hle/service/err_f.h"
 #include "core/hle/service/frd/frd.h"
 #include "core/hle/service/fs/archive.h"
+#include "core/hle/service/gpio_cdc.h"
+#include "core/hle/service/gpio_ir.h"
+#include "core/hle/service/gpio_mcu.h"
 #include "core/hle/service/gsp_gpu.h"
 #include "core/hle/service/gsp_lcd.h"
 #include "core/hle/service/hid/hid.h"
 #include "core/hle/service/http_c.h"
+#include "core/hle/service/i2c_cam.h"
+#include "core/hle/service/i2c_ir.h"
+#include "core/hle/service/i2c_mcu.h"
 #include "core/hle/service/ir/ir.h"
 #include "core/hle/service/ldr_ro/ldr_ro.h"
+#include "core/hle/service/mcu_cam.h"
+#include "core/hle/service/mcu_cdc.h"
+#include "core/hle/service/mcu_pls.h"
+#include "core/hle/service/mcu_rtc.h"
 #include "core/hle/service/mic_u.h"
 #include "core/hle/service/mvd/mvd.h"
 #include "core/hle/service/ndm/ndm.h"
@@ -36,11 +50,22 @@
 #include "core/hle/service/nim/nim.h"
 #include "core/hle/service/ns_s.h"
 #include "core/hle/service/nwm/nwm.h"
+#include "core/hle/service/pdn_c.h"
+#include "core/hle/service/pdn_d.h"
+#include "core/hle/service/pdn_i.h"
+#include "core/hle/service/pdn_s.h"
 #include "core/hle/service/pm_app.h"
+#include "core/hle/service/ps_ps.h"
 #include "core/hle/service/ptm/ptm.h"
+#include "core/hle/service/pxi_am9.h"
+#include "core/hle/service/pxi_mc.h"
+#include "core/hle/service/pxi_ps9.h"
 #include "core/hle/service/qtm/qtm.h"
 #include "core/hle/service/service.h"
+#include "core/hle/service/soc_p.h"
 #include "core/hle/service/soc_u.h"
+#include "core/hle/service/spi_cd2.h"
+#include "core/hle/service/spi_nor.h"
 #include "core/hle/service/srv.h"
 #include "core/hle/service/ssl_c.h"
 #include "core/hle/service/y2r_u.h"
@@ -87,20 +112,28 @@ void Interface::HandleSyncRequest(Kernel::SharedPtr<Kernel::ServerSession> serve
     u32* cmd_buff = Kernel::GetCommandBuffer();
     auto itr = m_functions.find(cmd_buff[0]);
 
+    u32 lr = Core::g_app_core->GetReg(14);
     if (itr == m_functions.end() || itr->second.func == nullptr) {
         std::string function_name = (itr == m_functions.end())
                                         ? Common::StringFromFormat("0x%08X", cmd_buff[0])
                                         : itr->second.name;
         LOG_ERROR(
-            Service, "unknown / unimplemented %s",
+            Service, "lr: 0x%08X, unknown / unimplemented %s", lr,
             MakeFunctionString(function_name.c_str(), GetPortName().c_str(), cmd_buff).c_str());
 
         // TODO(bunnei): Hack - ignore error
         cmd_buff[1] = 0;
         return;
     }
-    LOG_TRACE(Service, "%s",
-              MakeFunctionString(itr->second.name, GetPortName().c_str(), cmd_buff).c_str());
+    if (strcmp("TriggerCmdReqQueue", itr->second.name)) {
+        if (strcmp("FlushDataCache", itr->second.name)) {
+            if (strcmp("GetHeadphoneStatus", itr->second.name)) {
+                LOG_DEBUG(
+                    Service, "lr: 0x%08X, %s", lr,
+                    MakeFunctionString(itr->second.name, GetPortName().c_str(), cmd_buff).c_str());
+            }
+        }
+    }
 
     itr->second.func(this);
 }
@@ -160,15 +193,39 @@ void Init() {
 
     AddService(new AC::AC_U);
     AddService(new CSND::CSND_SND);
+    AddService(new CDC::CDC_CSN);
+    AddService(new CDC::CDC_DSP);
+    AddService(new CDC::CDC_MIC);
     AddService(new DSP_DSP::Interface);
+    AddService(new GPIO::GPIO_CDC);
+    AddService(new GPIO::GPIO_IR);
+    AddService(new GPIO::GPIO_MCU);
     AddService(new GSP::GSP_GPU);
     AddService(new GSP::GSP_LCD);
     AddService(new HTTP::HTTP_C);
+    AddService(new I2C::I2C_CAM);
+    AddService(new I2C::I2C_IR);
+    AddService(new I2C::I2C_MCU);
     AddService(new LDR::LDR_RO);
+    AddService(new MCU::MCU_CAM);
+    AddService(new MCU::MCU_CDC);
+    AddService(new MCU::MCU_PLS);
+    AddService(new MCU::MCU_RTC);
     AddService(new MIC::MIC_U);
     AddService(new NS::NS_S);
+    AddService(new PDN::PDN_C);
+    AddService(new PDN::PDN_D);
+    AddService(new PDN::PDN_I);
+    AddService(new PDN::PDN_S);
     AddService(new PM::PM_APP);
+    AddService(new PS::PS_PS);
+    AddService(new PXI::PXI_AM9);
+    AddService(new PXI::PXI_MC);
+    AddService(new PXI::PXI_PS9);
+    AddService(new SOC::SOC_P);
     AddService(new SOC::SOC_U);
+    AddService(new SPI::SPI_CD2);
+    AddService(new SPI::SPI_NOR);
     AddService(new SSL::SSL_C);
     AddService(new Y2R::Y2R_U);
 

@@ -540,7 +540,7 @@ static ResultCode CreateThread(Kernel::Handle* out_handle, s32 priority, u32 ent
     // TODO(bunnei): Implement resource limits to return an error code instead of the below assert.
     // The error code should be: Description::NotAuthorized, Module::OS, Summary::WrongArgument,
     // Level::Permanent
-    ASSERT_MSG(priority >= THREADPRIO_USERLAND_MAX, "Unexpected thread priority!");
+    // ASSERT_MSG(priority >= THREADPRIO_USERLAND_MAX, "Unexpected thread priority!");
 
     if (priority > THREADPRIO_LOWEST) {
         return ResultCode(ErrorDescription::OutOfRange, ErrorModule::OS,
@@ -933,6 +933,23 @@ static ResultCode CreatePort(Kernel::Handle* server_port, Kernel::Handle* client
     return RESULT_SUCCESS;
 }
 
+static ResultCode AcceptSession(Handle* session, Handle port) {
+    SharedPtr<Kernel::Object> port1 = Kernel::g_handle_table.GetGeneric(port);
+    LOG_TRACE(Kernel_SVC, "called port=0x%X", port);
+    *session = 0;
+    return RESULT_SUCCESS;
+}
+
+static ResultCode ReplyAndReceive(s32* index, Handle* handles, s32 handle_count, Handle target) {
+    for (s32 i = 0; i < handle_count; ++i) {
+        Handle handle = handles[i];
+        SharedPtr<Kernel::Object> port1 = Kernel::g_handle_table.GetGeneric(handle);
+        LOG_TRACE(Kernel_SVC, "called handle[%d]=0x%X", i, handle);
+    }
+    *index = 1;
+    return RESULT_SUCCESS;
+}
+
 static ResultCode GetSystemInfo(s64* out, u32 type, s32 param) {
     using Kernel::MemoryRegion;
 
@@ -1113,12 +1130,12 @@ static const FunctionDef SVC_Table[] = {
     {0x47, HLE::Wrap<CreatePort>, "CreatePort"},
     {0x48, nullptr, "CreateSessionToPort"},
     {0x49, nullptr, "CreateSession"},
-    {0x4A, nullptr, "AcceptSession"},
+    {0x4A, HLE::Wrap<AcceptSession>, "AcceptSession"},
     {0x4B, nullptr, "ReplyAndReceive1"},
     {0x4C, nullptr, "ReplyAndReceive2"},
     {0x4D, nullptr, "ReplyAndReceive3"},
     {0x4E, nullptr, "ReplyAndReceive4"},
-    {0x4F, nullptr, "ReplyAndReceive"},
+    {0x4F, HLE::Wrap<ReplyAndReceive>, "ReplyAndReceive"},
     {0x50, nullptr, "BindInterrupt"},
     {0x51, nullptr, "UnbindInterrupt"},
     {0x52, nullptr, "InvalidateProcessDataCache"},

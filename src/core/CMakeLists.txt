@@ -75,6 +75,9 @@ set(SRCS
             hle/service/cam/cam_q.cpp
             hle/service/cam/cam_s.cpp
             hle/service/cam/cam_u.cpp
+            hle/service/cdc_csn.cpp
+            hle/service/cdc_dsp.cpp
+            hle/service/cdc_mic.cpp
             hle/service/cecd/cecd.cpp
             hle/service/cecd/cecd_ndm.cpp
             hle/service/cecd/cecd_s.cpp
@@ -96,12 +99,18 @@ set(SRCS
             hle/service/frd/frd_u.cpp
             hle/service/fs/archive.cpp
             hle/service/fs/fs_user.cpp
+            hle/service/gpio_cdc.cpp
+            hle/service/gpio_ir.cpp
+            hle/service/gpio_mcu.cpp
             hle/service/gsp_gpu.cpp
             hle/service/gsp_lcd.cpp
             hle/service/hid/hid.cpp
             hle/service/hid/hid_spvr.cpp
             hle/service/hid/hid_user.cpp
             hle/service/http_c.cpp
+            hle/service/i2c_cam.cpp
+            hle/service/i2c_ir.cpp
+            hle/service/i2c_mcu.cpp
             hle/service/ir/ir.cpp
             hle/service/ir/ir_rst.cpp
             hle/service/ir/ir_u.cpp
@@ -109,6 +118,10 @@ set(SRCS
             hle/service/ldr_ro/cro_helper.cpp
             hle/service/ldr_ro/ldr_ro.cpp
             hle/service/ldr_ro/memory_synchronizer.cpp
+            hle/service/mcu_cam.cpp
+            hle/service/mcu_cdc.cpp
+            hle/service/mcu_pls.cpp
+            hle/service/mcu_rtc.cpp
             hle/service/mic_u.cpp
             hle/service/mvd/mvd.cpp
             hle/service/mvd/mvd_std.cpp
@@ -133,19 +146,30 @@ set(SRCS
             hle/service/nwm/nwm_soc.cpp
             hle/service/nwm/nwm_tst.cpp
             hle/service/nwm/nwm_uds.cpp
+            hle/service/pdn_c.cpp
+            hle/service/pdn_d.cpp
+            hle/service/pdn_i.cpp
+            hle/service/pdn_s.cpp
             hle/service/pm_app.cpp
+            hle/service/ps_ps.cpp
             hle/service/ptm/ptm.cpp
             hle/service/ptm/ptm_gets.cpp
             hle/service/ptm/ptm_play.cpp
             hle/service/ptm/ptm_sets.cpp
             hle/service/ptm/ptm_sysm.cpp
             hle/service/ptm/ptm_u.cpp
+            hle/service/pxi_am9.cpp
+            hle/service/pxi_mc.cpp
+            hle/service/pxi_ps9.cpp
             hle/service/qtm/qtm.cpp
             hle/service/qtm/qtm_s.cpp
             hle/service/qtm/qtm_sp.cpp
             hle/service/qtm/qtm_u.cpp
             hle/service/service.cpp
+            hle/service/soc_p.cpp
             hle/service/soc_u.cpp
+            hle/service/spi_cd2.cpp
+            hle/service/spi_nor.cpp
             hle/service/srv.cpp
             hle/service/ssl_c.cpp
             hle/service/y2r_u.cpp
@@ -249,6 +273,9 @@ set(HEADERS
             hle/service/cam/cam_q.h
             hle/service/cam/cam_s.h
             hle/service/cam/cam_u.h
+            hle/service/cdc_csn.h
+            hle/service/cdc_dsp.h
+            hle/service/cdc_mic.h
             hle/service/cecd/cecd.h
             hle/service/cecd/cecd_ndm.h
             hle/service/cecd/cecd_s.h
@@ -270,12 +297,18 @@ set(HEADERS
             hle/service/frd/frd_u.h
             hle/service/fs/archive.h
             hle/service/fs/fs_user.h
+            hle/service/gpio_cdc.h
+            hle/service/gpio_ir.h
+            hle/service/gpio_mcu.h
             hle/service/gsp_gpu.h
             hle/service/gsp_lcd.h
             hle/service/hid/hid.h
             hle/service/hid/hid_spvr.h
             hle/service/hid/hid_user.h
             hle/service/http_c.h
+            hle/service/i2c_cam.h
+            hle/service/i2c_ir.h
+            hle/service/i2c_mcu.h
             hle/service/ir/ir.h
             hle/service/ir/ir_rst.h
             hle/service/ir/ir_u.h
@@ -283,6 +316,10 @@ set(HEADERS
             hle/service/ldr_ro/cro_helper.h
             hle/service/ldr_ro/ldr_ro.h
             hle/service/ldr_ro/memory_synchronizer.h
+            hle/service/mcu_cam.h
+            hle/service/mcu_cdc.h
+            hle/service/mcu_pls.h
+            hle/service/mcu_rtc.h
             hle/service/mic_u.h
             hle/service/mvd/mvd.h
             hle/service/mvd/mvd_std.h
@@ -307,19 +344,30 @@ set(HEADERS
             hle/service/nwm/nwm_soc.h
             hle/service/nwm/nwm_tst.h
             hle/service/nwm/nwm_uds.h
+            hle/service/pdn_c.h
+            hle/service/pdn_d.h
+            hle/service/pdn_i.h
+            hle/service/pdn_s.h
             hle/service/pm_app.h
+            hle/service/ps_ps.h
             hle/service/ptm/ptm.h
             hle/service/ptm/ptm_gets.h
             hle/service/ptm/ptm_play.h
             hle/service/ptm/ptm_sets.h
             hle/service/ptm/ptm_sysm.h
             hle/service/ptm/ptm_u.h
+            hle/service/pxi_am9.h
+            hle/service/pxi_mc.h
+            hle/service/pxi_ps9.h
             hle/service/qtm/qtm.h
             hle/service/qtm/qtm_s.h
             hle/service/qtm/qtm_sp.h
             hle/service/qtm/qtm_u.h
             hle/service/service.h
+            hle/service/soc_p.h
             hle/service/soc_u.h
+            hle/service/spi_cd2.h
+            hle/service/spi_nor.h
             hle/service/srv.h
             hle/service/ssl_c.h
             hle/service/y2r_u.h
