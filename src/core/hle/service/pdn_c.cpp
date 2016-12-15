@@ -9,13 +9,16 @@
 namespace Service {
 namespace PDN {
 
-/*
+
 const Interface::FunctionInfo FunctionTable[] = {
+    {0x00010040, nullptr, "unk_10040"},
+    {0x00020000, nullptr, "unk_20000"},
+
 };
-*/
+
 
 PDN_C::PDN_C() {
-    // Register(FunctionTable);
+    Register(FunctionTable);
 }
 
 PDN_C::~PDN_C() {}

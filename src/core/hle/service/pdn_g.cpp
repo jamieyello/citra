@@ -4,30 +4,35 @@
 
 #include "common/common_types.h"
 #include "common/logging/log.h"
-#include "core/hle/service/i2c_cam.h"
+#include "core/hle/service/pdn_g.h"
 
 namespace Service {
-namespace I2C {
+namespace PDN {
 
-static void ReadRegister16(Interface* self) {
+static void GpuPower(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
+    u8 p1 = cmd_buff[1] & 0xFF;
+    u8 p2 = cmd_buff[2] & 0xFF;
+    u8 p3 = cmd_buff[3] & 0xFF;
+
     cmd_buff[1] = RESULT_SUCCESS.raw;
-    cmd_buff[2] = 0;
-    LOG_TRACE(Service_PDN, "(STUBBED) called");
+
+    LOG_WARNING(Service_PDN, "called, p1=%u, p2=%u, p3=%u", p1, p2, p3);
 }
 
 const Interface::FunctionInfo FunctionTable[] = {
-    {0x000500C0, nullptr, "WriteRegister8"},
-    {0x000A0080, ReadRegister16, "ReadRegister16"},
-    {0x000D00C0, nullptr, "ReadRegisterBuffer8"},
+    // clang-format off
+    {0x000100C0, GpuPower, "GpuPower"},
+    // clang-format on
 };
 
-I2C_CAM::I2C_CAM() {
+
+PDN_G::PDN_G() {
     Register(FunctionTable);
 }
 
-I2C_CAM::~I2C_CAM() {}
+PDN_G::~PDN_G() {}
 
-} // namespace I2C
+} // namespace PDN
 } // namespace Service

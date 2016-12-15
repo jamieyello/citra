@@ -705,6 +705,22 @@ static void ReleaseRight(Interface* self) {
     LOG_WARNING(Service_GSP, "called");
 }
 
+static void SaveVramSysArea(Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    cmd_buff[1] = RESULT_SUCCESS.raw;
+
+    LOG_WARNING(Service_GSP, "called");
+}
+
+static void RestoreVramSysArea(Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    cmd_buff[1] = RESULT_SUCCESS.raw;
+
+    LOG_WARNING(Service_GSP, "called");
+}
+
 const Interface::FunctionInfo FunctionTable[] = {
     {0x00010082, WriteHWRegs, "WriteHWRegs"},
     {0x00020084, WriteHWRegsWithMask, "WriteHWRegsWithMask"},
@@ -730,8 +746,8 @@ const Interface::FunctionInfo FunctionTable[] = {
     {0x00160042, AcquireRight, "AcquireRight"},
     {0x00170000, ReleaseRight, "ReleaseRight"},
     {0x00180000, ImportDisplayCaptureInfo, "ImportDisplayCaptureInfo"},
-    {0x00190000, nullptr, "SaveVramSysArea"},
-    {0x001A0000, nullptr, "RestoreVramSysArea"},
+    {0x00190000, SaveVramSysArea, "SaveVramSysArea"},
+    {0x001A0000, RestoreVramSysArea, "RestoreVramSysArea"},
     {0x001B0000, nullptr, "ResetGpuCore"},
     {0x001C0040, nullptr, "SetLedForceOff"},
     {0x001D0040, nullptr, "SetTestCommand"},

@@ -27,7 +27,7 @@ const Interface::FunctionInfo FunctionTable[] = {
     {0x04030000, UpdateConfigNANDSavegame, "UpdateConfigNANDSavegame"},
     {0x04040042, nullptr, "GetLocalFriendCodeSeedData"},
     {0x04050000, nullptr, "GetLocalFriendCodeSeed"},
-    {0x04060000, nullptr, "SecureInfoGetRegion"},
+    {0x04060000, SecureInfoGetRegion, "SecureInfoGetRegion"},
     {0x04070000, nullptr, "SecureInfoGetByte101"},
     {0x04080042, nullptr, "SecureInfoGetSerialNo"},
     {0x04090000, nullptr, "UpdateConfigBlk00040003"},

@@ -45,6 +45,11 @@ void Wrap() {
     FuncReturn(func(PARAM(0), PARAM(1), PARAM(2), PARAM(3)).raw);
 }
 
+template <ResultCode func(u8, Handle, s32, bool)>
+void Wrap() {
+    FuncReturn(func(PARAM(0), PARAM(1), PARAM(2), PARAM(3) != 0).raw);
+}
+
 template <ResultCode func(s32*, Handle*, s32, Handle)>
 void Wrap() {
     s32 param_1 = 0;

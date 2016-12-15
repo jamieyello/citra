@@ -58,8 +58,10 @@ enum class Class : ClassType {
     Service_GSP,       ///< The GSP (GPU control) service
     Service_AC,        ///< The AC (WiFi status) service
     Service_AM,        ///< The AM (Application manager) service
+    Service_PDN,       ///< The PDN
     Service_PTM,       ///< The PTM (Power status & misc.) service
     Service_LDR,       ///< The LDR (3ds dll loader) service
+    Service_MCU,       ///< The MCU
     Service_MIC,       ///< The MIC (Microphone) service
     Service_NDM,       ///< The NDM (Network daemon manager) service
     Service_NIM,       ///< The NIM (Network interface manager) service

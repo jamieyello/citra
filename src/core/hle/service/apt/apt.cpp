@@ -95,6 +95,15 @@ void GetSharedFont(Service::Interface* self) {
     cmd_buff[4] = Kernel::g_handle_table.Create(shared_font_mem).MoveFrom();
 }
 
+void GetWirelessRebootInfo(Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+    u32 size = cmd_buff[1];
+    VAddr buffer = cmd_buff[65];
+    Memory::ZeroBlock(buffer, size);
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    LOG_WARNING(Service_APT, "(STUBBED) size=0x%X", size);
+}
+
 void NotifyToWait(Service::Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     u32 app_id = cmd_buff[1];

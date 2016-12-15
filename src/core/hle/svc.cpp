@@ -890,7 +890,7 @@ static ResultCode CreateMemoryBlock(Kernel::Handle* out_handle, u32 addr, u32 si
         return ResultCode(ErrorDescription::InvalidCombination, ErrorModule::OS,
                           ErrorSummary::InvalidArgument, ErrorLevel::Usage);
 
-    if (addr < Memory::PROCESS_IMAGE_VADDR || addr + size > Memory::SHARED_MEMORY_VADDR_END) {
+    if (/*addr < Memory::PROCESS_IMAGE_VADDR ||*/ addr + size > Memory::SHARED_MEMORY_VADDR_END) {
         return ResultCode(ErrorDescription::InvalidAddress, ErrorModule::OS,
                           ErrorSummary::InvalidArgument, ErrorLevel::Usage);
     }
@@ -947,6 +947,13 @@ static ResultCode ReplyAndReceive(s32* index, Handle* handles, s32 handle_count,
         LOG_TRACE(Kernel_SVC, "called handle[%d]=0x%X", i, handle);
     }
     *index = 1;
+    return RESULT_SUCCESS;
+}
+
+static ResultCode BindInterrupt(u8 interrupt, Handle event, s32 priority,
+                                bool is_high_level_active) {
+    LOG_WARNING(Kernel_SVC, "called, intrerrupt=%X, event=%X, priopity=%d, is_high_level_active=%u",
+                interrupt, event, priority, is_high_level_active);
     return RESULT_SUCCESS;
 }
 
@@ -1136,7 +1143,7 @@ static const FunctionDef SVC_Table[] = {
     {0x4D, nullptr, "ReplyAndReceive3"},
     {0x4E, nullptr, "ReplyAndReceive4"},
     {0x4F, HLE::Wrap<ReplyAndReceive>, "ReplyAndReceive"},
-    {0x50, nullptr, "BindInterrupt"},
+    {0x50, HLE::Wrap<BindInterrupt>, "BindInterrupt"},
     {0x51, nullptr, "UnbindInterrupt"},
     {0x52, nullptr, "InvalidateProcessDataCache"},
     {0x53, nullptr, "StoreProcessDataCache"},

@@ -35,11 +35,13 @@
 #include "core/hle/service/http_c.h"
 #include "core/hle/service/i2c_cam.h"
 #include "core/hle/service/i2c_ir.h"
+#include "core/hle/service/i2c_lcd.h"
 #include "core/hle/service/i2c_mcu.h"
 #include "core/hle/service/ir/ir.h"
 #include "core/hle/service/ldr_ro/ldr_ro.h"
 #include "core/hle/service/mcu_cam.h"
 #include "core/hle/service/mcu_cdc.h"
+#include "core/hle/service/mcu_gpu.h"
 #include "core/hle/service/mcu_pls.h"
 #include "core/hle/service/mcu_rtc.h"
 #include "core/hle/service/mic_u.h"
@@ -52,6 +54,7 @@
 #include "core/hle/service/nwm/nwm.h"
 #include "core/hle/service/pdn_c.h"
 #include "core/hle/service/pdn_d.h"
+#include "core/hle/service/pdn_g.h"
 #include "core/hle/service/pdn_i.h"
 #include "core/hle/service/pdn_s.h"
 #include "core/hle/service/pm_app.h"
@@ -128,9 +131,11 @@ void Interface::HandleSyncRequest(Kernel::SharedPtr<Kernel::ServerSession> serve
     if (strcmp("TriggerCmdReqQueue", itr->second.name)) {
         if (strcmp("FlushDataCache", itr->second.name)) {
             if (strcmp("GetHeadphoneStatus", itr->second.name)) {
-                LOG_DEBUG(
-                    Service, "lr: 0x%08X, %s", lr,
-                    MakeFunctionString(itr->second.name, GetPortName().c_str(), cmd_buff).c_str());
+                if (strcmp("ConvertProcessAddressFromDspDram", itr->second.name)) {
+                    LOG_DEBUG(Service, "lr: 0x%08X, %s", lr,
+                              MakeFunctionString(itr->second.name, GetPortName().c_str(), cmd_buff)
+                                  .c_str());
+                }
             }
         }
     }
@@ -205,16 +210,19 @@ void Init() {
     AddService(new HTTP::HTTP_C);
     AddService(new I2C::I2C_CAM);
     AddService(new I2C::I2C_IR);
+    AddService(new I2C::I2C_LCD);
     AddService(new I2C::I2C_MCU);
     AddService(new LDR::LDR_RO);
     AddService(new MCU::MCU_CAM);
     AddService(new MCU::MCU_CDC);
+    AddService(new MCU::MCU_GPU);
     AddService(new MCU::MCU_PLS);
     AddService(new MCU::MCU_RTC);
     AddService(new MIC::MIC_U);
     AddService(new NS::NS_S);
     AddService(new PDN::PDN_C);
     AddService(new PDN::PDN_D);
+    AddService(new PDN::PDN_G);
     AddService(new PDN::PDN_I);
     AddService(new PDN::PDN_S);
     AddService(new PM::PM_APP);

@@ -50,6 +50,16 @@ void GetCecInfoEventHandle(Service::Interface* self);
  */
 void GetChangeStateEventHandle(Service::Interface* self);
 
+void Open(Interface* self);
+
+void Delete(Interface* self);
+
+void OpenAndWrite(Service::Interface* self);
+
+void OpenAndRead(Interface* self);
+
+void SetData(Interface* self);
+
 /// Initialize CECD service(s)
 void Init();
 

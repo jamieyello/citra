@@ -92,7 +92,7 @@ static void GetServiceHandle(Interface* self) {
             // Return the client session
             cmd_buff[3] = Kernel::g_handle_table.Create(*client_session).MoveFrom();
         }
-        LOG_TRACE(Service_SRV, "called port=%s, handle=0x%08X", port_name.c_str(), cmd_buff[3]);
+        LOG_WARNING(Service_SRV, "called port=%s, handle=0x%08X", port_name.c_str(), cmd_buff[3]);
     } else {
         LOG_ERROR(Service_SRV, "(UNIMPLEMENTED) called port=%s", port_name.c_str());
         res = UnimplementedFunction(ErrorModule::SRV);

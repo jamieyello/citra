@@ -3,16 +3,26 @@
 // Refer to the license.txt file included.
 
 #include <algorithm>
-#include <map>
-#include <vector>
 #include "common/assert.h"
+#include "core/core_timing.h"
 #include "core/hle/kernel/event.h"
 #include "core/hle/kernel/kernel.h"
 #include "core/hle/kernel/thread.h"
 
 namespace Kernel {
 
-Event::Event() {}
+static void EventCallback(u64 event_handle, int /*cycle_late*/) {
+
+    Event* event = reinterpret_cast<Event*>(event_handle);
+    if (event) {
+        event->signaled = true;
+        event->WakeupAllWaitingThreads();
+    }
+}
+
+Event::Event() {
+    event_callback_type = CoreTiming::RegisterEvent("EventCallback", EventCallback);
+}
 Event::~Event() {}
 
 SharedPtr<Event> Event::Create(ResetType reset_type, std::string name) {
@@ -42,9 +52,14 @@ void Event::Acquire() {
         signaled = false;
 }
 
-void Event::Signal() {
-    signaled = true;
-    WakeupAllWaitingThreads();
+void Event::Signal(u64 delay) {
+    if (delay) {
+        CoreTiming::ScheduleEvent(usToCycles(delay), event_callback_type, (u64)this);
+    }
+    else {
+        signaled = true;
+        WakeupAllWaitingThreads();
+    }
 }
 
 void Event::Clear() {

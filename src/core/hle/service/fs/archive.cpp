@@ -101,6 +101,7 @@ void File::HandleSyncRequest(Kernel::SharedPtr<Kernel::ServerSession> server_ses
         u64 offset = cmd_buff[1] | ((u64)cmd_buff[2]) << 32;
         u32 length = cmd_buff[3];
         u32 address = cmd_buff[5];
+
         LOG_TRACE(Service_FS, "Read %s: offset=0x%llx length=%d address=0x%x", GetName().c_str(),
                   offset, length, address);
 
@@ -127,6 +128,7 @@ void File::HandleSyncRequest(Kernel::SharedPtr<Kernel::ServerSession> server_ses
         u32 length = cmd_buff[3];
         u32 flush = cmd_buff[4];
         u32 address = cmd_buff[6];
+
         LOG_TRACE(Service_FS, "Write %s: offset=0x%llx length=%d address=0x%x, flush=0x%x",
                   GetName().c_str(), offset, length, address, flush);
 

@@ -110,6 +110,7 @@ set(SRCS
             hle/service/http_c.cpp
             hle/service/i2c_cam.cpp
             hle/service/i2c_ir.cpp
+            hle/service/i2c_lcd.cpp
             hle/service/i2c_mcu.cpp
             hle/service/ir/ir.cpp
             hle/service/ir/ir_rst.cpp
@@ -120,6 +121,7 @@ set(SRCS
             hle/service/ldr_ro/memory_synchronizer.cpp
             hle/service/mcu_cam.cpp
             hle/service/mcu_cdc.cpp
+            hle/service/mcu_gpu.cpp
             hle/service/mcu_pls.cpp
             hle/service/mcu_rtc.cpp
             hle/service/mic_u.cpp
@@ -148,6 +150,7 @@ set(SRCS
             hle/service/nwm/nwm_uds.cpp
             hle/service/pdn_c.cpp
             hle/service/pdn_d.cpp
+            hle/service/pdn_g.cpp
             hle/service/pdn_i.cpp
             hle/service/pdn_s.cpp
             hle/service/pm_app.cpp
@@ -308,6 +311,7 @@ set(HEADERS
             hle/service/http_c.h
             hle/service/i2c_cam.h
             hle/service/i2c_ir.h
+            hle/service/i2c_lcd.h
             hle/service/i2c_mcu.h
             hle/service/ir/ir.h
             hle/service/ir/ir_rst.h
@@ -318,6 +322,7 @@ set(HEADERS
             hle/service/ldr_ro/memory_synchronizer.h
             hle/service/mcu_cam.h
             hle/service/mcu_cdc.h
+            hle/service/mcu_gpu.h
             hle/service/mcu_pls.h
             hle/service/mcu_rtc.h
             hle/service/mic_u.h
@@ -346,6 +351,7 @@ set(HEADERS
             hle/service/nwm/nwm_uds.h
             hle/service/pdn_c.h
             hle/service/pdn_d.h
+            hle/service/pdn_g.h
             hle/service/pdn_i.h
             hle/service/pdn_s.h
             hle/service/pm_app.h
