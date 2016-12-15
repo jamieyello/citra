@@ -10,6 +10,43 @@
 namespace HLE {
 namespace Applets {
 
+enum class ErrorType : u32 {
+    ErrorCode,
+    ErrorText,
+    Eula,
+    EulaFirstBoot,
+    EulaDrawOnly,
+    Agree,
+    LocalizedErrorText = ErrorText | 0x100,
+};
+
+enum class ReturnCode : s32 {
+    Unknown = -1,
+    None,
+    Success,
+    NotSupported,
+    HomeButton = 10,
+    SoftwareReset,
+    PowerButton
+};
+
+struct ErrEulaConfig {
+    ErrorType error_type;
+    u32 error_code;
+    u16 upper_screen_flag;
+    u16 use_language;
+    char16_t error_text[1900];
+    bool home_button;
+    bool software_reset;
+    bool app_jump;
+    INSERT_PADDING_BYTES(137);
+    ReturnCode return_code;
+    u16 eula_version;
+    INSERT_PADDING_BYTES(10);
+};
+
+static_assert(sizeof(ErrEulaConfig) == 0xF80, "ErrEulaConfig structure size is wrong");
+
 class ErrEula final : public Applet {
 public:
     explicit ErrEula(Service::APT::AppletId id) : Applet(id) {}
@@ -23,6 +60,7 @@ private:
     /// It holds the framebuffer info retrieved by the application with
     /// GSPGPU::ImportDisplayCaptureInfo
     Kernel::SharedPtr<Kernel::SharedMemory> framebuffer_memory;
+    ErrEulaConfig config;
 };
 
 } // namespace Applets

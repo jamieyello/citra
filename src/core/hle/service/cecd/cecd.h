@@ -20,6 +20,8 @@ enum class CecStateAbbreviated {
                                 /// OVER_BOSS and those listed here
 };
 
+void Open(Interface* self);
+
 /**
  * GetCecStateAbbreviated service function
  *  Inputs:
@@ -28,7 +30,7 @@ enum class CecStateAbbreviated {
  *      1: ResultCode
  *      2: CecStateAbbreviated
  */
-void GetCecStateAbbreviated(Service::Interface* self);
+void GetCecStateAbbreviated(Interface* self);
 
 /**
  * GetCecInfoEventHandle service function
@@ -38,7 +40,7 @@ void GetCecStateAbbreviated(Service::Interface* self);
  *      1: ResultCode
  *      3: Event Handle
  */
-void GetCecInfoEventHandle(Service::Interface* self);
+void GetCecInfoEventHandle(Interface* self);
 
 /**
  * GetChangeStateEventHandle service function
@@ -48,7 +50,15 @@ void GetCecInfoEventHandle(Service::Interface* self);
  *      1: ResultCode
  *      3: Event Handle
  */
-void GetChangeStateEventHandle(Service::Interface* self);
+void GetChangeStateEventHandle(Interface* self);
+
+void Delete(Interface* self);
+
+void OpenAndWrite(Service::Interface* self);
+
+void OpenAndRead(Interface* self);
+
+void SetData(Interface* self);
 
 /// Initialize CECD service(s)
 void Init();

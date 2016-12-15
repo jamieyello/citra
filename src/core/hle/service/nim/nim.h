@@ -18,7 +18,9 @@ namespace NIM {
  *      1 : Result of function, 0 on success, otherwise error code
  *      2 : flag, 0 = no system update available, 1 = system update available.
  */
-void CheckSysUpdateAvailable(Service::Interface* self);
+void CheckSysUpdateAvailable(Interface* self);
+
+void Initialize(Interface* self);
 
 /// Initialize NIM service(s)
 void Init();

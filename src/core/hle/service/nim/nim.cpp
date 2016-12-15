@@ -22,6 +22,14 @@ void CheckSysUpdateAvailable(Service::Interface* self) {
     LOG_WARNING(Service_NWM, "(STUBBED) called");
 }
 
+void Initialize(Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    cmd_buff[1] = RESULT_SUCCESS.raw;
+
+    LOG_WARNING(Service_NWM, "(STUBBED) called");
+}
+
 void Init() {
     using namespace Kernel;
 
