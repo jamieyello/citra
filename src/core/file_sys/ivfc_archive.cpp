@@ -86,7 +86,7 @@ u64 IVFCArchive::GetFreeBytes() const {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ResultVal<size_t> IVFCFile::Read(const u64 offset, const size_t length, u8* buffer) const {
-    LOG_TRACE(Service_FS, "called offset=%llu, length=%zu", offset, length);
+    LOG_TRACE(Service_FS, "called offset=0x%llX, length=0x%llX", offset, length);
     romfs_file->Seek(data_offset + offset, SEEK_SET);
     size_t read_length = (size_t)std::min((u64)length, data_size - offset);
 

@@ -4,9 +4,10 @@
 
 #pragma once
 
-#include "core/hle/service/service.h"
-
 namespace Service {
+
+class Interface;
+
 namespace BOSS {
 
 /**
@@ -19,7 +20,7 @@ namespace BOSS {
  *  Outputs:
  *      1 : Result of function, 0 on success, otherwise error code
  */
-void InitializeSession(Service::Interface* self);
+void InitializeSession(Interface* self);
 
 /**
  * BOSS::RegisterStorage service function
@@ -31,7 +32,7 @@ void InitializeSession(Service::Interface* self);
  *  Outputs:
  *      1 : Result of function, 0 on success, otherwise error code
  */
-void RegisterStorage(Service::Interface* self);
+void RegisterStorage(Interface* self);
 
 /**
  * BOSS::UnregisterStorage service function
@@ -40,7 +41,7 @@ void RegisterStorage(Service::Interface* self);
  *  Outputs:
  *      1 : Result of function, 0 on success, otherwise error code
  */
-void UnregisterStorage(Service::Interface* self);
+void UnregisterStorage(Interface* self);
 
 /**
  * BOSS::GetStorageInfo service function
@@ -50,7 +51,7 @@ void UnregisterStorage(Service::Interface* self);
  *      1 : Result of function, 0 on success, otherwise error code
  *      2 : u32 boss_size
  */
-void GetStorageInfo(Service::Interface* self);
+void GetStorageInfo(Interface* self);
 
 /**
  * BOSS::RegisterPrivateRootCa service function
@@ -64,7 +65,7 @@ void GetStorageInfo(Service::Interface* self);
  *      2 : buff_size << 4 | 0xA
  *      3 : u32 buff_addr
  */
-void RegisterPrivateRootCa(Service::Interface* self);
+void RegisterPrivateRootCa(Interface* self);
 
 /**
  * BOSS::RegisterPrivateClientCert service function
@@ -83,7 +84,7 @@ void RegisterPrivateRootCa(Service::Interface* self);
  *      4 : buff2_size << 4 | 0xA
  *      5 : u32 buff_addr2
  */
-void RegisterPrivateClientCert(Service::Interface* self);
+void RegisterPrivateClientCert(Interface* self);
 
 /**
  * BOSS::GetNewArrivalFlag service function
@@ -93,7 +94,7 @@ void RegisterPrivateClientCert(Service::Interface* self);
  *      1 : Result of function, 0 on success, otherwise error code
  *      2 : u8 flag
  */
-void GetNewArrivalFlag(Service::Interface* self);
+void GetNewArrivalFlag(Interface* self);
 
 /**
  * BOSS::RegisterNewArrivalEvent service function
@@ -104,7 +105,7 @@ void GetNewArrivalFlag(Service::Interface* self);
  *  Outputs:
  *      1 : Result of function, 0 on success, otherwise error code
  */
-void RegisterNewArrivalEvent(Service::Interface* self);
+void RegisterNewArrivalEvent(Interface* self);
 
 /**
  * BOSS::SetOptoutFlag service function
@@ -114,7 +115,7 @@ void RegisterNewArrivalEvent(Service::Interface* self);
  *  Outputs:
  *      1 : Result of function, 0 on success, otherwise error code
  */
-void SetOptoutFlag(Service::Interface* self);
+void SetOptoutFlag(Interface* self);
 
 /**
  * BOSS::GetOptoutFlag service function
@@ -124,7 +125,7 @@ void SetOptoutFlag(Service::Interface* self);
  *      1 : Result of function, 0 on success, otherwise error code
  *      2 : u8 output_flag
  */
-void GetOptoutFlag(Service::Interface* self);
+void GetOptoutFlag(Interface* self);
 
 /**
  * BOSS::RegisterTask service function
@@ -140,7 +141,7 @@ void GetOptoutFlag(Service::Interface* self);
  *      2 : buff_size << 4 | 0xA
  *      3 : u32 buff_addr
  */
-void RegisterTask(Service::Interface* self);
+void RegisterTask(Interface* self);
 
 /**
  * BOSS::UnregisterTask service function
@@ -155,7 +156,7 @@ void RegisterTask(Service::Interface* self);
  *      2 : buff_size << 4 | 0xA
  *      3 : u32 buff_addr
  */
-void UnregisterTask(Service::Interface* self);
+void UnregisterTask(Interface* self);
 
 /**
  * BOSS::ReconfigureTask service function
@@ -170,7 +171,7 @@ void UnregisterTask(Service::Interface* self);
  *      2 : buff_size << 4 | 0xA
  *      3 : u32 buff_addr
  */
-void ReconfigureTask(Service::Interface* self);
+void ReconfigureTask(Interface* self);
 
 /**
  * BOSS::GetTaskIdList service function
@@ -179,7 +180,7 @@ void ReconfigureTask(Service::Interface* self);
  *  Outputs:
  *      1 : Result of function, 0 on success, otherwise error code
  */
-void GetTaskIdList(Service::Interface* self);
+void GetTaskIdList(Interface* self);
 
 /**
  * BOSS::GetStepIdList service function
@@ -193,7 +194,7 @@ void GetTaskIdList(Service::Interface* self);
  *      2 : buff_size << 4 | 0xA
  *      3 : u32 buff_addr
  */
-void GetStepIdList(Service::Interface* self);
+void GetStepIdList(Interface* self);
 
 /**
  * BOSS::GetNsDataIdList service function
@@ -212,7 +213,7 @@ void GetStepIdList(Service::Interface* self);
  *      4 : buff_size << 4 | 0xC
  *      5 : u32 buff_addr
  */
-void GetNsDataIdList(Service::Interface* self);
+void GetNsDataIdList(Interface* self);
 
 /**
  * BOSS::GetOwnNsDataIdList service function
@@ -231,7 +232,7 @@ void GetNsDataIdList(Service::Interface* self);
  *      4 : buff_size << 4 | 0xC
  *      5 : u32 buff_addr
  */
-void GetOwnNsDataIdList(Service::Interface* self);
+void GetOwnNsDataIdList(Interface* self);
 
 /**
  * BOSS::GetNewDataNsDataIdList service function
@@ -250,7 +251,7 @@ void GetOwnNsDataIdList(Service::Interface* self);
  *      4 : buff_size << 4 | 0xC
  *      5 : u32 buff_addr
  */
-void GetNewDataNsDataIdList(Service::Interface* self);
+void GetNewDataNsDataIdList(Interface* self);
 
 /**
  * BOSS::GetOwnNewDataNsDataIdList service function
@@ -268,7 +269,7 @@ void GetNewDataNsDataIdList(Service::Interface* self);
  *      3 : u16 unknown value
 
  */
-void GetOwnNewDataNsDataIdList(Service::Interface* self);
+void GetOwnNewDataNsDataIdList(Interface* self);
 
 /**
  * BOSS::SendProperty service function
@@ -283,7 +284,7 @@ void GetOwnNewDataNsDataIdList(Service::Interface* self);
  *      2 : buff_size << 4 | 0xA
  *      3 : u32 buff_addr
  */
-void SendProperty(Service::Interface* self);
+void SendProperty(Interface* self);
 
 /**
  * BOSS::SendPropertyHandle service function
@@ -297,7 +298,7 @@ void SendProperty(Service::Interface* self);
  *      2 : buff_size << 4 | 0xA
  *      3 : u32 buff_addr
  */
-void SendPropertyHandle(Service::Interface* self);
+void SendPropertyHandle(Interface* self);
 
 /**
  * BOSS::ReceiveProperty service function
@@ -314,7 +315,7 @@ void SendPropertyHandle(Service::Interface* self);
  *      4 : buff_size << 4 | 0xC
  *      5 : u32 buff_addr
  */
-void ReceiveProperty(Service::Interface* self);
+void ReceiveProperty(Interface* self);
 
 /**
  * BOSS::UpdateTaskInterval service function
@@ -329,7 +330,7 @@ void ReceiveProperty(Service::Interface* self);
  *      2 : buff_size << 4 | 0xA
  *      3 : u32 buff_addr
  */
-void UpdateTaskInterval(Service::Interface* self);
+void UpdateTaskInterval(Interface* self);
 
 /**
  * BOSS::UpdateTaskCount service function
@@ -344,7 +345,7 @@ void UpdateTaskInterval(Service::Interface* self);
  *      2 : buff_size << 4 | 0xA
  *      3 : u32 buff_addr
  */
-void UpdateTaskCount(Service::Interface* self);
+void UpdateTaskCount(Interface* self);
 
 /**
  * BOSS::GetTaskInterval service function
@@ -359,7 +360,7 @@ void UpdateTaskCount(Service::Interface* self);
  *      3 : buff_size << 4 | 0xA
  *      4 : u32 buff_addr
  */
-void GetTaskInterval(Service::Interface* self);
+void GetTaskInterval(Interface* self);
 
 /**
  * BOSS::GetTaskCount service function
@@ -374,7 +375,7 @@ void GetTaskInterval(Service::Interface* self);
  *      3 : buff_size << 4 | 0xA
  *      4 : u32 buff_addr
  */
-void GetTaskCount(Service::Interface* self);
+void GetTaskCount(Interface* self);
 
 /**
  * BOSS::GetTaskServiceStatus service function
@@ -389,7 +390,7 @@ void GetTaskCount(Service::Interface* self);
  *      3 : buff_size << 4 | 0xA
  *      4 : u32 buff_addr
  */
-void GetTaskServiceStatus(Service::Interface* self);
+void GetTaskServiceStatus(Interface* self);
 
 /**
  * BOSS::StartTask service function
@@ -403,7 +404,7 @@ void GetTaskServiceStatus(Service::Interface* self);
  *      2 : buff_size << 4 | 0xA
  *      3 : u32 buff_addr
  */
-void StartTask(Service::Interface* self);
+void StartTask(Interface* self);
 
 /**
  * BOSS::StartTaskImmediate service function
@@ -417,7 +418,7 @@ void StartTask(Service::Interface* self);
  *      2 : buff_size << 4 | 0xA
  *      3 : u32 buff_addr
  */
-void StartTaskImmediate(Service::Interface* self);
+void StartTaskImmediate(Interface* self);
 
 /**
  * BOSS::CancelTask service function
@@ -431,7 +432,7 @@ void StartTaskImmediate(Service::Interface* self);
  *      2 : buff_size << 4 | 0xA
  *      3 : u32 buff_addr
  */
-void CancelTask(Service::Interface* self);
+void CancelTask(Interface* self);
 
 /**
  * BOSS::GetTaskFinishHandle service function
@@ -442,7 +443,7 @@ void CancelTask(Service::Interface* self);
  *      2 : 0
  *      3 : Task Finish Handle
  */
-void GetTaskFinishHandle(Service::Interface* self);
+void GetTaskFinishHandle(Interface* self);
 
 /**
  * BOSS::GetTaskState service function
@@ -460,7 +461,7 @@ void GetTaskFinishHandle(Service::Interface* self);
  *      5 : buff_size << 4 | 0xA
  *      6 : u32 buff_addr
  */
-void GetTaskState(Service::Interface* self);
+void GetTaskState(Interface* self);
 
 /**
  * BOSS::GetTaskResult service function
@@ -477,7 +478,7 @@ void GetTaskState(Service::Interface* self);
  *      5 : buff_size << 4 | 0xA
  *      6 : u32 buff_addr
  */
-void GetTaskResult(Service::Interface* self);
+void GetTaskResult(Interface* self);
 
 /**
  * BOSS::GetTaskCommErrorCode service function
@@ -494,7 +495,7 @@ void GetTaskResult(Service::Interface* self);
  *      5 : buff_size << 4 | 0xA
  *      6 : u32 buff_addr
  */
-void GetTaskCommErrorCode(Service::Interface* self);
+void GetTaskCommErrorCode(Interface* self);
 
 /**
  * BOSS::GetTaskStatus service function
@@ -511,7 +512,7 @@ void GetTaskCommErrorCode(Service::Interface* self);
  *      3 : buff_size << 4 | 0xA
  *      4 : u32 buff_addr
  */
-void GetTaskStatus(Service::Interface* self);
+void GetTaskStatus(Interface* self);
 
 /**
  * BOSS::GetTaskError service function
@@ -527,7 +528,7 @@ void GetTaskStatus(Service::Interface* self);
  *      3 : buff_size << 4 | 0xA
  *      4 : u32 buff_addr
  */
-void GetTaskError(Service::Interface* self);
+void GetTaskError(Interface* self);
 
 /**
  * BOSS::GetTaskInfo service function
@@ -542,7 +543,7 @@ void GetTaskError(Service::Interface* self);
  *      2 : buff_size << 4 | 0xA
  *      3 : u32 buff_addr
  */
-void GetTaskInfo(Service::Interface* self);
+void GetTaskInfo(Interface* self);
 
 /**
  * BOSS::DeleteNsData service function
@@ -552,7 +553,7 @@ void GetTaskInfo(Service::Interface* self);
  *  Outputs:
  *      1 : Result of function, 0 on success, otherwise error code
  */
-void DeleteNsData(Service::Interface* self);
+void DeleteNsData(Interface* self);
 
 /**
  * BOSS::GetNsDataHeaderInfo service function
@@ -568,7 +569,7 @@ void DeleteNsData(Service::Interface* self);
  *      2 : buff_size << 4 | 0xC
  *      3 : u32 buff_addr
  */
-void GetNsDataHeaderInfo(Service::Interface* self);
+void GetNsDataHeaderInfo(Interface* self);
 
 /**
  * BOSS::ReadNsData service function
@@ -587,7 +588,7 @@ void GetNsDataHeaderInfo(Service::Interface* self);
  *      4 : buff_size << 4 | 0xC
  *      5 : u32 buff_addr
  */
-void ReadNsData(Service::Interface* self);
+void ReadNsData(Interface* self);
 
 /**
  * BOSS::SetNsDataAdditionalInfo service function
@@ -598,7 +599,7 @@ void ReadNsData(Service::Interface* self);
  *  Outputs:
  *      1 : Result of function, 0 on success, otherwise error code
  */
-void SetNsDataAdditionalInfo(Service::Interface* self);
+void SetNsDataAdditionalInfo(Interface* self);
 
 /**
  * BOSS::GetNsDataAdditionalInfo service function
@@ -609,7 +610,7 @@ void SetNsDataAdditionalInfo(Service::Interface* self);
  *      1 : Result of function, 0 on success, otherwise error code
  *      2 : u32 unknown value
  */
-void GetNsDataAdditionalInfo(Service::Interface* self);
+void GetNsDataAdditionalInfo(Interface* self);
 
 /**
  * BOSS::SetNsDataNewFlag service function
@@ -620,7 +621,7 @@ void GetNsDataAdditionalInfo(Service::Interface* self);
  *  Outputs:
  *      1 : Result of function, 0 on success, otherwise error code
  */
-void SetNsDataNewFlag(Service::Interface* self);
+void SetNsDataNewFlag(Interface* self);
 
 /**
  * BOSS::GetNsDataNewFlag service function
@@ -631,7 +632,7 @@ void SetNsDataNewFlag(Service::Interface* self);
  *      1 : Result of function, 0 on success, otherwise error code
  *      2 : u8 flag
  */
-void GetNsDataNewFlag(Service::Interface* self);
+void GetNsDataNewFlag(Interface* self);
 
 /**
  * BOSS::GetNsDataLastUpdate service function
@@ -643,7 +644,7 @@ void GetNsDataNewFlag(Service::Interface* self);
  *      2 : u32 unknown value
  *      3 : u32 unknown value
  */
-void GetNsDataLastUpdate(Service::Interface* self);
+void GetNsDataLastUpdate(Interface* self);
 
 /**
  * BOSS::GetErrorCode service function
@@ -654,7 +655,7 @@ void GetNsDataLastUpdate(Service::Interface* self);
  *      1 : Result of function, 0 on success, otherwise error code
  *      2 : u32 unknown value
  */
-void GetErrorCode(Service::Interface* self);
+void GetErrorCode(Interface* self);
 
 /**
  * BOSS::RegisterStorageEntry service function
@@ -668,7 +669,7 @@ void GetErrorCode(Service::Interface* self);
  *  Outputs:
  *      1 : Result of function, 0 on success, otherwise error code
  */
-void RegisterStorageEntry(Service::Interface* self);
+void RegisterStorageEntry(Interface* self);
 
 /**
  * BOSS::GetStorageEntryInfo service function
@@ -679,7 +680,7 @@ void RegisterStorageEntry(Service::Interface* self);
  *      2 : u32 unknown value
  *      3 : u16 unknown value
  */
-void GetStorageEntryInfo(Service::Interface* self);
+void GetStorageEntryInfo(Interface* self);
 
 /**
  * BOSS::SetStorageOption service function
@@ -692,7 +693,7 @@ void GetStorageEntryInfo(Service::Interface* self);
  *  Outputs:
  *      1 : Result of function, 0 on success, otherwise error code
  */
-void SetStorageOption(Service::Interface* self);
+void SetStorageOption(Interface* self);
 
 /**
  * BOSS::GetStorageOption service function
@@ -705,7 +706,7 @@ void SetStorageOption(Service::Interface* self);
  *      4 : u16 unknown value
  *      5 : u16 unknown value
  */
-void GetStorageOption(Service::Interface* self);
+void GetStorageOption(Interface* self);
 
 /**
  * BOSS::StartBgImmediate service function
@@ -719,7 +720,7 @@ void GetStorageOption(Service::Interface* self);
  *      2 : buff_size << 4 | 0xA
  *      3 : u32 buff_addr
  */
-void StartBgImmediate(Service::Interface* self);
+void StartBgImmediate(Interface* self);
 
 /**
  * BOSS::GetTaskActivePriority service function
@@ -734,7 +735,7 @@ void StartBgImmediate(Service::Interface* self);
  *      3 : buff_size << 4 | 0xA
  *      4 : u32 buff_addr
  */
-void GetTaskActivePriority(Service::Interface* self);
+void GetTaskActivePriority(Interface* self);
 
 /**
  * BOSS::RegisterImmediateTask service function
@@ -750,7 +751,7 @@ void GetTaskActivePriority(Service::Interface* self);
  *      2 : buff_size << 4 | 0xA
  *      3 : u32 buff_addr
  */
-void RegisterImmediateTask(Service::Interface* self);
+void RegisterImmediateTask(Interface* self);
 
 /**
  * BOSS::SetTaskQuery service function
@@ -769,7 +770,7 @@ void RegisterImmediateTask(Service::Interface* self);
  *      4 : buff2_size << 4 | 0xA
  *      5 : u32 buff2_addr
  */
-void SetTaskQuery(Service::Interface* self);
+void SetTaskQuery(Interface* self);
 
 /**
  * BOSS::GetTaskQuery service function
@@ -788,7 +789,7 @@ void SetTaskQuery(Service::Interface* self);
  *      4 : buff2_size << 4 | 0xC
  *      5 : u32 buff2_addr
  */
-void GetTaskQuery(Service::Interface* self);
+void GetTaskQuery(Interface* self);
 
 /// Initialize BOSS service(s)
 void Init();

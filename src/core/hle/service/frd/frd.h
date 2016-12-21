@@ -53,6 +53,26 @@ void GetMyPresence(Service::Interface* self);
 void GetFriendKeyList(Service::Interface* self);
 
 /**
+ * FRD::Login service function
+ *  Inputs:
+ *      0 : Header Code[0x00030002]
+ *      1 : Copy handle descriptor
+ *      2 : Completion event handle
+ *  Outputs:
+ *      1 : Result of function, 0 on success, otherwise error code
+ */
+void Login(Service::Interface* self);
+
+/**
+ * FRD::Logout service function
+ *  Inputs:
+ *      0 : Header Code[0x00040000]
+ *  Outputs:
+ *      1 : Result of function, 0 on success, otherwise error code
+ */
+void Logout(Service::Interface* self);
+
+/**
  * FRD::GetFriendProfile service function
  *  Inputs:
  *      1 : Friends count
@@ -103,6 +123,8 @@ void GetMyScreenName(Service::Interface* self);
  *      1 : Result of function, 0 on success, otherwise error code
  */
 void SetClientSdkVersion(Service::Interface* self);
+
+void GetLastResponseResult(Service::Interface* self);
 
 /// Initialize FRD service(s)
 void Init();

@@ -3,6 +3,7 @@
 // Refer to the license.txt file included.
 
 #include "common/string_util.h"
+#include "core/hle/kernel/event.h"
 #include "core/hle/service/frd/frd.h"
 #include "core/hle/service/frd/frd_a.h"
 #include "core/hle/service/frd/frd_u.h"
@@ -11,8 +12,11 @@
 namespace Service {
 namespace FRD {
 
+static Kernel::SharedPtr<Kernel::Event> event_notification;
+static Kernel::SharedPtr<Kernel::Event> completion_event;
 static FriendKey my_friend_key = {0, 0, 0ull};
 static MyPresence my_presence = {};
+static bool logged_in;
 
 void GetMyPresence(Service::Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
@@ -45,6 +49,33 @@ void GetFriendKeyList(Service::Interface* self) {
     cmd_buff[2] = 0;                  // 0 friends
     LOG_WARNING(Service_FRD, "(STUBBED) called, unknown=%d, frd_count=%d, frd_key_addr=0x%08X",
                 unknown, frd_count, frd_key_addr);
+}
+
+void Login(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    u32 copy_handle = cmd_buff[1];
+    Handle completion_handle = cmd_buff[2];
+    if (completion_handle) {
+        completion_event = Kernel::g_handle_table.Get<Kernel::Event>(completion_handle);
+        completion_event->name = "FRD:CompletionEvent";
+        completion_event->Signal(); // TODO(mailwl) : need delay it?
+    }
+
+    logged_in = true;
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    LOG_WARNING(Service_FRD, "(STUBBED) called, copy_handle=0x%08X, completion_handle=0x%08X",
+                copy_handle, completion_handle);
+}
+
+void Logout(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    logged_in = false;
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    LOG_WARNING(Service_FRD, "(STUBBED) called");
 }
 
 void GetFriendProfile(Service::Interface* self) {
@@ -112,14 +143,29 @@ void SetClientSdkVersion(Service::Interface* self) {
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
 }
 
-void Init() {
-    using namespace Kernel;
+void GetLastResponseResult(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
 
-    AddService(new FRD_A_Interface);
-    AddService(new FRD_U_Interface);
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    LOG_WARNING(Service_FRD, "(STUBBED) called");
 }
 
-void Shutdown() {}
+void Init() {
+    AddService(new FRD_A_Interface);
+    AddService(new FRD_U_Interface);
+
+    completion_event = nullptr;
+    event_notification = nullptr;
+
+    logged_in = false;
+}
+
+void Shutdown() {
+    completion_event = nullptr;
+    event_notification = nullptr;
+
+    logged_in = false;
+}
 
 } // namespace FRD
 

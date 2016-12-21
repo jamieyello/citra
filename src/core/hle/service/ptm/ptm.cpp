@@ -78,7 +78,7 @@ void GetTotalStepCount(Service::Interface* self) {
     // it returns 0 as the total step count
 
     cmd_buff[1] = RESULT_SUCCESS.raw;
-    cmd_buff[2] = 0;
+    cmd_buff[2] = 0x1234;
 
     LOG_WARNING(Service_PTM, "(STUBBED) called");
 }

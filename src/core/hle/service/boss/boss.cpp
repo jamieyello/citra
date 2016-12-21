@@ -16,7 +16,7 @@ static u32 ns_data_new_flag;
 static u32 optout_flag;
 static Kernel::SharedPtr<Kernel::Event> new_arrival_event;
 
-void InitializeSession(Service::Interface* self) {
+void InitializeSession(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     // TODO(JamePeng): Figure out the meaning of these parameters
     u64 unk_param = ((u64)cmd_buff[1] | ((u64)cmd_buff[2] << 32));
@@ -38,7 +38,7 @@ void InitializeSession(Service::Interface* self) {
                 translation);
 }
 
-void RegisterStorage(Service::Interface* self) {
+void RegisterStorage(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
     u64 extdata_id = ((u64)cmd_buff[1] | ((u64)cmd_buff[2] << 32));
@@ -53,7 +53,7 @@ void RegisterStorage(Service::Interface* self) {
                 boss_size, extdata_type);
 }
 
-void UnregisterStorage(Service::Interface* self) {
+void UnregisterStorage(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
     cmd_buff[0] = IPC::MakeHeader(0x3, 0x1, 0);
@@ -62,7 +62,7 @@ void UnregisterStorage(Service::Interface* self) {
     LOG_WARNING(Service_BOSS, "(STUBBED) called");
 }
 
-void GetStorageInfo(Service::Interface* self) {
+void GetStorageInfo(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
     cmd_buff[0] = IPC::MakeHeader(0x4, 0x2, 0);
@@ -72,7 +72,7 @@ void GetStorageInfo(Service::Interface* self) {
     LOG_WARNING(Service_BOSS, "(STUBBED) called");
 }
 
-void RegisterPrivateRootCa(Service::Interface* self) {
+void RegisterPrivateRootCa(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
     u32 translation = cmd_buff[2];
@@ -88,7 +88,7 @@ void RegisterPrivateRootCa(Service::Interface* self) {
                 translation, buff_addr, buff_size);
 }
 
-void RegisterPrivateClientCert(Service::Interface* self) {
+void RegisterPrivateClientCert(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     // TODO(JamePeng): Figure out the meaning of these parameters
     u32 unk_param1 = cmd_buff[1];
@@ -114,7 +114,7 @@ void RegisterPrivateClientCert(Service::Interface* self) {
                 buff2_addr, buff2_size);
 }
 
-void GetNewArrivalFlag(Service::Interface* self) {
+void GetNewArrivalFlag(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
     cmd_buff[0] = IPC::MakeHeader(0x7, 0x2, 0);
@@ -124,7 +124,7 @@ void GetNewArrivalFlag(Service::Interface* self) {
     LOG_WARNING(Service_BOSS, "(STUBBED) new_arrival_flag=%u", new_arrival_flag);
 }
 
-void RegisterNewArrivalEvent(Service::Interface* self) {
+void RegisterNewArrivalEvent(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
     u32 copy_handle_desc = cmd_buff[1];
@@ -142,7 +142,7 @@ void RegisterNewArrivalEvent(Service::Interface* self) {
                 copy_handle_desc, event_handle);
 }
 
-void SetOptoutFlag(Service::Interface* self) {
+void SetOptoutFlag(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
     optout_flag = cmd_buff[1] & 0xFF;
@@ -153,7 +153,7 @@ void SetOptoutFlag(Service::Interface* self) {
     LOG_WARNING(Service_BOSS, "optout_flag=%u", optout_flag);
 }
 
-void GetOptoutFlag(Service::Interface* self) {
+void GetOptoutFlag(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
     cmd_buff[0] = IPC::MakeHeader(0xA, 0x2, 0);
@@ -163,7 +163,7 @@ void GetOptoutFlag(Service::Interface* self) {
     LOG_WARNING(Service_BOSS, "output_flag=%u", optout_flag);
 }
 
-void RegisterTask(Service::Interface* self) {
+void RegisterTask(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     // TODO(JamePeng): Figure out the meaning of these parameters
     u32 unk_param1 = cmd_buff[1];
@@ -183,7 +183,7 @@ void RegisterTask(Service::Interface* self) {
                 unk_param1, unk_param2, unk_param3, translation, buff_addr, buff_size);
 }
 
-void UnregisterTask(Service::Interface* self) {
+void UnregisterTask(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     // TODO(JamePeng): Figure out the meaning of these parameters
     u32 unk_param1 = cmd_buff[1];
@@ -202,7 +202,7 @@ void UnregisterTask(Service::Interface* self) {
                 unk_param1, unk_param2, translation, buff_addr, buff_size);
 }
 
-void ReconfigureTask(Service::Interface* self) {
+void ReconfigureTask(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     // TODO(JamePeng): Figure out the meaning of these parameters
     u32 unk_param1 = cmd_buff[1];
@@ -221,7 +221,7 @@ void ReconfigureTask(Service::Interface* self) {
                 unk_param1, unk_param2, translation, buff_addr, buff_size);
 }
 
-void GetTaskIdList(Service::Interface* self) {
+void GetTaskIdList(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
     cmd_buff[0] = IPC::MakeHeader(0xE, 0x1, 0);
@@ -230,7 +230,7 @@ void GetTaskIdList(Service::Interface* self) {
     LOG_WARNING(Service_BOSS, "(STUBBED) called");
 }
 
-void GetStepIdList(Service::Interface* self) {
+void GetStepIdList(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
     u32 translation = cmd_buff[2];
@@ -246,7 +246,7 @@ void GetStepIdList(Service::Interface* self) {
                 translation, buff_addr, buff_size);
 }
 
-void GetNsDataIdList(Service::Interface* self) {
+void GetNsDataIdList(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     // TODO(JamePeng): Figure out the meaning of these parameters
     u32 unk_param1 = cmd_buff[1];
@@ -270,7 +270,7 @@ void GetNsDataIdList(Service::Interface* self) {
                 unk_param1, unk_param2, unk_param3, unk_param4, translation, buff_addr, buff_size);
 }
 
-void GetOwnNsDataIdList(Service::Interface* self) {
+void GetOwnNsDataIdList(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     // TODO(JamePeng): Figure out the meaning of these parameters
     u32 unk_param1 = cmd_buff[1];
@@ -294,7 +294,7 @@ void GetOwnNsDataIdList(Service::Interface* self) {
                 unk_param1, unk_param2, unk_param3, unk_param4, translation, buff_addr, buff_size);
 }
 
-void GetNewDataNsDataIdList(Service::Interface* self) {
+void GetNewDataNsDataIdList(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     // TODO(JamePeng): Figure out the meaning of these parameters
     u32 unk_param1 = cmd_buff[1];
@@ -318,7 +318,7 @@ void GetNewDataNsDataIdList(Service::Interface* self) {
                 unk_param1, unk_param2, unk_param3, unk_param4, translation, buff_addr, buff_size);
 }
 
-void GetOwnNewDataNsDataIdList(Service::Interface* self) {
+void GetOwnNewDataNsDataIdList(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     // TODO(JamePeng): Figure out the meaning of these parameters
     u32 unk_param1 = cmd_buff[1];
@@ -342,7 +342,7 @@ void GetOwnNewDataNsDataIdList(Service::Interface* self) {
                 unk_param1, unk_param2, unk_param3, unk_param4, translation, buff_addr, buff_size);
 }
 
-void SendProperty(Service::Interface* self) {
+void SendProperty(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     // TODO(JamePeng): Figure out the meaning of these parameters
     u32 unk_param1 = cmd_buff[1];
@@ -361,7 +361,7 @@ void SendProperty(Service::Interface* self) {
                 unk_param1, unk_param2, translation, buff_addr, buff_size);
 }
 
-void SendPropertyHandle(Service::Interface* self) {
+void SendPropertyHandle(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     // TODO(JamePeng): Figure out the meaning of these parameters
     u32 unk_param1 = cmd_buff[2] & 0xFF;
@@ -379,7 +379,7 @@ void SendPropertyHandle(Service::Interface* self) {
                 unk_param1, translation, buff_addr, buff_size);
 }
 
-void ReceiveProperty(Service::Interface* self) {
+void ReceiveProperty(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     // TODO(JamePeng): Figure out the meaning of these parameters
     u32 unk_param1 = cmd_buff[1];
@@ -398,7 +398,7 @@ void ReceiveProperty(Service::Interface* self) {
                 unk_param1, buff_size, translation, buff_addr);
 }
 
-void UpdateTaskInterval(Service::Interface* self) {
+void UpdateTaskInterval(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     // TODO(JamePeng): Figure out the meaning of these parameters
     u32 unk_param1 = cmd_buff[1];
@@ -417,7 +417,7 @@ void UpdateTaskInterval(Service::Interface* self) {
                 unk_param1, unk_param2, translation, buff_addr, buff_size);
 }
 
-void UpdateTaskCount(Service::Interface* self) {
+void UpdateTaskCount(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
     u32 buff_size = cmd_buff[1];
@@ -435,7 +435,7 @@ void UpdateTaskCount(Service::Interface* self) {
                 buff_size, unk_param2, translation, buff_addr);
 }
 
-void GetTaskInterval(Service::Interface* self) {
+void GetTaskInterval(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
     u32 unk_param1 = cmd_buff[1]; // TODO(JamePeng): Figure out the meaning of these parameters
@@ -454,7 +454,7 @@ void GetTaskInterval(Service::Interface* self) {
                 unk_param1, translation, buff_addr, buff_size);
 }
 
-void GetTaskCount(Service::Interface* self) {
+void GetTaskCount(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
     u32 unk_param1 = cmd_buff[1]; // TODO(JamePeng): Figure out the meaning of these parameters
@@ -473,7 +473,7 @@ void GetTaskCount(Service::Interface* self) {
                 unk_param1, translation, buff_addr, buff_size);
 }
 
-void GetTaskServiceStatus(Service::Interface* self) {
+void GetTaskServiceStatus(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
     u32 unk_param1 = cmd_buff[1]; // TODO(JamePeng): Figure out the meaning of these parameters
@@ -492,7 +492,7 @@ void GetTaskServiceStatus(Service::Interface* self) {
                 unk_param1, translation, buff_addr, buff_size);
 }
 
-void StartTask(Service::Interface* self) {
+void StartTask(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
     u32 unk_param1 = cmd_buff[1]; // TODO(JamePeng): Figure out the meaning of these parameters
@@ -510,7 +510,7 @@ void StartTask(Service::Interface* self) {
                 unk_param1, translation, buff_addr, buff_size);
 }
 
-void StartTaskImmediate(Service::Interface* self) {
+void StartTaskImmediate(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
     u32 unk_param1 = cmd_buff[1]; // TODO(JamePeng): Figure out the meaning of these parameters
@@ -528,7 +528,7 @@ void StartTaskImmediate(Service::Interface* self) {
                 unk_param1, translation, buff_addr, buff_size);
 }
 
-void CancelTask(Service::Interface* self) {
+void CancelTask(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     // TODO(JamePeng): Figure out the meaning of these parameters
     u32 unk_param1 = cmd_buff[1];
@@ -546,7 +546,7 @@ void CancelTask(Service::Interface* self) {
                 unk_param1, translation, buff_addr, buff_size);
 }
 
-void GetTaskFinishHandle(Service::Interface* self) {
+void GetTaskFinishHandle(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
     cmd_buff[0] = IPC::MakeHeader(0x1F, 0x1, 0x2);
@@ -557,7 +557,7 @@ void GetTaskFinishHandle(Service::Interface* self) {
     LOG_WARNING(Service_BOSS, "(STUBBED) called");
 }
 
-void GetTaskState(Service::Interface* self) {
+void GetTaskState(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     // TODO(JamePeng): Figure out the meaning of these parameters
     u32 buff_size = cmd_buff[1];
@@ -578,7 +578,7 @@ void GetTaskState(Service::Interface* self) {
                 buff_size, unk_param2, translation, buff_addr);
 }
 
-void GetTaskResult(Service::Interface* self) {
+void GetTaskResult(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     // TODO(JamePeng): Figure out the meaning of these parameters
     u32 unk_param1 = cmd_buff[1];
@@ -599,7 +599,7 @@ void GetTaskResult(Service::Interface* self) {
                 unk_param1, translation, buff_addr, buff_size);
 }
 
-void GetTaskCommErrorCode(Service::Interface* self) {
+void GetTaskCommErrorCode(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     // TODO(JamePeng): Figure out the meaning of these parameters
     u32 unk_param1 = cmd_buff[1];
@@ -620,7 +620,7 @@ void GetTaskCommErrorCode(Service::Interface* self) {
                 unk_param1, translation, buff_addr, buff_size);
 }
 
-void GetTaskStatus(Service::Interface* self) {
+void GetTaskStatus(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     // TODO(JamePeng): Figure out the meaning of these parameters
     u32 unk_param1 = cmd_buff[1];
@@ -641,7 +641,7 @@ void GetTaskStatus(Service::Interface* self) {
                 unk_param1, unk_param2, unk_param3, translation, buff_addr, buff_size);
 }
 
-void GetTaskError(Service::Interface* self) {
+void GetTaskError(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     // TODO(JamePeng): Figure out the meaning of these parameters
     u32 unk_param1 = cmd_buff[1];
@@ -661,7 +661,7 @@ void GetTaskError(Service::Interface* self) {
                 unk_param1, unk_param2, translation, buff_addr, buff_size);
 }
 
-void GetTaskInfo(Service::Interface* self) {
+void GetTaskInfo(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     // TODO(JamePeng): Figure out the meaning of these parameters
     u32 unk_param1 = cmd_buff[1];
@@ -680,7 +680,7 @@ void GetTaskInfo(Service::Interface* self) {
                 unk_param1, unk_param2, translation, buff_addr, buff_size);
 }
 
-void DeleteNsData(Service::Interface* self) {
+void DeleteNsData(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     // TODO(JamePeng): Figure out the meaning of these parameters
     u32 unk_param1 = cmd_buff[1];
@@ -691,7 +691,7 @@ void DeleteNsData(Service::Interface* self) {
     LOG_WARNING(Service_BOSS, "(STUBBED) unk_param1=0x%08X", unk_param1);
 }
 
-void GetNsDataHeaderInfo(Service::Interface* self) {
+void GetNsDataHeaderInfo(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     // TODO(JamePeng): Figure out the meaning of these parameters
     u32 unk_param1 = cmd_buff[1];
@@ -711,7 +711,7 @@ void GetNsDataHeaderInfo(Service::Interface* self) {
                 unk_param1, unk_param2, unk_param3, translation, buff_addr, buff_size);
 }
 
-void ReadNsData(Service::Interface* self) {
+void ReadNsData(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     // TODO(JamePeng): Figure out the meaning of these parameters
     u32 unk_param1 = cmd_buff[1];
@@ -735,7 +735,7 @@ void ReadNsData(Service::Interface* self) {
                 unk_param1, unk_param2, unk_param3, unk_param4, translation, buff_addr, buff_size);
 }
 
-void SetNsDataAdditionalInfo(Service::Interface* self) {
+void SetNsDataAdditionalInfo(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     // TODO(JamePeng): Figure out the meaning of these parameters
     u32 unk_param1 = cmd_buff[1];
@@ -748,7 +748,7 @@ void SetNsDataAdditionalInfo(Service::Interface* self) {
                 unk_param2);
 }
 
-void GetNsDataAdditionalInfo(Service::Interface* self) {
+void GetNsDataAdditionalInfo(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     // TODO(JamePeng): Figure out the meaning of these parameters
     u32 unk_param1 = cmd_buff[1];
@@ -760,7 +760,7 @@ void GetNsDataAdditionalInfo(Service::Interface* self) {
     LOG_WARNING(Service_BOSS, "(STUBBED) unk_param1=0x%08X", unk_param1);
 }
 
-void SetNsDataNewFlag(Service::Interface* self) {
+void SetNsDataNewFlag(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     // TODO(JamePeng): Figure out the meaning of these parameters
     u32 unk_param1 = cmd_buff[1];
@@ -773,7 +773,7 @@ void SetNsDataNewFlag(Service::Interface* self) {
                 ns_data_new_flag);
 }
 
-void GetNsDataNewFlag(Service::Interface* self) {
+void GetNsDataNewFlag(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     // TODO(JamePeng): Figure out the meaning of these parameters
     u32 unk_param1 = cmd_buff[1];
@@ -786,7 +786,7 @@ void GetNsDataNewFlag(Service::Interface* self) {
                 ns_data_new_flag);
 }
 
-void GetNsDataLastUpdate(Service::Interface* self) {
+void GetNsDataLastUpdate(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     // TODO(JamePeng): Figure out the meaning of these parameters
     u32 unk_param1 = cmd_buff[1];
@@ -799,7 +799,7 @@ void GetNsDataLastUpdate(Service::Interface* self) {
     LOG_WARNING(Service_BOSS, "(STUBBED) unk_param1=0x%08X", unk_param1);
 }
 
-void GetErrorCode(Service::Interface* self) {
+void GetErrorCode(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     // TODO(JamePeng): Figure out the meaning of these parameters
     u32 unk_param1 = cmd_buff[1];
@@ -811,7 +811,7 @@ void GetErrorCode(Service::Interface* self) {
     LOG_WARNING(Service_BOSS, "(STUBBED) unk_param1=0x%08X", unk_param1);
 }
 
-void RegisterStorageEntry(Service::Interface* self) {
+void RegisterStorageEntry(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     // TODO(JamePeng): Figure out the meaning of these parameters
     u32 unk_param1 = cmd_buff[1];
@@ -828,7 +828,7 @@ void RegisterStorageEntry(Service::Interface* self) {
                 unk_param1, unk_param2, unk_param3, unk_param4, unk_param5);
 }
 
-void GetStorageEntryInfo(Service::Interface* self) {
+void GetStorageEntryInfo(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
     cmd_buff[0] = IPC::MakeHeader(0x30, 0x3, 0);
@@ -839,7 +839,7 @@ void GetStorageEntryInfo(Service::Interface* self) {
     LOG_WARNING(Service_BOSS, "(STUBBED) called");
 }
 
-void SetStorageOption(Service::Interface* self) {
+void SetStorageOption(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     // TODO(JamePeng): Figure out the meaning of these parameters
     u32 unk_param1 = cmd_buff[1] & 0xFF;
@@ -855,7 +855,7 @@ void SetStorageOption(Service::Interface* self) {
                 unk_param1, unk_param2, unk_param3, unk_param4);
 }
 
-void GetStorageOption(Service::Interface* self) {
+void GetStorageOption(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
     cmd_buff[0] = IPC::MakeHeader(0x32, 0x5, 0);
@@ -868,7 +868,7 @@ void GetStorageOption(Service::Interface* self) {
     LOG_WARNING(Service_BOSS, "(STUBBED) called");
 }
 
-void StartBgImmediate(Service::Interface* self) {
+void StartBgImmediate(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
     u32 unk_param1 = cmd_buff[1]; // TODO(JamePeng): Figure out the meaning of these parameters
@@ -886,7 +886,7 @@ void StartBgImmediate(Service::Interface* self) {
                 unk_param1, translation, buff_addr, buff_size);
 }
 
-void GetTaskActivePriority(Service::Interface* self) {
+void GetTaskActivePriority(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
     u32 unk_param1 = cmd_buff[1]; // TODO(JamePeng): Figure out the meaning of these parameters
@@ -905,7 +905,7 @@ void GetTaskActivePriority(Service::Interface* self) {
                 unk_param1, translation, buff_addr, buff_size);
 }
 
-void RegisterImmediateTask(Service::Interface* self) {
+void RegisterImmediateTask(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     // TODO(JamePeng): Figure out the meaning of these parameters
     u32 unk_param1 = cmd_buff[1];
@@ -925,7 +925,7 @@ void RegisterImmediateTask(Service::Interface* self) {
                 unk_param1, unk_param2, unk_param3, translation, buff_addr, buff_size);
 }
 
-void SetTaskQuery(Service::Interface* self) {
+void SetTaskQuery(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     // TODO(JamePeng): Figure out the meaning of these parameters
     u32 unk_param1 = cmd_buff[1];
@@ -951,7 +951,7 @@ void SetTaskQuery(Service::Interface* self) {
                 buff2_addr, buff2_size);
 }
 
-void GetTaskQuery(Service::Interface* self) {
+void GetTaskQuery(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     // TODO(JamePeng): Figure out the meaning of these parameters
     u32 unk_param1 = cmd_buff[1];
