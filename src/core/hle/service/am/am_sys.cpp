@@ -27,7 +27,7 @@ const Interface::FunctionInfo FunctionTable[] = {
     {0x00100102, nullptr, "GetImportContentContextList"},
     {0x00110104, nullptr, "GetImportContentContexts"},
     {0x00120102, nullptr, "DeleteImportContentContexts"},
-    {0x00130040, nullptr, "NeedsCleanup"},
+    {0x00130040, NeedsCleanup, "NeedsCleanup"},
     {0x00140040, nullptr, "DoCleanup"},
     {0x00150040, nullptr, "DeleteAllImportContexts"},
     {0x00160000, nullptr, "DeleteAllTemporaryPrograms"},

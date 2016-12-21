@@ -104,6 +104,15 @@ void GetWirelessRebootInfo(Interface* self) {
     LOG_WARNING(Service_APT, "(STUBBED) size=0x%X", size);
 }
 
+void LoadSysMenuArg(Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+    u32 size = cmd_buff[1];
+    VAddr buffer = cmd_buff[65];
+    Memory::ZeroBlock(buffer, size);
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    LOG_WARNING(Service_APT, "(STUBBED) called");
+}
+
 void NotifyToWait(Service::Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     u32 app_id = cmd_buff[1];
@@ -158,12 +167,14 @@ void IsRegistered(Service::Interface* self) {
     // handle this properly once we implement multiprocess support.
     cmd_buff[2] = 0; // Set to not registered by default
 
-    if (app_id == static_cast<u32>(AppletId::AnyLibraryApplet)) {
+    if (app_id == 0x200) {
+        cmd_buff[2] = 0; // Set to registered
+    } else if (app_id == static_cast<u32>(AppletId::AnyLibraryApplet)) {
         cmd_buff[2] = HLE::Applets::IsLibraryAppletRunning() ? 1 : 0;
     } else if (auto applet = HLE::Applets::Applet::Get(static_cast<AppletId>(app_id))) {
         cmd_buff[2] = 1; // Set to registered
     }
-    LOG_WARNING(Service_APT, "(STUBBED) called app_id=0x%08X", app_id);
+    LOG_WARNING(Service_APT, "(STUBBED) called app_id=0x%X", app_id);
 }
 
 void InquireNotification(Service::Interface* self) {

@@ -95,7 +95,7 @@ static void StartSampling(Interface* self) {
     audio_buffer_size = cmd_buff[4];
     audio_buffer_loop = static_cast<bool>(cmd_buff[5] & 0xFF);
 
-    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    cmd_buff[1] = -1; // RESULT_SUCCESS.raw; // No error
     is_sampling = true;
     LOG_WARNING(Service_MIC, "(STUBBED) called, encoding=%u, sample_rate=%u, "
                              "audio_buffer_offset=%d, audio_buffer_size=%u, audio_buffer_loop=%u",

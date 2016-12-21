@@ -129,12 +129,12 @@ static void GetCloseResult(Interface* self) {
 }
 
 /**
- * AC_U::GetWifiStatus service function
+ * AC_U::GetConnectingApType service function
  *  Outputs:
  *      1 : Result of function, 0 on success, otherwise error code
  *      2 : Output connection type, 0 = none, 1 = Old3DS Internet, 2 = New3DS Internet.
  */
-static void GetWifiStatus(Interface* self) {
+static void GetConnectingApType(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
     // TODO(purpasmart96): This function is only a stub,
@@ -257,7 +257,7 @@ const Interface::FunctionInfo FunctionTable[] = {
     {0x00090002, GetCloseResult, "GetCloseResult"},
     {0x000A0000, nullptr, "GetLastErrorCode"},
     {0x000C0000, nullptr, "GetStatus"},
-    {0x000D0000, GetWifiStatus, "GetWifiStatus"},
+    {0x000D0000, GetConnectingApType, "GetConnectingApType"},
     {0x000E0042, nullptr, "GetCurrentAPInfo"},
     {0x00100042, nullptr, "GetCurrentNZoneInfo"},
     {0x00110042, nullptr, "GetNZoneApNumService"},
@@ -265,6 +265,7 @@ const Interface::FunctionInfo FunctionTable[] = {
     {0x00240042, nullptr, "AddDenyApType"},
     {0x00270002, GetInfraPriority, "GetInfraPriority"},
     {0x002D0082, SetRequestEulaVersion, "SetRequestEulaVersion"},
+    {0x002F0004, nullptr, "GetNintendoZoneBeaconNotFoundEvent"},
     {0x00300004, RegisterDisconnectEvent, "RegisterDisconnectEvent"},
     {0x003C0042, nullptr, "GetAPSSIDList"},
     {0x003E0042, IsConnected, "IsConnected"},

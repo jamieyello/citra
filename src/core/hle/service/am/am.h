@@ -154,6 +154,8 @@ void GetNumTickets(Service::Interface* self);
  */
 void GetTicketList(Service::Interface* self);
 
+void NeedsCleanup(Interface* self);
+
 /// Initialize AM service
 void Init();
 

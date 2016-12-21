@@ -138,6 +138,8 @@ void GetSharedFont(Service::Interface* self);
 
 void GetWirelessRebootInfo(Interface* self);
 
+void LoadSysMenuArg(Interface* self);
+
 /**
  * APT::NotifyToWait service function
  *  Inputs:

@@ -175,6 +175,14 @@ void GetTicketList(Service::Interface* self) {
         am_ticket_list_count, num_of_skip, ticket_list_pointer);
 }
 
+void NeedsCleanup(Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    cmd_buff[1] = RESULT_SUCCESS.raw;
+    cmd_buff[2] = 0;
+    LOG_WARNING(Service_AM, "(STUBBED) called");
+}
+
 void Init() {
     using namespace Kernel;
 

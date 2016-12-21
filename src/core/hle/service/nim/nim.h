@@ -10,6 +10,8 @@ class Interface;
 
 namespace NIM {
 
+void CheckForSysUpdateEvent(Interface* self);
+
 /**
  * NIM::CheckSysUpdateAvailable service function
  *  Inputs:

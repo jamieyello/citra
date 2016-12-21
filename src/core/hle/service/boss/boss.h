@@ -97,6 +97,7 @@ void RegisterPrivateClientCert(Service::Interface* self);
  */
 void GetNewArrivalFlag(Service::Interface* self);
 
+void GetNewArrivalFlagPrivileged(Interface* self);
 /**
  * BOSS::RegisterNewArrivalEvent service function
  *  Inputs:

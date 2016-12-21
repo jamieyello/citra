@@ -176,6 +176,13 @@ void SecureInfoGetRegion(Service::Interface* self) {
     cmd_buff[2] = GetRegionValue();
 }
 
+void GetFlagsForSys(Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    cmd_buff[1] = RESULT_SUCCESS.raw;
+    cmd_buff[2] = 0;
+}
+
 void GenHashConsoleUnique(Service::Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     u32 app_id_salt = cmd_buff[1];

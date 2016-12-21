@@ -112,6 +112,8 @@ void GetCountryCodeID(Service::Interface* self);
  */
 void SecureInfoGetRegion(Service::Interface* self);
 
+void GetFlagsForSys(Interface* self);
+
 /**
  * CFG::GenHashConsoleUnique service function
  *  Inputs:

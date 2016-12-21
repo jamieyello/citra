@@ -22,13 +22,13 @@ const Interface::FunctionInfo FunctionTable[] = {
     {0x000A0040, GetCountryCodeID, "GetCountryCodeID"},
     {0x000B0000, nullptr, "IsFangateSupported"},
     // cfg:s
-    {0x04010082, GetConfigInfoBlk8, "GetConfigInfoBlk8"},
-    {0x04020082, SetConfigInfoBlk4, "SetConfigInfoBlk4"},
+    {0x04010082, GetConfigInfoBlk8, "GetConfigForSys"},
+    {0x04020082, SetConfigInfoBlk4, "SetConfigForSys"},
     {0x04030000, UpdateConfigNANDSavegame, "UpdateConfigNANDSavegame"},
     {0x04040042, nullptr, "GetLocalFriendCodeSeedData"},
-    {0x04050000, nullptr, "GetLocalFriendCodeSeed"},
+    {0x04050000, nullptr, "GetLocalFriendCodeSeedForSys"},
     {0x04060000, SecureInfoGetRegion, "SecureInfoGetRegion"},
-    {0x04070000, nullptr, "SecureInfoGetByte101"},
+    {0x04070000, GetFlagsForSys, "GetFlagsForSys"},
     {0x04080042, nullptr, "SecureInfoGetSerialNo"},
     {0x04090000, nullptr, "UpdateConfigBlk00040003"},
 };

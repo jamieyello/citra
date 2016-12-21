@@ -125,6 +125,15 @@ void GetNewArrivalFlag(Service::Interface* self) {
     LOG_WARNING(Service_BOSS, "(STUBBED) new_arrival_flag=%u", new_arrival_flag);
 }
 
+void GetNewArrivalFlagPrivileged(Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    cmd_buff[1] = RESULT_SUCCESS.raw;
+    //cmd_buff[2] = 1;
+
+    LOG_WARNING(Service_BOSS, "(STUBBED) called, %u", cmd_buff[2]);
+}
+
 void RegisterNewArrivalEvent(Service::Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
     // TODO(JamePeng): Figure out the meaning of these parameters

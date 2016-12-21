@@ -48,6 +48,7 @@ namespace Log {
     SUB(Service, MIC)                                                                              \
     SUB(Service, NDM)                                                                              \
     SUB(Service, NIM)                                                                              \
+    SUB(Service, NS)                                                                               \
     SUB(Service, NWM)                                                                              \
     SUB(Service, CAM)                                                                              \
     SUB(Service, CECD)                                                                             \
