@@ -15,7 +15,7 @@ const Interface::FunctionInfo FunctionTable[] = {
     {0x00090000, nullptr, "WriteToTwoFields"},
 };
 
-IR_RST_Interface::IR_RST_Interface() {
+IR_RST::IR_RST() {
     Register(FunctionTable);
 }
 

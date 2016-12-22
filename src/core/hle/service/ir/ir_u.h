@@ -9,9 +9,9 @@
 namespace Service {
 namespace IR {
 
-class IR_U_Interface : public Service::Interface {
+class IR_U final : public Interface {
 public:
-    IR_U_Interface();
+    IR_U();
 
     std::string GetPortName() const override {
         return "ir:u";
