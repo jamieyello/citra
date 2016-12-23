@@ -46,18 +46,12 @@ enum class BaudRate {
 };
 
 struct ConnectionInfo {
-    u8 unk_00;                          // 0x00
-    u8 unk_01;                          // 0x01
-    u8 unk_02;                          // 0x02
-    u8 unk_03;                          // 0x03
-    u8 unk_04;                          // 0x04
-    u8 unk_05;                          // 0x05
-    u8 unk_06;                          // 0x06
-    u8 unk_07;                          // 0x07
+    u32 latest_recv_error;              // 0x00
+    u32 latest_send_error;              // 0x04
     ConnectionStatus connection_status; // 0x08
     u8 unk_09;                          // 0x09
     ConnectionRole connection_role;     // 0x0A
-    u8 unk_0B;                          // 0x0B
+    u8 own_machine_id;                  // 0x0B
     u8 unk_0C;                          // 0x0C
     u8 unk_0D;                          // 0x0D
     bool unk_0E;                        // 0x0E, must be true
@@ -217,6 +211,26 @@ void SendIrNop(Interface* self);
  *      1 : Result of function, 0 on success, otherwise error code
  */
 void ReceiveIrnop(Interface* self);
+
+/* IR::GetLatestReceiveErrorResult service function
+ *  Inputs:
+ *      0 : 0x00110040
+ *      1 : (bool) clear error
+ *  Outputs:
+ *      1 : Result of function, 0 on success, otherwise error code
+ *      2 : Latest receive error
+ */
+void GetLatestReceiveErrorResult(Interface* self);
+
+/* IR::GetLatestSendErrorResult service function
+ *  Inputs:
+ *      0 : 0x00120040
+ *      1 : (bool) clear error
+ *  Outputs:
+ *      1 : Result of function, 0 on success, otherwise error code
+ *      2 : Latest send error
+ */
+void GetLatestSendErrorResult(Interface* self);
 
 /**
  * IR::GetConnectionStatus service function

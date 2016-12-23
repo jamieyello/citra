@@ -4,7 +4,6 @@
 
 #include "core/core_timing.h"
 #include "core/hle/kernel/event.h"
-#include "core/hle/kernel/kernel.h"
 #include "core/hle/kernel/shared_memory.h"
 #include "core/hle/service/ir/ir.h"
 #include "core/hle/service/ir/ir_rst.h"
@@ -204,7 +203,7 @@ void InitializeIrNopShared(Interface* self) {
     send_buff_size = cmd_buff[4];
     unk2 = cmd_buff[5];
     baud_rate = static_cast<BaudRate>(cmd_buff[6] & 0xFF);
-    Handle memory_handle = cmd_buff[8];
+    Kernel::Handle memory_handle = cmd_buff[8];
 
     if (Kernel::g_handle_table.IsValid(memory_handle)) {
         transfer_shared_memory = Kernel::g_handle_table.Get<Kernel::SharedMemory>(memory_handle);
