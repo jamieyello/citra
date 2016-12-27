@@ -12,11 +12,137 @@ namespace NFC {
 
 static Kernel::SharedPtr<Kernel::Event> activate_event;
 static Kernel::SharedPtr<Kernel::Event> deactivate_event;
+static bool nfc_initialized = false;
+static bool nfc_connected = false;
+static bool nfc_detection = false;
+static bool nfc_mounted = false;
+static u8 nfc_status = 1;
+static u8 nfc_target_status = 2;
+
+static ConnectionStatus connection_status{};
+static TagInfo tag_info{};
+static CommonInfo common_info{};
 
 void Initialize(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
+    u8 param = (u8)cmd_buff[1] & 0xFF;
+
+    nfc_initialized = true;
+
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    LOG_WARNING(Service_NFC, "(STUBBED) called, param=%u", param);
+}
+
+void Finalize(Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    nfc_initialized = false;
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    LOG_WARNING(Service_NFC, "(STUBBED) called");
+}
+
+void Connect(Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    nfc_connected = true;
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    LOG_WARNING(Service_NFC, "(STUBBED) called");
+}
+
+void Disconnect(Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    nfc_connected = false;
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    LOG_WARNING(Service_NFC, "(STUBBED) called");
+}
+
+void StartDetection(Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    nfc_detection = true;
+    activate_event->Signal();
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    LOG_WARNING(Service_NFC, "(STUBBED) called");
+}
+
+void StopDetection(Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    nfc_detection = false;
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    LOG_WARNING(Service_NFC, "(STUBBED) called");
+}
+
+void Mount(Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    nfc_mounted = true;
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    LOG_WARNING(Service_NFC, "(STUBBED) called");
+}
+
+void GetStatus(Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    cmd_buff[2] = nfc_status;
+    LOG_WARNING(Service_NFC, "(STUBBED) called");
+}
+
+void GetTargetConnectionStatus(Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    cmd_buff[2] = nfc_target_status;
+    LOG_WARNING(Service_NFC, "(STUBBED) called");
+}
+
+void GetConnectionStatus(Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    std::memcpy(cmd_buff + 2, &connection_status, sizeof(ConnectionStatus));
+    LOG_WARNING(Service_NFC, "(STUBBED) called");
+}
+
+void GetTagInfo(Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    std::memcpy(cmd_buff + 2, &tag_info, sizeof(TagInfo));
+
+    LOG_WARNING(Service_NFC, "(STUBBED) called");
+}
+
+void GetConnectResult(Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    cmd_buff[2] = RESULT_SUCCESS.raw;
+    LOG_WARNING(Service_NFC, "(STUBBED) called");
+}
+
+void GetNfpRegisterInfo(Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+
+    LOG_WARNING(Service_NFC, "(STUBBED) called");
+}
+
+void GetNfpCommonInfo(Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    std::memcpy(cmd_buff + 2, &common_info, sizeof(CommonInfo));
 
     LOG_WARNING(Service_NFC, "(STUBBED) called");
 }
@@ -26,7 +152,6 @@ void SetActivateEvent(Interface* self) {
 
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
     cmd_buff[3] = Kernel::g_handle_table.Create(activate_event).MoveFrom();
-
     LOG_WARNING(Service_NFC, "(STUBBED) called");
 }
 
@@ -35,7 +160,6 @@ void SetDeactivateEvent(Interface* self) {
 
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
     cmd_buff[3] = Kernel::g_handle_table.Create(deactivate_event).MoveFrom();
-
     LOG_WARNING(Service_NFC, "(STUBBED) called");
 }
 
