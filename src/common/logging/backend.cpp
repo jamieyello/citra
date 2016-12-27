@@ -47,6 +47,7 @@ namespace Log {
     SUB(Service, MCU)                                                                              \
     SUB(Service, MIC)                                                                              \
     SUB(Service, NDM)                                                                              \
+    SUB(Service, NFC)                                                                              \
     SUB(Service, NIM)                                                                              \
     SUB(Service, NS)                                                                               \
     SUB(Service, NWM)                                                                              \

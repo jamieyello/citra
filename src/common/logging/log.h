@@ -64,6 +64,7 @@ enum class Class : ClassType {
     Service_MCU,       ///< The MCU
     Service_MIC,       ///< The MIC (Microphone) service
     Service_NDM,       ///< The NDM (Network daemon manager) service
+    Service_NFC,       ///< The NFC service
     Service_NIM,       ///< The NIM (Network interface manager) service
     Service_NS,        ///< The NS service
     Service_NWM,       ///< The NWM (Network wlan manager) service

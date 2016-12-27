@@ -5,7 +5,16 @@
 #pragma once
 
 namespace Service {
+
+class Interface;
+
 namespace NFC {
+
+void Initialize(Interface* self);
+
+void SetActivateEvent(Interface* self);
+
+void SetDeactivateEvent(Interface* self);
 
 /// Initialize all NFC services.
 void Init();

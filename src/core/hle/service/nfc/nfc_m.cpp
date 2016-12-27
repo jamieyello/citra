@@ -2,6 +2,7 @@
 // Licensed under GPLv2 or any later version
 // Refer to the license.txt file included.
 
+#include "core/hle/service/nfc/nfc.h"
 #include "core/hle/service/nfc/nfc_m.h"
 
 namespace Service {
@@ -10,7 +11,7 @@ namespace NFC {
 const Interface::FunctionInfo FunctionTable[] = {
     // clang-format off
     // nfc:u shared commands
-    {0x00010040, nullptr, "Initialize"},
+    {0x00010040, Initialize, "Initialize"},
     {0x00020040, nullptr, "Shutdown"},
     {0x00030000, nullptr, "StartCommunication"},
     {0x00040000, nullptr, "StopCommunication"},
