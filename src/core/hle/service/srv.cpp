@@ -100,6 +100,31 @@ static void GetServiceHandle(Interface* self) {
     cmd_buff[1] = res.raw;
 }
 
+static void GetPort(Interface* self) {
+    ResultCode res = RESULT_SUCCESS;
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    std::string port_name = std::string((const char*)&cmd_buff[1], 0, Service::kMaxPortSize);
+    auto it = Service::g_kernel_named_ports.find(port_name);
+
+    if (it != Service::g_kernel_named_ports.end()) {
+        auto client_port = it->second;
+
+        auto client_session = client_port->Connect();
+        res = client_session.Code();
+
+        if (client_session.Succeeded()) {
+            // Return the client session
+            cmd_buff[3] = Kernel::g_handle_table.Create(*client_session).MoveFrom();
+        }
+        LOG_WARNING(Service_SRV, "called port=%s, handle=0x%08X", port_name.c_str(), cmd_buff[3]);
+    } else {
+        LOG_ERROR(Service_SRV, "(UNIMPLEMENTED) called port=%s", port_name.c_str());
+        res = UnimplementedFunction(ErrorModule::SRV);
+    }
+    cmd_buff[1] = 0; // res.raw;
+}
+
 /**
  * SRV::Subscribe service function
  *  Inputs:
@@ -168,7 +193,7 @@ const Interface::FunctionInfo FunctionTable[] = {
     {0x00050100, GetServiceHandle, "GetServiceHandle"},
     {0x000600C2, nullptr, "RegisterPort"},
     {0x000700C0, nullptr, "UnregisterPort"},
-    {0x00080100, nullptr, "GetPort"},
+    {0x00080100, GetPort, "GetPort"},
     {0x00090040, Subscribe, "Subscribe"},
     {0x000A0040, Unsubscribe, "Unsubscribe"},
     {0x000B0000, nullptr, "ReceiveNotification"},

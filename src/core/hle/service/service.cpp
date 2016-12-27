@@ -25,6 +25,7 @@
 #include "core/hle/service/gsp_gpu.h"
 #include "core/hle/service/gsp_lcd.h"
 #include "core/hle/service/hid/hid.h"
+#include "core/hle/service/hostio.h"
 #include "core/hle/service/http_c.h"
 #include "core/hle/service/ir/ir.h"
 #include "core/hle/service/ldr_ro/ldr_ro.h"
@@ -38,6 +39,7 @@
 #include "core/hle/service/nwm/nwm.h"
 #include "core/hle/service/pm_app.h"
 #include "core/hle/service/ptm/ptm.h"
+#include "core/hle/service/pxi_dev.h"
 #include "core/hle/service/qtm/qtm.h"
 #include "core/hle/service/service.h"
 #include "core/hle/service/soc_u.h"
@@ -137,6 +139,10 @@ void Init() {
     AddNamedPort(new SRV::SRV);
     AddNamedPort(new ERR::ERR_F);
 
+    AddNamedPort(new HOSTIO::HOSTIO0);
+    AddNamedPort(new HOSTIO::HOSTIO1);
+    AddNamedPort(new HOSTIO::HioFIO);
+
     FS::ArchiveInit();
     ACT::Init();
     AM::Init();
@@ -168,6 +174,7 @@ void Init() {
     AddService(new MIC::MIC_U);
     AddService(new NS::NS_S);
     AddService(new PM::PM_APP);
+    AddService(new PXI::PXI_DEV);
     AddService(new SOC::SOC_U);
     AddService(new SSL::SSL_C);
     AddService(new Y2R::Y2R_U);

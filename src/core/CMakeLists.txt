@@ -101,6 +101,7 @@ set(SRCS
             hle/service/hid/hid.cpp
             hle/service/hid/hid_spvr.cpp
             hle/service/hid/hid_user.cpp
+            hle/service/hostio.cpp
             hle/service/http_c.cpp
             hle/service/ir/ir.cpp
             hle/service/ir/ir_rst.cpp
@@ -140,6 +141,7 @@ set(SRCS
             hle/service/ptm/ptm_sets.cpp
             hle/service/ptm/ptm_sysm.cpp
             hle/service/ptm/ptm_u.cpp
+            hle/service/pxi_dev.cpp
             hle/service/qtm/qtm.cpp
             hle/service/qtm/qtm_s.cpp
             hle/service/qtm/qtm_sp.cpp
@@ -275,6 +277,7 @@ set(HEADERS
             hle/service/hid/hid.h
             hle/service/hid/hid_spvr.h
             hle/service/hid/hid_user.h
+            hle/service/hostio.h
             hle/service/http_c.h
             hle/service/ir/ir.h
             hle/service/ir/ir_rst.h
@@ -314,6 +317,7 @@ set(HEADERS
             hle/service/ptm/ptm_sets.h
             hle/service/ptm/ptm_sysm.h
             hle/service/ptm/ptm_u.h
+            hle/service/pxi_dev.h
             hle/service/qtm/qtm.h
             hle/service/qtm/qtm_s.h
             hle/service/qtm/qtm_sp.h
