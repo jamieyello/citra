@@ -4,21 +4,21 @@
 
 #include "common/common_types.h"
 #include "common/logging/log.h"
-#include "core/hle/service/nwm_ext.h"
+#include "core/hle/service/spi/spi_nor.h"
 
 namespace Service {
-namespace NWM {
+namespace SPI {
 
+/*
 const Interface::FunctionInfo FunctionTable[] = {
-    {0x00020000, nullptr, "OpenMpMode"},
-    {0x00030000, nullptr, "CloseMpMode"},
 };
+*/
 
-NWM_EXT::NWM_EXT() {
-    Register(FunctionTable);
+SPI_NOR::SPI_NOR() {
+    // Register(FunctionTable);
 }
 
-NWM_EXT::~NWM_EXT() {}
+SPI_NOR::~SPI_NOR() {}
 
-} // namespace NWM
+} // namespace SPI
 } // namespace Service

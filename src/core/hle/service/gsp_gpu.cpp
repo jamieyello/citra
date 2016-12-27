@@ -721,6 +721,18 @@ static void RestoreVramSysArea(Interface* self) {
     LOG_WARNING(Service_GSP, "called");
 }
 
+static void StoreDataCache(Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+    u32 address = cmd_buff[1];
+    u32 size = cmd_buff[2];
+    u32 process = cmd_buff[4];
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+
+    LOG_DEBUG(Service_GSP, "(STUBBED) called address=0x%08X, size=0x%08X, process=0x%08X", address,
+        size, process);
+}
+
 const Interface::FunctionInfo FunctionTable[] = {
     {0x00010082, WriteHWRegs, "WriteHWRegs"},
     {0x00020084, WriteHWRegsWithMask, "WriteHWRegsWithMask"},
@@ -752,7 +764,7 @@ const Interface::FunctionInfo FunctionTable[] = {
     {0x001C0040, nullptr, "SetLedForceOff"},
     {0x001D0040, nullptr, "SetTestCommand"},
     {0x001E0080, nullptr, "SetInternalPriorities"},
-    {0x001F0082, nullptr, "StoreDataCache"},
+    {0x001F0082, StoreDataCache, "StoreDataCache"},
 };
 
 GSP_GPU::GSP_GPU() {

@@ -45,16 +45,16 @@ void Wrap() {
     FuncReturn(func(PARAM(0), PARAM(1), PARAM(2), PARAM(3)).raw);
 }
 
-template <ResultCode func(u8, Handle, s32, bool)>
+template <ResultCode func(u8, Kernel::Handle, s32, bool)>
 void Wrap() {
     FuncReturn(func(PARAM(0), PARAM(1), PARAM(2), PARAM(3) != 0).raw);
 }
 
-template <ResultCode func(s32*, Handle*, s32, Handle)>
+template <ResultCode func(s32*, Kernel::Handle*, s32, Kernel::Handle)>
 void Wrap() {
     s32 param_1 = 0;
-    u32 retval = func(&param_1, (Handle*)Memory::GetPointer(PARAM(1)), PARAM(2), PARAM(3)).raw;
-    Core::g_app_core->SetReg(1, param_1);
+    u32 retval = func(&param_1, (Kernel::Handle*)Memory::GetPointer(PARAM(1)), PARAM(2), PARAM(3)).raw;
+    Core::CPU().SetReg(1, param_1);
     FuncReturn(retval);
 }
 

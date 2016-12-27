@@ -4,21 +4,17 @@
 
 #include "common/common_types.h"
 #include "common/logging/log.h"
-#include "core/hle/service/spi_cd2.h"
+#include "core/hle/service/spi/spi.h"
+#include "core/hle/service/spi/spi_cd2.h"
+#include "core/hle/service/spi/spi_nor.h"
 
 namespace Service {
 namespace SPI {
 
-/*
-const Interface::FunctionInfo FunctionTable[] = {
-};
-*/
-
-SPI_CD2::SPI_CD2() {
-    // Register(FunctionTable);
+void Init() {
+    AddService(new SPI_CD2);
+    AddService(new SPI_NOR);
 }
-
-SPI_CD2::~SPI_CD2() {}
 
 } // namespace SPI
 } // namespace Service

@@ -4,21 +4,21 @@
 
 #include "common/common_types.h"
 #include "common/logging/log.h"
-#include "core/hle/service/nwm_inf.h"
+#include "core/hle/service/spi/spi_cd2.h"
 
 namespace Service {
-namespace NWM {
+namespace SPI {
 
+/*
 const Interface::FunctionInfo FunctionTable[] = {
-    {0x000603C4, nullptr, "RecvBeaconBroadcastData"},
-    {0x00070742, nullptr, "ConnectToEncryptedAP"},
 };
+*/
 
-NWM_INF::NWM_INF() {
-    Register(FunctionTable);
+SPI_CD2::SPI_CD2() {
+    // Register(FunctionTable);
 }
 
-NWM_INF::~NWM_INF() {}
+SPI_CD2::~SPI_CD2() {}
 
-} // namespace NWM
+} // namespace SPI
 } // namespace Service

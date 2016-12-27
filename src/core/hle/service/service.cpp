@@ -67,8 +67,7 @@
 #include "core/hle/service/service.h"
 #include "core/hle/service/soc_p.h"
 #include "core/hle/service/soc_u.h"
-#include "core/hle/service/spi_cd2.h"
-#include "core/hle/service/spi_nor.h"
+#include "core/hle/service/spi/spi.h"
 #include "core/hle/service/srv.h"
 #include "core/hle/service/ssl_c.h"
 #include "core/hle/service/y2r_u.h"
@@ -115,7 +114,7 @@ void Interface::HandleSyncRequest(Kernel::SharedPtr<Kernel::ServerSession> serve
     u32* cmd_buff = Kernel::GetCommandBuffer();
     auto itr = m_functions.find(cmd_buff[0]);
 
-    u32 lr = Core::g_app_core->GetReg(14);
+    u32 lr = Core::CPU().GetReg(14);
     if (itr == m_functions.end() || itr->second.func == nullptr) {
         std::string function_name = (itr == m_functions.end())
                                         ? Common::StringFromFormat("0x%08X", cmd_buff[0])
@@ -195,6 +194,7 @@ void Init() {
     NWM::Init();
     PTM::Init();
     QTM::Init();
+    SPI::Init();
 
     AddService(new AC::AC_U);
     AddService(new CSND::CSND_SND);
@@ -232,8 +232,6 @@ void Init() {
     AddService(new PXI::PXI_PS9);
     AddService(new SOC::SOC_P);
     AddService(new SOC::SOC_U);
-    AddService(new SPI::SPI_CD2);
-    AddService(new SPI::SPI_NOR);
     AddService(new SSL::SSL_C);
     AddService(new Y2R::Y2R_U);
 

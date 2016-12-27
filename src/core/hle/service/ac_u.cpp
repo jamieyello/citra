@@ -128,6 +128,15 @@ static void GetCloseResult(Interface* self) {
     LOG_WARNING(Service_AC, "(STUBBED) called");
 }
 
+static void GetStatus(Service::Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    cmd_buff[2] = 0;
+
+    LOG_WARNING(Service_AC, "(STUBBED) called");
+}
+
 /**
  * AC_U::GetConnectingApType service function
  *  Outputs:
@@ -230,6 +239,15 @@ static void IsConnected(Interface* self) {
     LOG_WARNING(Service_AC, "(STUBBED) called");
 }
 
+static void GetConnectingProxyEnable(Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    cmd_buff[2] = false;
+
+    LOG_WARNING(Service_AC, "(STUBBED) called");
+}
+
 /**
  * AC_U::SetClientVersion service function
  *  Inputs:
@@ -256,7 +274,7 @@ const Interface::FunctionInfo FunctionTable[] = {
     {0x00080004, CloseAsync, "CloseAsync"},
     {0x00090002, GetCloseResult, "GetCloseResult"},
     {0x000A0000, nullptr, "GetLastErrorCode"},
-    {0x000C0000, nullptr, "GetStatus"},
+    {0x000C0000, GetStatus, "GetStatus"},
     {0x000D0000, GetConnectingApType, "GetConnectingApType"},
     {0x000E0042, nullptr, "GetCurrentAPInfo"},
     {0x00100042, nullptr, "GetCurrentNZoneInfo"},
@@ -267,6 +285,7 @@ const Interface::FunctionInfo FunctionTable[] = {
     {0x002D0082, SetRequestEulaVersion, "SetRequestEulaVersion"},
     {0x002F0004, nullptr, "GetNintendoZoneBeaconNotFoundEvent"},
     {0x00300004, RegisterDisconnectEvent, "RegisterDisconnectEvent"},
+    {0x00360000, GetConnectingProxyEnable, "GetConnectingProxyEnable"},
     {0x003C0042, nullptr, "GetAPSSIDList"},
     {0x003E0042, IsConnected, "IsConnected"},
     {0x00400042, SetClientVersion, "SetClientVersion"},

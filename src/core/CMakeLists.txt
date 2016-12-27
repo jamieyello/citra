@@ -171,8 +171,9 @@ set(SRCS
             hle/service/service.cpp
             hle/service/soc_p.cpp
             hle/service/soc_u.cpp
-            hle/service/spi_cd2.cpp
-            hle/service/spi_nor.cpp
+            hle/service/spi/spi.cpp
+            hle/service/spi/spi_cd2.cpp
+            hle/service/spi/spi_nor.cpp
             hle/service/srv.cpp
             hle/service/ssl_c.cpp
             hle/service/y2r_u.cpp
@@ -372,8 +373,9 @@ set(HEADERS
             hle/service/service.h
             hle/service/soc_p.h
             hle/service/soc_u.h
-            hle/service/spi_cd2.h
-            hle/service/spi_nor.h
+            hle/service/spi/spi.h
+            hle/service/spi/spi_cd2.h
+            hle/service/spi/spi_nor.h
             hle/service/srv.h
             hle/service/ssl_c.h
             hle/service/y2r_u.h

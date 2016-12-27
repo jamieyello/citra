@@ -933,16 +933,16 @@ static ResultCode CreatePort(Kernel::Handle* server_port, Kernel::Handle* client
     return RESULT_SUCCESS;
 }
 
-static ResultCode AcceptSession(Handle* session, Handle port) {
+static ResultCode AcceptSession(Kernel::Handle* session, Kernel::Handle port) {
     SharedPtr<Kernel::Object> port1 = Kernel::g_handle_table.GetGeneric(port);
     LOG_TRACE(Kernel_SVC, "called port=0x%X", port);
     *session = 0;
     return RESULT_SUCCESS;
 }
 
-static ResultCode ReplyAndReceive(s32* index, Handle* handles, s32 handle_count, Handle target) {
+static ResultCode ReplyAndReceive(s32* index, Kernel::Handle* handles, s32 handle_count, Kernel::Handle target) {
     for (s32 i = 0; i < handle_count; ++i) {
-        Handle handle = handles[i];
+        Kernel::Handle handle = handles[i];
         SharedPtr<Kernel::Object> port1 = Kernel::g_handle_table.GetGeneric(handle);
         LOG_TRACE(Kernel_SVC, "called handle[%d]=0x%X", i, handle);
     }
@@ -950,7 +950,7 @@ static ResultCode ReplyAndReceive(s32* index, Handle* handles, s32 handle_count,
     return RESULT_SUCCESS;
 }
 
-static ResultCode BindInterrupt(u8 interrupt, Handle event, s32 priority,
+static ResultCode BindInterrupt(u8 interrupt, Kernel::Handle event, s32 priority,
                                 bool is_high_level_active) {
     LOG_WARNING(Kernel_SVC, "called, intrerrupt=%X, event=%X, priopity=%d, is_high_level_active=%u",
                 interrupt, event, priority, is_high_level_active);
