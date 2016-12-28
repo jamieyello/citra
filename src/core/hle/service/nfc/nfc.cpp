@@ -12,23 +12,21 @@ namespace NFC {
 
 static Kernel::SharedPtr<Kernel::Event> activate_event;
 static Kernel::SharedPtr<Kernel::Event> deactivate_event;
-static bool nfc_initialized = false;
 static bool nfc_connected = false;
-static bool nfc_detection = false;
-static bool nfc_mounted = false;
-static u8 nfc_status = 1;
-static u8 nfc_target_status = 2;
+static TagState nfc_tag_state = TagState::NotInitialized;
+static CommunicationStatus nfc_status = CommunicationStatus::NfcInitialized;
 
 static ConnectionStatus connection_status{};
 static TagInfo tag_info{};
 static CommonInfo common_info{};
+static AmiiboSettings amiibo_settings{};
 
 void Initialize(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
-    u8 param = (u8)cmd_buff[1] & 0xFF;
+    u8 param = static_cast<u8>(cmd_buff[1] & 0xFF);
 
-    nfc_initialized = true;
+    nfc_tag_state = TagState::Initialized;
 
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
     LOG_WARNING(Service_NFC, "(STUBBED) called, param=%u", param);
@@ -37,10 +35,11 @@ void Initialize(Interface* self) {
 void Finalize(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
-    nfc_initialized = false;
+    u8 param = static_cast<u8>(cmd_buff[1] & 0xFF);
+    nfc_tag_state = TagState::NotInitialized;
 
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
-    LOG_WARNING(Service_NFC, "(STUBBED) called");
+    LOG_WARNING(Service_NFC, "(STUBBED) called, param=%u", param);
 }
 
 void Connect(Interface* self) {
@@ -64,7 +63,7 @@ void Disconnect(Interface* self) {
 void StartDetection(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
-    nfc_detection = true;
+    nfc_tag_state = TagState::TagInRange;
     activate_event->Signal();
 
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
@@ -74,7 +73,7 @@ void StartDetection(Interface* self) {
 void StopDetection(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
-    nfc_detection = false;
+    nfc_tag_state = TagState::Initialized;
 
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
     LOG_WARNING(Service_NFC, "(STUBBED) called");
@@ -83,7 +82,16 @@ void StopDetection(Interface* self) {
 void Mount(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
-    nfc_mounted = true;
+    nfc_tag_state = TagState::TagDataLoaded;
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    LOG_WARNING(Service_NFC, "(STUBBED) called");
+}
+
+void Unmount(Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    nfc_tag_state = TagState::Initialized;
 
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
     LOG_WARNING(Service_NFC, "(STUBBED) called");
@@ -93,16 +101,16 @@ void GetStatus(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
-    cmd_buff[2] = nfc_status;
-    LOG_WARNING(Service_NFC, "(STUBBED) called");
+    cmd_buff[2] = static_cast<u8>(nfc_tag_state);
+    LOG_DEBUG(Service_NFC, "(STUBBED) called");
 }
 
 void GetTargetConnectionStatus(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
-    cmd_buff[2] = nfc_target_status;
-    LOG_WARNING(Service_NFC, "(STUBBED) called");
+    cmd_buff[2] = static_cast<u8>(nfc_status);
+    LOG_DEBUG(Service_NFC, "(STUBBED) called");
 }
 
 void GetConnectionStatus(Interface* self) {
@@ -134,7 +142,7 @@ void GetNfpRegisterInfo(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
-
+    std::memcpy(cmd_buff + 2, &amiibo_settings, sizeof(AmiiboSettings));
     LOG_WARNING(Service_NFC, "(STUBBED) called");
 }
 

@@ -17,7 +17,7 @@ const Interface::FunctionInfo FunctionTable[] = {
     {0x00050040, StartDetection, "StartDetection"},
     {0x00060000, StopDetection, "StopDetection"},
     {0x00070000, Mount, "Mount"},
-    {0x00080000, nullptr, "Unmount"},
+    {0x00080000, Unmount, "Unmount"},
     {0x00090002, nullptr, "Flush"},
     {0x000A0000, nullptr, "Restore"},
     {0x000B0000, SetActivateEvent, "SetActivateEvent"},

@@ -11,9 +11,20 @@
 #include "core/hle/kernel/shared_memory.h"
 #include "core/hle/result.h"
 #include "core/hle/service/apt/apt.h"
+#include "core/hle/service/nfc/nfc.h"
 
 namespace HLE {
 namespace Applets {
+
+struct MiiConfig1 {
+    u32 amiibo_mode;
+    Service::NFC::TagInfo tag_info; // 0x54
+    bool registered;
+    INSERT_PADDING_BYTES(3);
+    Service::NFC::AmiiboSettings amiibo_settings; // RegisterInfo 0xA8
+    Service::NFC::CommonInfo common_info;         // 0x40
+    INSERT_PADDING_BYTES(0x20);
+};
 
 struct MiiConfig {
     u8 unk_000;
@@ -46,6 +57,14 @@ ASSERT_REG_POSITION(unk_090, 0x90);
 ASSERT_REG_POSITION(unk_094, 0x94);
 ASSERT_REG_POSITION(unk_0FE, 0xFE);
 #undef ASSERT_REG_POSITION
+
+struct MiiResult1 {
+    u32 result;
+    Service::NFC::TagInfo tag_info;               // 0x54
+    Service::NFC::AmiiboSettings amiibo_settings; // RegisterInfo 0xA8
+    Service::NFC::CommonInfo common_info;         // 0x40
+    INSERT_PADDING_BYTES(32);
+};
 
 struct MiiResult {
     u32 result_code;
