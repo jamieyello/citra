@@ -20,7 +20,7 @@ const Interface::FunctionInfo FunctionTable[] = {
     {0x00090040, IsRegistered, "IsRegistered"},
     {0x000A0040, nullptr, "GetAttribute"},
     {0x000B0040, InquireNotification, "InquireNotification"},
-    {0x000C0104, nullptr, "SendParameter"},
+    {0x000C0104, SendParameter, "SendParameter"},
     {0x000D0080, ReceiveParameter, "ReceiveParameter"},
     {0x000E0080, GlanceParameter, "GlanceParameter"},
     {0x000F0100, nullptr, "CancelParameter"},

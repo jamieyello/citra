@@ -9,6 +9,7 @@
 #include "common/assert.h"
 #include "common/common_types.h"
 #include "core/core_timing.h"
+#include "core/hle/applets/amiibo.h"
 #include "core/hle/applets/applet.h"
 #include "core/hle/applets/erreula.h"
 #include "core/hle/applets/mii_selector.h"
@@ -44,6 +45,9 @@ static const u64 applet_update_interval_us = 16666;
 
 ResultCode Applet::Create(Service::APT::AppletId id) {
     switch (id) {
+    case Service::APT::AppletId::AmiiboSettings:
+        applets[id] = std::make_shared<Amiibo>(id);
+        break;
     case Service::APT::AppletId::SoftwareKeyboard1:
     case Service::APT::AppletId::SoftwareKeyboard2:
         applets[id] = std::make_shared<SoftwareKeyboard>(id);
@@ -116,6 +120,7 @@ bool IsLibraryAppletRunning() {
 void Init() {
     // Register the applet update callback
     applet_update_event = CoreTiming::RegisterEvent("HLE Applet Update Event", AppletUpdateEvent);
+    Applet::Create(Service::APT::AppletId::AmiiboSettings);
 }
 
 void Shutdown() {

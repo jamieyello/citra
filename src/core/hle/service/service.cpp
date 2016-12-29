@@ -69,6 +69,7 @@
 #include "core/hle/service/soc_u.h"
 #include "core/hle/service/spi/spi.h"
 #include "core/hle/service/srv.h"
+#include "core/hle/service/srv_pm.h"
 #include "core/hle/service/ssl_c.h"
 #include "core/hle/service/y2r_u.h"
 
@@ -232,6 +233,7 @@ void Init() {
     AddService(new PXI::PXI_PS9);
     AddService(new SOC::SOC_P);
     AddService(new SOC::SOC_U);
+    AddService(new SRV::SRV_PM);
     AddService(new SSL::SSL_C);
     AddService(new Y2R::Y2R_U);
 

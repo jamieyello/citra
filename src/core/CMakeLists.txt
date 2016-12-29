@@ -33,6 +33,7 @@ set(SRCS
             frontend/key_map.cpp
             gdbstub/gdbstub.cpp
             hle/config_mem.cpp
+            hle/applets/amiibo.cpp
             hle/applets/applet.cpp
             hle/applets/erreula.cpp
             hle/applets/mii_selector.cpp
@@ -175,6 +176,7 @@ set(SRCS
             hle/service/spi/spi_cd2.cpp
             hle/service/spi/spi_nor.cpp
             hle/service/srv.cpp
+            hle/service/srv_pm.cpp
             hle/service/ssl_c.cpp
             hle/service/y2r_u.cpp
             hle/shared_page.cpp
@@ -234,6 +236,7 @@ set(HEADERS
             hle/config_mem.h
             hle/function_wrappers.h
             hle/ipc.h
+            hle/applets/amiibo.h
             hle/applets/applet.h
             hle/applets/erreula.h
             hle/applets/mii_selector.h
@@ -377,6 +380,7 @@ set(HEADERS
             hle/service/spi/spi_cd2.h
             hle/service/spi/spi_nor.h
             hle/service/srv.h
+            hle/service/srv_pm.h
             hle/service/ssl_c.h
             hle/service/y2r_u.h
             hle/shared_page.h
