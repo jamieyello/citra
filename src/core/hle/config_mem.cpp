@@ -16,7 +16,7 @@ void Init() {
 
     config_mem.update_flag = 0; // No update
     config_mem.sys_core_ver = 0x3;
-    config_mem.unit_info = 0x0; // Bit 0 set for Retail
+    config_mem.unit_info = 0x1; // Bit 0 set for Retail
     config_mem.prev_firm = 0;
     config_mem.firm_unk = 0;
     config_mem.firm_version_rev = 0;

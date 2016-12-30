@@ -267,7 +267,7 @@ static ResultCode WaitSynchronization1(Kernel::Handle handle, s64 nano_seconds) 
     if (object == nullptr)
         return ERR_INVALID_HANDLE;
 
-    LOG_TRACE(Kernel_SVC, "called handle=0x%08X(%s:%s), nanoseconds=%lld", handle,
+    LOG_WARNING(Kernel_SVC, "called handle=0x%08X(%s:%s), nanoseconds=%lld", handle,
                 object->GetTypeName().c_str(), object->GetName().c_str(), nano_seconds);
 
     if (object->ShouldWait()) {
