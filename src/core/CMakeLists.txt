@@ -108,6 +108,7 @@ set(SRCS
             hle/service/hid/hid.cpp
             hle/service/hid/hid_spvr.cpp
             hle/service/hid/hid_user.cpp
+            hle/service/hostio.cpp
             hle/service/http_c.cpp
             hle/service/i2c_cam.cpp
             hle/service/i2c_ir.cpp
@@ -165,6 +166,7 @@ set(SRCS
             hle/service/pxi_am9.cpp
             hle/service/pxi_mc.cpp
             hle/service/pxi_ps9.cpp
+            hle/service/pxi_dev.cpp
             hle/service/qtm/qtm.cpp
             hle/service/qtm/qtm_s.cpp
             hle/service/qtm/qtm_sp.cpp
@@ -312,6 +314,7 @@ set(HEADERS
             hle/service/hid/hid.h
             hle/service/hid/hid_spvr.h
             hle/service/hid/hid_user.h
+            hle/service/hostio.h
             hle/service/http_c.h
             hle/service/i2c_cam.h
             hle/service/i2c_ir.h
@@ -369,6 +372,7 @@ set(HEADERS
             hle/service/pxi_am9.h
             hle/service/pxi_mc.h
             hle/service/pxi_ps9.h
+            hle/service/pxi_dev.h
             hle/service/qtm/qtm.h
             hle/service/qtm/qtm_s.h
             hle/service/qtm/qtm_sp.h

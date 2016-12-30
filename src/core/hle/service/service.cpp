@@ -32,6 +32,7 @@
 #include "core/hle/service/gsp_gpu.h"
 #include "core/hle/service/gsp_lcd.h"
 #include "core/hle/service/hid/hid.h"
+#include "core/hle/service/hostio.h"
 #include "core/hle/service/http_c.h"
 #include "core/hle/service/i2c_cam.h"
 #include "core/hle/service/i2c_ir.h"
@@ -63,6 +64,7 @@
 #include "core/hle/service/pxi_am9.h"
 #include "core/hle/service/pxi_mc.h"
 #include "core/hle/service/pxi_ps9.h"
+#include "core/hle/service/pxi_dev.h"
 #include "core/hle/service/qtm/qtm.h"
 #include "core/hle/service/service.h"
 #include "core/hle/service/soc_p.h"
@@ -175,6 +177,10 @@ void Init() {
     AddNamedPort(new SRV::SRV);
     AddNamedPort(new ERR::ERR_F);
 
+    AddNamedPort(new HOSTIO::HOSTIO0);
+    AddNamedPort(new HOSTIO::HOSTIO1);
+    AddNamedPort(new HOSTIO::HioFIO);
+
     FS::ArchiveInit();
     ACT::Init();
     AM::Init();
@@ -232,6 +238,7 @@ void Init() {
     AddService(new PXI::PXI_MC);
     AddService(new PXI::PXI_PS9);
     AddService(new SOC::SOC_P);
+    AddService(new PXI::PXI_DEV);
     AddService(new SOC::SOC_U);
     AddService(new SRV::SRV_PM);
     AddService(new SSL::SSL_C);
