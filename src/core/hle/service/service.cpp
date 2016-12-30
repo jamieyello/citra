@@ -32,7 +32,6 @@
 #include "core/hle/service/gsp_gpu.h"
 #include "core/hle/service/gsp_lcd.h"
 #include "core/hle/service/hid/hid.h"
-#include "core/hle/service/hostio.h"
 #include "core/hle/service/http_c.h"
 #include "core/hle/service/i2c_cam.h"
 #include "core/hle/service/i2c_ir.h"
@@ -176,10 +175,6 @@ void AddService(Interface* interface_) {
 void Init() {
     AddNamedPort(new SRV::SRV);
     AddNamedPort(new ERR::ERR_F);
-
-    AddNamedPort(new HOSTIO::HOSTIO0);
-    AddNamedPort(new HOSTIO::HOSTIO1);
-    AddNamedPort(new HOSTIO::HioFIO);
 
     FS::ArchiveInit();
     ACT::Init();

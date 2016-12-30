@@ -7,6 +7,7 @@
 #include "common/common_types.h"
 #include "common/logging/log.h"
 #include "core/hle/kernel/client_session.h"
+#include "core/hle/kernel/server_port.h"
 #include "core/hle/kernel/event.h"
 #include "core/hle/kernel/server_session.h"
 #include "core/hle/service/srv.h"
@@ -15,6 +16,9 @@ namespace Service {
 namespace SRV {
 
 static Kernel::SharedPtr<Kernel::Event> event_handle;
+static Kernel::SharedPtr<Kernel::ServerPort> hostio0;
+static Kernel::SharedPtr<Kernel::ServerPort> hostio1;
+static Kernel::SharedPtr<Kernel::ServerPort> hioFIO;
 
 /**
  * SRV::RegisterClient service function
@@ -105,24 +109,20 @@ static void GetPort(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
     std::string port_name = std::string((const char*)&cmd_buff[1], 0, Service::kMaxPortSize);
-    auto it = Service::g_kernel_named_ports.find(port_name);
-
-    if (it != Service::g_kernel_named_ports.end()) {
-        auto client_port = it->second;
-
-        auto client_session = client_port->Connect();
-        res = client_session.Code();
-
-        if (client_session.Succeeded()) {
-            // Return the client session
-            cmd_buff[3] = Kernel::g_handle_table.Create(*client_session).MoveFrom();
-        }
-        LOG_WARNING(Service_SRV, "called port=%s, handle=0x%08X", port_name.c_str(), cmd_buff[3]);
+    if (port_name == "$hostio0") {
+        cmd_buff[3] = Kernel::g_handle_table.Create(hostio0).MoveFrom();
+        LOG_WARNING(Service_SRV, "(STUBBED) called port=0x%08X",cmd_buff[3]);
+    } else if (port_name == "$hostio1") {
+        cmd_buff[3] = Kernel::g_handle_table.Create(hostio1).MoveFrom();
+        LOG_WARNING(Service_SRV, "(STUBBED) called port=0x%08X",cmd_buff[3]);
+    } else if (port_name == "$hioFIO") {
+        cmd_buff[3] = Kernel::g_handle_table.Create(hioFIO).MoveFrom();
+        LOG_WARNING(Service_SRV, "(STUBBED) called port=0x%08X",cmd_buff[3]);
     } else {
         LOG_ERROR(Service_SRV, "(UNIMPLEMENTED) called port=%s", port_name.c_str());
         res = UnimplementedFunction(ErrorModule::SRV);
     }
-    cmd_buff[1] = 0; // res.raw;
+    cmd_buff[1] = res.raw;
 }
 
 /**
@@ -213,10 +213,20 @@ const Interface::FunctionInfo FunctionTable[] = {
 SRV::SRV() {
     Register(FunctionTable);
     event_handle = nullptr;
+
+    hostio0 = std::get<Kernel::SharedPtr<Kernel::ServerPort>>(
+        Kernel::ServerPort::CreatePortPair(1, "$hostio0"));
+    hostio1 = std::get<Kernel::SharedPtr<Kernel::ServerPort>>(
+        Kernel::ServerPort::CreatePortPair(1, "$hostio1"));
+    hioFIO = std::get<Kernel::SharedPtr<Kernel::ServerPort>>(
+        Kernel::ServerPort::CreatePortPair(1, "$hioFIO"));
 }
 
 SRV::~SRV() {
     event_handle = nullptr;
+    hostio0 = nullptr;
+    hostio1 = nullptr;
+    hioFIO = nullptr;
 }
 
 } // namespace SRV

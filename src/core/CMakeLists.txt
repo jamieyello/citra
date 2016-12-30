@@ -108,7 +108,6 @@ set(SRCS
             hle/service/hid/hid.cpp
             hle/service/hid/hid_spvr.cpp
             hle/service/hid/hid_user.cpp
-            hle/service/hostio.cpp
             hle/service/http_c.cpp
             hle/service/i2c_cam.cpp
             hle/service/i2c_ir.cpp
@@ -314,7 +313,6 @@ set(HEADERS
             hle/service/hid/hid.h
             hle/service/hid/hid_spvr.h
             hle/service/hid/hid_user.h
-            hle/service/hostio.h
             hle/service/http_c.h
             hle/service/i2c_cam.h
             hle/service/i2c_ir.h
