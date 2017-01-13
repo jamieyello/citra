@@ -26,6 +26,17 @@ namespace ACT {
 void Initialize(Interface* self);
 
 /**
+ * ACT::GetErrorCode service function
+ *  Inputs:
+ *      0 : Command header (0x00020040)
+ *      1 : SDK version
+ *  Outputs:
+ *      1 : Result, 0 on success, otherwise error code
+ *      2 : Result of last operation
+ */
+void GetErrorCode(Interface* self);
+
+/**
  * ACT::GetAccountDataBlock service function
  *  Inputs:
  *      0 : Command header (0x000600C2)
@@ -37,7 +48,7 @@ void Initialize(Interface* self);
  *  Outputs:
  *      1 : Result, 0 on success, otherwise error code
  */
-void GetAccountDataBlock(Service::Interface* self);
+void GetAccountDataBlock(Interface* self);
 
 /// Initializes all ACT services
 void Init();

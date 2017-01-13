@@ -13,7 +13,7 @@ namespace ACT {
 static Kernel::SharedPtr<Kernel::SharedMemory> shared_memory;
 
 enum class BlkID : u32 {
-    AccountId = 0x8,     // <<< ASCII NUL-terminated Nintendo Network ID
+    NNID = 0x8,          // <<< ASCII NUL-terminated Nintendo Network ID
     Birthday = 0xA,      // <<< Birthday
     CountryName = 0xB,   // <<< ASCII NUL-terminated Country Name
     PrincipalID = 0xC,   // <<< Principal ID
@@ -46,7 +46,15 @@ void Initialize(Interface* self) {
                 sh_mem, size);
 }
 
-void GetAccountDataBlock(Service::Interface* self) {
+void GetErrorCode(Interface* self) {
+    u32* cmd_buff = Kernel::GetCommandBuffer();
+
+    cmd_buff[1] = RESULT_SUCCESS.raw; // No error
+    cmd_buff[2] = RESULT_SUCCESS.raw; // No error
+    LOG_WARNING(Service_ACT, "(STUBBED) called");
+}
+
+void GetAccountDataBlock(Interface* self) {
     u32* cmd_buff = Kernel::GetCommandBuffer();
 
     u8 unknown = static_cast<u8>(cmd_buff[1] & 0xFF);
@@ -55,6 +63,11 @@ void GetAccountDataBlock(Service::Interface* self) {
     VAddr buf = cmd_buff[5];
 
     Memory::ZeroBlock(buf, size);
+    switch (blk_id) {
+    case BlkID::NNID:
+        Memory::WriteBlock(buf, "mailwl", sizeof("mailwl"));
+        break;
+    }
 
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
     LOG_WARNING(Service_ACT, "(STUBBED) called, unknown=0x%X, size=0x%X, blk_id=0x%X, buf=0x%08X",
