@@ -10,7 +10,7 @@ namespace ACT {
 
 const Interface::FunctionInfo FunctionTable[] = {
     // clang-format off
-    {0x00010084, nullptr, "Initialize"},
+    {0x00010084, Initialize, "Initialize"},
     {0x00020040, nullptr, "GetErrorCode"},
     {0x000600C2, nullptr, "GetAccountDataBlock"},
     {0x000B0042, nullptr, "AcquireEulaList"},

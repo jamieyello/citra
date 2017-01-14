@@ -5,7 +5,12 @@
 #pragma once
 
 namespace Service {
+
+class Interface;
+
 namespace ACT {
+
+void Initialize(Interface* self);
 
 /// Initializes all ACT services
 void Init();
