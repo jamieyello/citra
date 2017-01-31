@@ -2,6 +2,7 @@
 // Licensed under GPLv2 or any later version
 // Refer to the license.txt file included.
 
+#include <forward_list>
 #include <map>
 #include "common/logging/log.h"
 #include "common/microprofile.h"
@@ -1010,6 +1011,11 @@ static ResultCode GetSystemInfo(s64* out, u32 type, s32 param) {
     return RESULT_SUCCESS;
 }
 
+static void ExitProcess() {
+    Core::System::GetInstance().RequestShutdown(true);
+    LOG_WARNING(Kernel_SVC, "(STUBBED) called");
+}
+
 static ResultCode GetProcessInfo(s64* out, Kernel::Handle process_handle, u32 type) {
     LOG_TRACE(Kernel_SVC, "called process=0x%08X type=%u", process_handle, type);
 
@@ -1074,7 +1080,7 @@ static const FunctionDef SVC_Table[] = {
     {0x00, nullptr, "Unknown"},
     {0x01, HLE::Wrap<ControlMemory>, "ControlMemory"},
     {0x02, HLE::Wrap<QueryMemory>, "QueryMemory"},
-    {0x03, nullptr, "ExitProcess"},
+    {0x03, ExitProcess, "ExitProcess"},
     {0x04, nullptr, "GetProcessAffinityMask"},
     {0x05, nullptr, "SetProcessAffinityMask"},
     {0x06, nullptr, "GetProcessIdealProcessor"},
@@ -1199,6 +1205,21 @@ static const FunctionDef SVC_Table[] = {
     {0x7D, HLE::Wrap<QueryProcessMemory>, "QueryProcessMemory"},
 };
 
+static std::array<std::forward_list<Kernel::Handle>, ARRAY_SIZE(SVC_Table)> interrupt_list{};
+
+static void NotifyInterrupts(u32 immediate) {
+    if (immediate < ARRAY_SIZE(SVC_Table)) {
+        std::forward_list<Kernel::Handle> list = interrupt_list[immediate];
+        for (auto hndl : list) {
+            Kernel::SharedPtr<Kernel::Event> evt = Kernel::g_handle_table.Get<Kernel::Event>(hndl);
+            if (evt) {
+                evt->name = std::string("Event_Intr_") + std::to_string(hndl);
+                evt->Signal();
+            }
+        }
+    }
+}
+
 static const FunctionDef* GetSVCInfo(u32 func_num) {
     if (func_num >= ARRAY_SIZE(SVC_Table)) {
         LOG_ERROR(Kernel_SVC, "unknown svc=0x%02X", func_num);
@@ -1211,6 +1232,8 @@ MICROPROFILE_DEFINE(Kernel_SVC, "Kernel", "SVC", MP_RGB(70, 200, 70));
 
 void CallSVC(u32 immediate) {
     MICROPROFILE_SCOPE(Kernel_SVC);
+
+    NotifyInterrupts(immediate);
 
     const FunctionDef* info = GetSVCInfo(immediate);
     if (info) {

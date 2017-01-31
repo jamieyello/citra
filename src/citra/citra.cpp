@@ -165,6 +165,9 @@ int main(int argc, char** argv) {
 
     while (emu_window->IsOpen()) {
         system.RunLoop();
+        if (system.RequestShutdown()) {
+            break;
+        }
     }
 
     return 0;

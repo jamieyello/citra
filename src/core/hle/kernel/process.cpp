@@ -136,7 +136,8 @@ void Process::Run(s32 main_thread_priority, u32 stack_size) {
 }
 
 VAddr Process::GetLinearHeapAreaAddress() const {
-    return kernel_version < 0x22C ? Memory::LINEAR_HEAP_VADDR : Memory::NEW_LINEAR_HEAP_VADDR;
+    return /*kernel_version < 0x22C ?*/ Memory::
+        LINEAR_HEAP_VADDR /*: Memory::NEW_LINEAR_HEAP_VADDR*/;
 }
 VAddr Process::GetLinearHeapBase() const {
     return GetLinearHeapAreaAddress() + memory_region->base;

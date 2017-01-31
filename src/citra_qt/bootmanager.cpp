@@ -37,6 +37,9 @@ void EmuThread::run() {
                 emit DebugModeLeft();
 
             Core::System::GetInstance().RunLoop();
+            if (Core::System::GetInstance().RequestShutdown()) {
+                break;
+            }
 
             was_active = running || exec_step;
             if (!was_active && !stop_run)
@@ -47,6 +50,10 @@ void EmuThread::run() {
 
             exec_step = false;
             Core::System::GetInstance().SingleStep();
+            if (Core::System::GetInstance().RequestShutdown()) {
+                break;
+            }
+
             emit DebugModeEntered();
             yieldCurrentThread();
 

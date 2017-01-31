@@ -151,6 +151,15 @@ System::ResultStatus System::Init(EmuWindow* emu_window, u32 system_mode) {
     return ResultStatus::Success;
 }
 
+void System::RequestShutdown(bool request) {
+    request_shutdown = request;
+    CPU().num_instructions = 0;
+}
+
+bool System::RequestShutdown() {
+    return request_shutdown;
+}
+
 void System::Shutdown() {
     GDBStub::Shutdown();
     AudioCore::Shutdown();

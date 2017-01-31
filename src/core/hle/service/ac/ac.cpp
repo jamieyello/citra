@@ -144,7 +144,7 @@ void IsConnected(Interface* self) {
     cmd_buff[1] = RESULT_SUCCESS.raw; // No error
     cmd_buff[2] = ac_connected;
 
-    LOG_WARNING(Service_AC, "(STUBBED) called");
+    LOG_WARNING(Service_AC, "(STUBBED) called, result=%u", ac_connected);
 }
 
 void SetClientVersion(Interface* self) {

@@ -32,6 +32,7 @@ public:
     /// Enumeration representing the return values of the System Initialize and Load process.
     enum class ResultStatus : u32 {
         Success,                    ///< Succeeded
+        Shutdown,                   ///< Request to shutdown
         ErrorNotInitialized,        ///< Error trying to use core prior to initialization
         ErrorGetLoader,             ///< Error finding the correct application loader
         ErrorSystemMode,            ///< Error determining the system mode
@@ -59,6 +60,10 @@ public:
      * @return Result status, indicating whethor or not the operation succeeded.
      */
     ResultStatus SingleStep();
+
+    void RequestShutdown(bool request);
+
+    bool RequestShutdown();
 
     /// Shutdown the emulated system.
     void Shutdown();
@@ -111,6 +116,8 @@ private:
 
     /// When true, signals that a reschedule should happen
     bool reschedule_pending{};
+
+    bool request_shutdown = false;
 
     static System s_instance;
 };

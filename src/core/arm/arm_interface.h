@@ -158,5 +158,6 @@ protected:
     virtual void ExecuteInstructions(int num_instructions) = 0;
 
 private:
+public:
     u64 num_instructions = 0; ///< Number of instructions executed
 };

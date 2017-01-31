@@ -73,6 +73,8 @@ void Init() {
     // Some games wait until this value becomes 0x1, before asking running_hw
     shared_page.unknown_value = 0x1;
 
+    shared_page.wifi_link_level = 3;
+
     update_time_event =
         CoreTiming::RegisterEvent("SharedPage::UpdateTimeCallback", UpdateTimeCallback);
     CoreTiming::ScheduleEvent(0, update_time_event);
